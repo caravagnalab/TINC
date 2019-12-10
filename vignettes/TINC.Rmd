@@ -1,0 +1,75 @@
+---
+title: "TINC introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TINC introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(TINC)
+```
+
+TINC is a simple package that provides only a few functions.
+
+### Input format
+
+The input mutation data should report the following information
+
+```
+chr7:96202670:96202670:T:G	    33	0	109	47
+chr11:127887757:127887757:T:C   26	0	108	52
+chr7:147652534:147652534:G:A   	37	0	114	10
+chr3:18609334:18609334:T:G	    31	0	136	15
+chr4:86759954:86759954:T:A	    29	0	121	14
+chr6:95597565:95597565:C:T	    39	0	130	70
+```
+
+Columns:
+
+1) a mutation identifier, which can be anything provided it does not contain duplicates. In this example all mutations are SNVs, and the id contains the chromosome, positions, reference and alternative alleles of the SNV. 
+
+2) the number of total reads with both reference/ alternative alleles, in the normal sample.
+3) the number of total reads with the  alternative allele, in the normal sample.
+
+4) the number of total reads with both reference/ alternative alleles, in the tumour sample.
+5) the number of total reads with the  alternative allele, in the tumour sample.
+
+Input (two options):
+
+- *File* : a file that will be loaded by `TINC`, which should have no column names or headers.
+- *Dataframe* : a data.frame or tibble that has the following columns: `id`, `n_ref_count`, `n_alt_count`, `t_ref_count`, `t_alt_count` and `filters`.
+                      .
+### Data generator
+
+TIN provides a function to generate a random dataset for the analysis, which you can use to play around with TIN.
+
+```{r, message=FALSE, warning=F}
+sampled_data = random_TIN(TIT = .8, TIN = 0.05)
+
+print(sampled_data)
+```
+
+You can then proceed as follows - using `FAST` so the analysis is faster
+```{r, message=FALSE, warning=F}
+TIN_fit = autofit(sampled_data$data, FAST = TRUE)
+```
+
+Summary of the results (with an S3 object)
+```{r, message=FALSE, warning=F}
+print(TIN_fit)
+```
+
+Plot the results (with an S3 object)
+```{r, message=FALSE, warning=F, fig.width=10, fig.height=10}
+plot(TIN_fit)
+```
+

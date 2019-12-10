@@ -1,0 +1,39 @@
+Package: TINC
+Type: Package
+Title: TINC - Tumour-in-Normal contamination
+Version: 0.1.0
+Author: Giulio Caravagna
+Maintainer: Giulio Caravagna <gcaravagn@gmail.com>
+Authors@R: person("Giulio", "Caravagna", role = c("aut", "cre"), email = "gcaravagn@gmail.com")
+Description: TINC is a package that implements algorithms to determine the contamination of a bulk sequencing
+  sample in the context of cancer studies (matched tumour/ bormal). The contamination estimated
+  by TINC can be either due to normal cells sampled in the tumour biopsy or to tumour cells in the normal biopsy. 
+  The former case is traditionally called purity, or cellularity, and a number of tools exist to estimate it.
+  The latter case is less common, and that is the main reason TINC has been developed. For this reason, the
+  package takes name TINC, Tumour-in-Normal contamination. TINC is part of the evoverse, a package that gathers multiple R
+  packages to implement Cancer Evolution analyses.
+License: GPL
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 2.1.0)
+Imports: 
+    pio,
+    crayon,
+    ggpubr,
+    tidyverse,
+    ggrepel,
+    mobster,
+    BMix,
+    VIBER
+Remotes: 
+  caravagn/pio,
+  caravagn/BMix,
+  caravagn/mobster,
+  caravagn/VIBER
+RoxygenNote: 7.0.0
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: https://github.com/caravagn/TINC
+BugReports: https://github.com/caravagn/TINC/issues
