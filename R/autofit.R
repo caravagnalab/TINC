@@ -51,7 +51,7 @@ autofit = function(input,
   dataset = load_input(input, VAF_range_tumour = VAF_range_tumour, N = N)
 
   # Plot input data
-  dataset_plot_raw = plot_raw(dataset = dataset)
+  # dataset_plot_raw = plot_raw(dataset = dataset)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
@@ -77,6 +77,8 @@ autofit = function(input,
       samples = 6,
       maxIter = 300,
       parallel = FALSE,
+      epsilon = 1e-9,
+      init = 'random'
     )
 
   # pio::pioStr(
@@ -99,9 +101,20 @@ autofit = function(input,
   pio::pioTit("BMix fit", 'n =', nrow(g_input), prefix = '\t')
 
   # Normal sample ~ use putative clonal mutations from MOBSTER
+  if(FAST)
   dataset$BMix_analysis = analyse_BMix(
     x = g_input,
-    K.BetaBinomials = 0)
+    K.BetaBinomials = 0,
+    epsilon = 1e-6,
+    samples = 2
+    )
+  else
+    dataset$BMix_analysis = analyse_BMix(
+      x = g_input,
+      K.BetaBinomials = 0,
+      epsilon = 1e-9,
+      samples = 6
+    )
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # TIN profiling (plus TIT)
@@ -112,69 +125,25 @@ autofit = function(input,
   # VIBER profiling
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   pio::pioTit("VIBER fit", 'n =', nrow(dataset$joint), prefix = '\t')
-  final_TIN_profile$VIBER_analysis = analyze_VIBER(dataset$joint)
 
-  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  # Report assembly
-  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  # Plots of all the data
-  data_fit_panel = cowplot::plot_grid(
-    dataset_plot_raw,
-    plot_sample_contamination(final_TIN_profile),
-    rel_widths = c(1, .7),
-    align = 'h',
-    # axis = 'bt',
-    labels = c("A", "B"),
-    nrow = 1,
-    ncol = 2
-  )
+  if(FAST)
+    final_TIN_profile$VIBER_analysis = analyze_VIBER(dataset$joint,
+                                                     K = 5,
+                                                     alpha_0 = 1e-6,
+                                                     max_iter = 1000,
+                                                     epsilon_conv = 1e-6,
+                                                     samples = 3)
+  else
+    final_TIN_profile$VIBER_analysis = analyze_VIBER(dataset$joint,
+                                                     K = 8,
+                                                     alpha_0 = 1e-6,
+                                                     max_iter = 5000,
+                                                     epsilon_conv = 1e-9,
+                                                     samples = 10)
 
-  # data_fit_panel =
-  #   ggpubr::annotate_figure(data_fit_panel,
-  #                           top = ggpubr::text_grob(
-  #                             paste0('Input: n = ', nrow(file, '\n'),
-  #                             hjust = 0,
-  #                             x = 0,
-  #                             size = 18
-  #                           ))
-
-  fit_panel =
-    cowplot::plot_grid(
-      final_TIN_profile$mobster_analysis$plot,
-      final_TIN_profile$BMix_analysis$plot,
-      nrow = 1,
-      ncol = 2,
-      align = 'h',
-      axis = 'bt',
-      labels = c('C', 'D')
-    )
-
-  sq_panel = cowplot::plot_grid(
-    plot_contamination_full_size(final_TIN_profile),
-    plot_contamination_zoom(final_TIN_profile),
-    final_TIN_profile$VIBER_analysis$plot,
-    nrow = 1,
-    ncol = 3,
-    align = 'h',
-    axis = 'bt',
-    rel_widths = c(2, 1, 1),
-    labels = c('E', '', 'D')
-  )
-
-  full_figure =  cowplot::plot_grid(
-    data_fit_panel,
-    fit_panel,
-    sq_panel,
-    nrow = 3,
-    ncol = 1,
-    align = 'v',
-    axis = 'lr',
-    rel_heights = c(.8, .7, .7)
-  )
-
+  # Output TINC object of class tin_obj
   output_obj = list(
     fit = final_TIN_profile,
-    plot = full_figure,
     TIN = final_TIN_profile$BMix_analysis$estimated_purity,
     TIT = final_TIN_profile$mobster_analysis$estimated_purity
   )

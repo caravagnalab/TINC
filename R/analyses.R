@@ -98,14 +98,14 @@ analyse_BMix = function(x, ...)
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Analyse tumour sample with VIBER
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-analyze_VIBER = function(x)
+analyze_VIBER = function(x, ...)
 {
   options(easypar.parallel = FALSE)
 
   fit = VIBER::variational_fit(
     x %>% dplyr::select(NV.normal, NV.tumour) %>% rename(Normal = NV.normal, Tumour = NV.tumour),
     x %>% dplyr::select(DP.normal, DP.tumour) %>% rename(Normal = DP.normal, Tumour = DP.tumour),
-    samples = 10
+    ...
   )
 
   options(easypar.parallel = TRUE)

@@ -85,5 +85,5 @@ plot.tin_obj = function(x, ...)
 {
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
-  x$plot
+  plot_full_page_report(x$fit)
 }
