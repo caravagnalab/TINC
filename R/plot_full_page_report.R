@@ -1,7 +1,7 @@
-#' Plot a full page report of the TINC analysis
+#' Plot a full page detailed report of the TINC analysis
 #'
 #' @description The report is a multi-panel figure that contains the following
-#' information.
+#' information. TODO fill in.
 #'
 #' @param x A TINC analysis computed with \code{autofit}.
 #'
@@ -12,6 +12,11 @@
 #' plot_full_page_report(autofit(random_TIN(), FAST = TRUE))
 plot_full_page_report = function(x)
 {
+
+  if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
+
+  x = x$fit
+
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # Report assembly
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

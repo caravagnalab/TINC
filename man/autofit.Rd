@@ -5,8 +5,8 @@
 \title{Runs a TINC analysis.}
 \usage{
 autofit(input, VAF_range_tumour = c(0, 0.7),
-  cutoff_miscalled_clonal = 0.6, cutoff_lv_assignment = 0, N = 20000,
-  FAST = FALSE)
+  cutoff_miscalled_clonal = 0.6, cutoff_lv_assignment = 0.75,
+  N = 20000, FAST = FALSE)
 }
 \arguments{
 \item{input}{A `file` to load from disk, or a `dataframe `consistent

@@ -114,7 +114,7 @@ plot_contamination_zoom = function(dataset)
     scale_color_manual(values = group_labels_colors)
 }
 
-plot_sample_contamination = function(dataset)
+plot_sample_contamination = function(dataset, assemble = TRUE)
 {
   # fot the plots we half the estimates
   TIT = dataset$mobster_analysis$estimated_purity / 2
@@ -161,7 +161,9 @@ plot_sample_contamination = function(dataset)
 
   vtin = vtin %>%
     group_by(sample) %>%
-    mutate(lab.ypos = cumsum(value) - 0.5 * value)
+    mutate(
+      lab.ypos = cumsum(value) - 0.5 * value
+      )
 
   cn = classification_normal(dataset$BMix_analysis$estimated_purity)
   ct = classification_tumour(dataset$mobster_analysis$estimated_purity)
@@ -174,12 +176,18 @@ plot_sample_contamination = function(dataset)
              stat = "identity",
              color = "white") +
     coord_polar("y", start = 0) +
-    geom_label(aes(y = lab.ypos, label = round(value * 100, 1)), color = "black", fill = 'white') +
+    geom_label(
+      aes(y = lab.ypos,
+          label = paste0(round(value * 100, 1),  '%')),
+      color = "black", fill = 'white') +
     scale_fill_manual(values = c(`Tumour cells` = 'plum4', `Normal cells` = 'plum2')) +
     mobster:::my_ggplot_theme() +
     guides(fill = guide_legend('')) +
-    labs(x = '', title = bquote(bold(Normal) ~ .(cn['QC']))) +
-    theme(axis.text.x = NULL, axis.ticks.x = NULL) +
+    labs(x = '', y = '',
+         title = bquote(bold(Normal)),
+         subtitle = bquote(.(cn['QC']))
+         ) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
     theme(
       legend.position = 'right',
       panel.background = element_rect(
@@ -187,7 +195,7 @@ plot_sample_contamination = function(dataset)
         colour = cn['color'] %>% alpha(alpha = .4),
         size = 0.5,
         linetype = "solid"),
-      plot.title = element_text(colour = cn['color'])
+      plot.subtitle =  element_text(colour = cn['color'])
     )
 
   tumour = ggplot(
@@ -198,12 +206,17 @@ plot_sample_contamination = function(dataset)
              stat = "identity",
              color = "white") +
     coord_polar("y", start = 0) +
-    geom_label(aes(y = lab.ypos, label = round(value * 100, 1)), color = "black", fill = 'white') +
+    geom_label(
+      aes(y = lab.ypos, label = paste0(round(value * 100, 1),  '%')),
+      color = "black", fill = 'white') +
     scale_fill_manual(values = c(`Tumour cells` = 'plum4', `Normal cells` = 'plum2')) +
     mobster:::my_ggplot_theme() +
     guides(fill = guide_legend('')) +
-    labs(x = '', title = bquote(bold(Tumour) ~ .(ct['QC']))) +
-    theme(axis.text.x = NULL, axis.ticks.x = NULL) +
+    labs(x = '', y = '',
+         title = bquote(bold(Tumour)),
+         subtitle = bquote(.(ct['QC']))
+    ) +
+    theme(axis.text.x = element_blank(), axis.ticks.x = element_blank()) +
     theme(
       legend.position = 'right',
       panel.background = element_rect(
@@ -211,23 +224,36 @@ plot_sample_contamination = function(dataset)
         colour = ct['color'] %>% alpha(alpha = .4),
         size = 0.5,
         linetype = "solid"),
-      plot.title = element_text(colour = ct['color'])
+      plot.subtitle = element_text(colour = ct['color'])
     )
 
+  if(assemble)
+    figure = ggpubr::ggarrange(
+      tumour,
+      normal,
+      ncol = 1,
+      nrow = 2,
+      common.legend = TRUE,
+      legend = 'bottom'
+    )
+  else
+    figure = list(normal = normal, tumour = tumour)
 
-  cowplot::plot_grid(
-    tumour,
-    normal,
-    ncol = 1,
-    nrow = 2,
-    align = 'v'
-  )
+  return(figure)
+#
+#   cowplot::plot_grid(
+#     tumour,
+#     normal,
+#     ncol = 1,
+#     nrow = 2,
+#     align = 'v'
+#   )
 
 }
 
 classification_normal = function(TIN, console = FALSE)
 {
-  if(TIN < 0.01) return(c(`level` = 1, `color` = "forestgreen", `QC` = "No Contamination <1%"))
+  if(TIN < 0.01) return(c(`level` = 1, `color` = "forestgreen", `QC` = "No Contamination (<1%)"))
   if(TIN < 0.03) return(c(`level` = 2, `color` = "steelblue", `QC` = "Minimal contamination (1-3%)"))
   if(TIN < 0.07) return(c(`level` = 3, `color` = "goldenrod1", `QC` = "Some contamination (3-7%)"))
   if(TIN < 0.15) return(c(`level` = 4, `color` = "indianred3", `QC` = "Contamination (7-15%)"))

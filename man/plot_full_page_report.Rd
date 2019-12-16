@@ -2,14 +2,20 @@
 % Please edit documentation in R/plot_full_page_report.R
 \name{plot_full_page_report}
 \alias{plot_full_page_report}
-\title{Plot a full page report of the TINC analysis}
+\title{Plot a full page detailed report of the TINC analysis}
 \usage{
 plot_full_page_report(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{A TINC analysis computed with \code{autofit}.}
+}
+\value{
+A multi-panle \code{ggplot} figure.
 }
 \description{
 The report is a multi-panel figure that contains the following
-information.
+information. TODO fill in.
+}
+\examples{
+plot_full_page_report(autofit(random_TIN(), FAST = TRUE))
 }

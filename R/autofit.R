@@ -43,7 +43,7 @@
 autofit = function(input,
                    VAF_range_tumour = c(0, 0.7),
                    cutoff_miscalled_clonal = .6,
-                   cutoff_lv_assignment = 0,
+                   cutoff_lv_assignment = 0.75,
                    N = 20000,
                    FAST = FALSE)
 {
@@ -145,7 +145,14 @@ autofit = function(input,
   output_obj = list(
     fit = final_TIN_profile,
     TIN = final_TIN_profile$BMix_analysis$estimated_purity,
-    TIT = final_TIN_profile$mobster_analysis$estimated_purity
+    TIT = final_TIN_profile$mobster_analysis$estimated_purity,
+    params = list(
+      VAF_range_tumour = VAF_range_tumour,
+      cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+      cutoff_lv_assignment = cutoff_lv_assignment,
+      N = N,
+      FAST = FAST
+    )
   )
 
   class(output_obj) = "tin_obj"

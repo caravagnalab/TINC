@@ -73,6 +73,10 @@ print.tin_obj = function(x, ...)
 
 #' Plot a TINC analysis.
 #'
+#' @description This function is a wrapper to call \code{plot_simple_report}.
+#'
+#' @seealso \code{plot_simple_report}.
+#'
 #' @param x A TINC analysis computed with \code{autofit}.
 #' @param ... Extra S3 parameters.
 #'
@@ -85,5 +89,6 @@ plot.tin_obj = function(x, ...)
 {
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
-  plot_full_page_report(x$fit)
+  # plot_full_page_report(x$fit)
+  plot_simple_report(x)
 }
