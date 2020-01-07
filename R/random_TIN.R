@@ -1,29 +1,43 @@
 #' Title
 #'
 #' @param N
+#' @param TIN
+#' @param TIT
+#' @param normal_coverage
+#' @param tumour_coverage
 #'
 #' @return
 #' @export
 #'
 #' @examples
 #' random_TIN()
-random_TIN = function(N = 1000, TIN = 0.05, TIT = 1)
+random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumour_coverage = 120)
 {
   mb = mobster::random_dataset(N, K_betas = 1, Beta_bounds = c((TIT/2)-0.01, (TIT/2) + 0.01),
                                Beta_variance_scaling = runif(1, 200, 500))
 
   factor_correction = ((TIN/2)/(TIT/2))
 
-  z = mb$data %>%
-    mutate(
-      id = paste('chr_fake', row_number(), row_number() + 1, 'A', 'C', sep = ':'),
-      filters = 'PASS',
+  L_sample = pio:::nmfy(
+    CNAqc::chr_coordinates_hg19$chr,
+    CNAqc::chr_coordinates_hg19$length
+  )
+
+  z = mb$data
+  z$chr = paste0('chr', sample(1:22, N, replace = T))
+  z$from = sapply(z$chr, function(x) sample(1:L_sample[x], 1))
+  z$to = z$from + 1
+  z$ref = sample(c("A", "C", "T", "G"), replace = TRUE, nrow(z))
+  z$alt = sample(c("A", "C", "T", "G"), replace = TRUE, nrow(z))
+
+  z = z %>% dplyr::select(chr, from, to, ref, alt, VAF, cluster) %>%
+    dplyr::mutate(
       T.VAF = VAF,
       N.VAF = T.VAF * factor_correction
     )
 
-  z$n_tot_count = rpois(nrow(z), lambda = 30)
-  z$t_tot_count = rpois(nrow(z), lambda = 120)
+  z$n_tot_count = rpois(nrow(z), lambda = normal_coverage)
+  z$t_tot_count = rpois(nrow(z), lambda = tumour_coverage)
 
   z$n_alt_count = floor(z$n_tot_count * z$N.VAF)
   z$t_alt_count = floor(z$t_tot_count * z$T.VAF)
@@ -34,8 +48,9 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1)
   z$sim_t_vaf =  z$t_alt_count/z$t_tot_count
   z$sim_n_vaf =  z$n_alt_count/z$n_tot_count
 
-  # ggplot(z, aes(x = N.VAF, y = sim_n_vaf)) + geom_point() + geom_abline()
-  # ggplot(z, aes(x = T.VAF, y = sim_t_vaf)) + geom_point() + geom_abline()
+  cli::cli_alert_success(
+    'Generated TINC dataset (n = {.value {N}} mutations), TIN ({.value {TIN}}) and TIT ({.value {TIT}}), normal and tumour coverage {.value {normal_coverage}}x and {.value {tumour_coverage}}x.'
+    )
 
   plot =
     ggplot(z, aes(x = sim_n_vaf, y = sim_t_vaf)) +geom_point()  +
@@ -49,11 +64,10 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1)
     geom_hline(yintercept = TIT/2, linetype = 'dashed', size = .3) +
     mobster:::my_ggplot_theme()
 
-  z$filters = "PASS"
   return(
     list(
       data =   z %>%
-        dplyr::select(id, n_ref_count, n_alt_count, t_ref_count, t_alt_count, filters),
+        dplyr::select(-VAF, -T.VAF, -N.VAF),
       plot = plot
     )
   )

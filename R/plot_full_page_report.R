@@ -22,7 +22,7 @@ plot_full_page_report = function(x)
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   # Plot input data
-  dataset_plot_raw = plot_raw(dataset = x)
+  dataset_plot_raw = TINC:::plot_raw(dataset = x)
 
   # Plots of all the data
   data_fit_panel = cowplot::plot_grid(

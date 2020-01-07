@@ -6,6 +6,8 @@ analyse_mobster = function(x,
                            cutoff_lv_assignment,
                            ...)
 {
+  cli::cli_h1("Analysing tumour sample with MOBSTER")
+
   #  MOBSTER fit
   mobster_fit_tumour = mobster::mobster_fit(x,
                                             ...)
@@ -49,9 +51,11 @@ analyse_mobster = function(x,
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 analyse_BMix = function(x, ...)
 {
+  cli::cli_h1("Analysing normal sample with BMix")
+
   if(nrow(x) == 0)
   {
-    stop("There are no tumour clonal mutations in the normal sample, there is no contamiation?")
+    stop("There are no tumour clonal mutations in the normal sample, there is no contamination?")
   }
 
   df_input = x %>%
@@ -66,7 +70,7 @@ analyse_BMix = function(x, ...)
   Binomial_peaks = BMix::Parameters(fit_normal) %>% pull(mean)
   Binomial_pi = fit_normal$pi
 
-  clonal_score = (Binomial_peaks %*% Binomial_pi) %>% as.numeric()
+  clonal_score = (Binomial_peaks %*% Binomial_pi) %>% as.numeric
 
   # options(warn=-1)
   figure = plot_Bmix_fit(fit_normal, df_input, clonal_score)
@@ -100,11 +104,20 @@ analyse_BMix = function(x, ...)
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 analyze_VIBER = function(x, ...)
 {
+  cli::cli_h1("Analysing tumour and normal samples with VIBER")
+
   options(easypar.parallel = FALSE)
 
+  # Only OK tumour
+  NV.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Normal = NV)
+  NV.t = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Tumour = NV)
+
+  DP.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Normal = DP)
+  DP.t = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Tumour = DP)
+
   fit = VIBER::variational_fit(
-    x %>% dplyr::select(NV.normal, NV.tumour) %>% rename(Normal = NV.normal, Tumour = NV.tumour),
-    x %>% dplyr::select(DP.normal, DP.tumour) %>% rename(Normal = DP.normal, Tumour = DP.tumour),
+    dplyr::bind_cols(NV.n, NV.t),
+    dplyr::bind_cols(DP.n, DP.t),
     ...
   )
 
@@ -113,5 +126,21 @@ analyze_VIBER = function(x, ...)
   fit = VIBER::choose_clusters(fit, binomial_cutoff = 0, dimensions_cutoff = 0, pi_cutoff = 0.02)
   pl = VIBER::plot_2D(fit, "Normal", "Tumour") + labs(title = 'VIBER analysis')
 
-  return(list(fit=fit, plot=pl))
+  # Table
+  # x %>%
+  #   full_join(
+  #     dplyr::bind_cols(
+  #       fit$labels %>% rename(VIBER.cluster = cluster.Binomial),
+  #       x %>% dplyr::filter(OK_tumour) %>% dplyr::select(id)
+  #     ),
+  #     by = 'id')
+  out = dplyr::bind_cols(
+        fit$labels %>% rename(VIBER.cluster = cluster.Binomial),
+        x %>% dplyr::filter(OK_tumour) %>% dplyr::select(id)
+        )
+
+
+
+
+  return(list(output = out, fit=fit, plot=pl))
 }

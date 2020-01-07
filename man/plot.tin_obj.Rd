@@ -15,8 +15,11 @@ plot.tin_obj(x, ...)
 A TINC analysis plot (a `ggplot` figure with multiple panels).
 }
 \description{
-Plot a TINC analysis.
+This function is a wrapper to call \code{plot_simple_report}.
 }
 \examples{
 plot(autofit(random_TIN(), FAST = TRUE))
+}
+\seealso{
+\code{plot_simple_report}.
 }

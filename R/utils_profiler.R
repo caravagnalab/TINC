@@ -1,18 +1,18 @@
 plot_contamination_full_size = function(dataset)
 {
   # fot the plots we half the estimates
-  TIT = dataset$mobster_analysis$estimated_purity / 2
-  TIN = dataset$BMix_analysis$estimated_purity / 2
+  TIT = dataset$TIT / 2
+  TIN = dataset$TIN / 2
 
   ggplot(
-    dataset$joint %>% mutate(
-      is_clonal = ifelse(is_clonal, 'Clonal', 'Other'),
-      is_clonal = ifelse(VAF.tumour > 0, is_clonal, 'Excluded')
+    as_joint(dataset$data) %>%
+      mutate(
+      is_clonal = ifelse(OK_clonal, 'Clonal', 'Other'),
+      is_clonal = ifelse(t_VAF > 0, is_clonal, 'Excluded')
     ),
-    aes(x = VAF.normal, y = VAF.tumour, color = is_clonal)
+    aes(x = n_VAF, y = t_VAF, color = is_clonal)
   ) +
     geom_point(
-      data = dataset$joint,
       size = .3,
       alpha = 0.1,
       color = 'black'
@@ -117,8 +117,8 @@ plot_contamination_zoom = function(dataset)
 plot_sample_contamination = function(dataset, assemble = TRUE)
 {
   # fot the plots we half the estimates
-  TIT = dataset$mobster_analysis$estimated_purity / 2
-  TIN = dataset$BMix_analysis$estimated_purity / 2
+  TIT = dataset$TIT / 2
+  TIN = dataset$TIN / 2
 
   vtin = data.frame(
     variable = c('Tumour cells', 'Normal cells', 'Tumour cells', 'Normal cells'),
@@ -165,8 +165,8 @@ plot_sample_contamination = function(dataset, assemble = TRUE)
       lab.ypos = cumsum(value) - 0.5 * value
       )
 
-  cn = classification_normal(dataset$BMix_analysis$estimated_purity)
-  ct = classification_tumour(dataset$mobster_analysis$estimated_purity)
+  cn = TINC:::classification_normal(dataset$TIN)
+  ct = TINC:::classification_tumour(dataset$TIT)
 
   normal = ggplot(
     vtin %>% filter(sample == 'Normal sample'),

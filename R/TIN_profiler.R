@@ -1,6 +1,16 @@
 # Assemble results
 TIN_profiler = function(dataset)
 {
+  x %>%
+    full_join(
+      dataset$mobster_analysis$output %>% dplyr::select(id, tumour.cluster),
+      by = c("id")
+    ) %>%
+    full_join(
+      dataset$BMix_analysis$output %>% dplyr::select(id, normal.cluster),
+      by = c("id")
+    )
+
   dataset$joint = dataset$joint %>%
     full_join(
       dataset$mobster_analysis$output %>% dplyr::select(id, tumour.cluster),

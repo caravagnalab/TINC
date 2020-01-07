@@ -20,12 +20,12 @@ plot_raw = function(dataset)
 
 plot_tumour_data = function(dataset)
 {
-  tumour = dataset$tumour
-  VAF_range_tumour = dataset$VAF_range_tumour
+  tumour = TINC:::as_tumour(dataset$data)
+  VAF_range_tumour = dataset$params$VAF_range_tumour
 
   ggplot(tumour %>%
            filter(VAF > 0),
-         aes(VAF, fill = used)) +
+         aes(VAF, fill = OK_tumour)) +
     geom_vline(
       xintercept = VAF_range_tumour,
       color = 'forestgreen',
@@ -57,8 +57,10 @@ plot_tumour_data = function(dataset)
 
 plot_normal_data = function(dataset)
 {
-  ggplot(dataset$normal, aes(VAF)) +
-    geom_histogram(binwidth = 0.01, aes(fill = used)) +
+  ggplot(
+    TINC:::as_normal(dataset$data),
+    aes(VAF)) +
+    geom_histogram(binwidth = 0.01, aes(fill = OK_tumour)) +
     xlim(-0.01, 1) +
     mobster:::my_ggplot_theme() +
     labs(y = "n", title = 'Normal sample') +
@@ -69,7 +71,7 @@ plot_normal_data = function(dataset)
 
 plot_normal_data_inline = function(dataset)
 {
-  germline = dataset$normal
+  germline = TINC:::as_normal(dataset$data)
 
   sorted_data = germline %>% arrange(VAF) %>% mutate(x = row_number())
   x_nonz = which.max(sorted_data$VAF > 0)
@@ -102,13 +104,14 @@ plot_normal_data_inline = function(dataset)
 
 plot_joint_data = function(dataset)
 {
-  ggplot(dataset$joint %>%
-           mutate(used = ifelse(used, "Included", "Excluded")),
+  ggplot(
+    TINC:::as_joint(dataset$data) %>%
+           mutate(used = ifelse(OK_tumour, "Included", "Excluded")),
          aes(x = VAF.normal, y = VAF.tumour)) +
     geom_point(size = .5, alpha = .5, aes(color = used)) +
     mobster:::my_ggplot_theme() +
     xlim(0, 1) + ylim(0, 1) + labs(
-      title = bquote(bold(TIN) ~ '   Tumour vs normal (n = ' ~ .(nrow(dataset$joint)) * ')'),
+      title = bquote(bold(TIN) ~ '   Tumour vs normal (n = ' ~ .(sum(dataset$data$OK_tumour)) * ')'),
       y = 'Tumour VAF',
       x = 'Normal VAF'
     ) +
