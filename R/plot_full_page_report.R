@@ -15,8 +15,6 @@ plot_full_page_report = function(x)
 
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
-  x = x$fit
-
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # Report assembly
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -27,7 +25,7 @@ plot_full_page_report = function(x)
   # Plots of all the data
   data_fit_panel = cowplot::plot_grid(
     dataset_plot_raw,
-    plot_sample_contamination(x),
+    TINC:::plot_sample_contamination(x),
     rel_widths = c(1, .7),
     align = 'h',
     labels = c("A", "B"),
@@ -46,8 +44,8 @@ plot_full_page_report = function(x)
 
   fit_panel =
     cowplot::plot_grid(
-      x$mobster_analysis$plot,
-      x$BMix_analysis$plot,
+      x$fit$mobster_analysis$plot,
+      x$fit$BMix_analysis$plot,
       nrow = 1,
       ncol = 2,
       align = 'h',
@@ -56,9 +54,9 @@ plot_full_page_report = function(x)
     )
 
   sq_panel = cowplot::plot_grid(
-    plot_contamination_full_size(x),
-    plot_contamination_zoom(x),
-    x$VIBER_analysis$plot,
+    TINC:::plot_contamination_full_size(x),
+    TINC:::plot_contamination_zoom(x),
+    x$fit$VIBER_analysis$plot,
     nrow = 1,
     ncol = 3,
     align = 'h',

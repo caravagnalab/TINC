@@ -58,5 +58,3 @@
 
   invisible()
 }
-
-cli::cli_alert_info()

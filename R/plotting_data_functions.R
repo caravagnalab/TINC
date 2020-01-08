@@ -107,7 +107,7 @@ plot_joint_data = function(dataset)
   ggplot(
     TINC:::as_joint(dataset$data) %>%
            mutate(used = ifelse(OK_tumour, "Included", "Excluded")),
-         aes(x = VAF.normal, y = VAF.tumour)) +
+         aes(x = n_VAF, y = t_VAF)) +
     geom_point(size = .5, alpha = .5, aes(color = used)) +
     mobster:::my_ggplot_theme() +
     xlim(0, 1) + ylim(0, 1) + labs(

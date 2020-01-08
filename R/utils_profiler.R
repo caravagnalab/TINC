@@ -61,11 +61,11 @@ plot_contamination_full_size = function(dataset)
 plot_contamination_zoom = function(dataset)
 {
   # fot the plots we half the estimates
-  TIT = dataset$mobster_analysis$estimated_purity / 2
-  TIN = dataset$BMix_analysis$estimated_purity / 2
+  TIT = dataset$TIT / 2
+  TIN = dataset$TIN / 2
 
 
-  data_table = dataset$joint %>%
+  data_table = TINC:::as_joint(dataset$data) %>%
     mutate(group = paste(tumour.cluster, '~', normal.cluster))
 
   group_labels = data_table$group %>% unique
@@ -77,8 +77,8 @@ plot_contamination_zoom = function(dataset)
 
   ggplot(data_table,
          aes(
-           x = VAF.normal,
-           y = VAF.tumour,
+           x = n_VAF,
+           y = t_VAF,
            shape = group,
            color = group
          )) +

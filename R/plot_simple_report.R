@@ -29,7 +29,7 @@ plot_simple_report = function(x)
   )
 
   # data_plot = plot_raw(x$fit)
-  stats_plot = TINC:::plot_sample_contamination(x$fit, assemble = F)
+  stats_plot = TINC:::plot_sample_contamination(x, assemble = F)
   cont_plot = TINC:::plot_contamination_full_size(x) +
     labs(
       title = bquote(bold("Summary")),
