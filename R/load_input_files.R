@@ -32,26 +32,31 @@
 load_input = function(x,
                       verbose = FALSE,
                       VAF_range_tumour = c(0, 0.7),
-                      N = 20000
-                      )
+                      N = 20000)
 {
   file = x
   pio::pioHdr("TINC ~ Load tumour/normal data")
 
   ######## Detect if it is filename or data.frame, and open it
-  if(is.character(file) && file.exists(file))
+  if (is.character(file) && file.exists(file))
   {
-    pio::pioStr("\n    Input file ", file, '~',
-                file.size(file) %>% utils:::format.object_size(units = "auto"),
-                suffix = '\n')
+    pio::pioStr(
+      "\n    Input file ",
+      file,
+      '~',
+      file.size(file) %>% utils:::format.object_size(units = "auto"),
+      suffix = '\n'
+    )
 
     # VCF file dumped in our TIN format
-    dataset =  read.csv(file,
-                        sep = '\t',
-                        header = FALSE,
-                        stringsAsFactors = FALSE) %>% as_tibble
+    dataset =  read.csv(
+      file,
+      sep = '\t',
+      header = FALSE,
+      stringsAsFactors = FALSE
+    ) %>% as_tibble
 
-    if(ncol(dataset) > 5) {
+    if (ncol(dataset) > 5) {
       message("Input VCF file has more than 5 columns, only the first 5 will be used.")
       dataset = dataset[, 1:5]
     }
@@ -64,19 +69,23 @@ load_input = function(x,
 
   }
 
-  if(is.data.frame(file))
+  if (is.data.frame(file))
   {
     pio::pioStr("\n    Input dataframe ", dim(file)[1],  'x', dim(file)[2],
                 suffix = '\n')
 
     # required TIN format
-    required_cols = c('id', 'n_ref_count',
+    required_cols = c('id',
+                      'n_ref_count',
                       'n_alt_count',
                       't_ref_count',
                       't_alt_count')
 
-    if(!all(required_cols %in% colnames(file)))
-      stop("The input dataframe must have the following named columns: ", paste(required_cols, collapse = ', '))
+    if (!all(required_cols %in% colnames(file)))
+      stop(
+        "The input dataframe must have the following named columns: ",
+        paste(required_cols, collapse = ', ')
+      )
 
     dataset = file %>% as_tibble()
   }
@@ -87,8 +96,8 @@ load_input = function(x,
   germline = dataset %>%
     dplyr::select(id, starts_with('n')) %>%
     dplyr::mutate(DP = n_ref_count + n_alt_count,
-           NV = n_alt_count,
-           VAF = NV / DP) %>%
+                  NV = n_alt_count,
+                  VAF = NV / DP) %>%
     tidyr::separate(
       id,
       into = c('chr', 'from', 'to', 'ref', 'alt'),
@@ -96,15 +105,15 @@ load_input = function(x,
       remove = FALSE
     ) %>%
     dplyr::select(chr,
-           from,
-           to,
-           ref,
-           alt,
-           id,
-           ends_with('count'),
-           DP,
-           NV,
-           VAF)
+                  from,
+                  to,
+                  ref,
+                  alt,
+                  id,
+                  ends_with('count'),
+                  DP,
+                  NV,
+                  VAF)
 
   pio::pioTit("Mutations annotated in the normal sample")
   pio::pioDisp(germline)
@@ -113,8 +122,8 @@ load_input = function(x,
   tumour = dataset %>%
     dplyr::select(id, starts_with('t')) %>%
     dplyr::mutate(DP = t_ref_count + t_alt_count,
-           NV = t_alt_count,
-           VAF = NV / DP) %>%
+                  NV = t_alt_count,
+                  VAF = NV / DP) %>%
     tidyr::separate(
       id,
       into = c('chr', 'from', 'to', 'ref', 'alt'),
@@ -122,15 +131,15 @@ load_input = function(x,
       remove = FALSE
     ) %>%
     dplyr::select(chr,
-           from,
-           to,
-           ref,
-           alt,
-           id,
-           ends_with('count'),
-           DP,
-           NV,
-           VAF)
+                  from,
+                  to,
+                  ref,
+                  alt,
+                  id,
+                  ends_with('count'),
+                  DP,
+                  NV,
+                  VAF)
 
   pio::pioTit("Mutations annotated in the tumour sample")
   pio::pioDisp(tumour)
@@ -152,14 +161,17 @@ load_input = function(x,
 
   # Tumour filter
   tumour = tumour %>%
-    dplyr::mutate(
-      used = (VAF > VAF_range_tumour[1]) & (VAF < VAF_range_tumour[2])
-      )
+    dplyr::mutate(used = (VAF > VAF_range_tumour[1]) &
+                    (VAF < VAF_range_tumour[2]))
 
   # Downsample
-  if(sum(tumour$used) > N)
+  if (sum(tumour$used) > N)
   {
-    message("\nMore than n = ", N, ' tumour mutations in the required VAF range, downsampling the data.\n')
+    message(
+      "\nMore than n = ",
+      N,
+      ' tumour mutations in the required VAF range, downsampling the data.\n'
+    )
 
     w_t =  tumour %>% dplyr::filter(used) %>% dplyr::sample_n(N) %>% dplyr::pull(id)
     tumour$used[!(tumour$id %in% w_t)] = FALSE
@@ -175,22 +187,27 @@ load_input = function(x,
 
   # Print
   TB = table(tumour$used)
-  pio::pioStr("\n     VAF range",
-              VAF_range_tumour[1], '~',
-              VAF_range_tumour[2],
-              ' [',
-              paste(names(TB), TB),
-              '] tumour mutations',
-              suffix = '\n')
+  pio::pioStr(
+    "\n     VAF range",
+    VAF_range_tumour[1],
+    '~',
+    VAF_range_tumour[2],
+    ' [',
+    paste(names(TB), TB),
+    '] tumour mutations',
+    suffix = '\n'
+  )
 
 
-  return(list(
-    tumour = tumour,
-    normal = germline,
-    joint = joint_data,
-    VAF_range_tumour = VAF_range_tumour,
-    file = file
-  ))
+  return(
+    list(
+      tumour = tumour,
+      normal = germline,
+      joint = joint_data,
+      VAF_range_tumour = VAF_range_tumour,
+      file = file
+    )
+  )
 }
 
 #' Load TINC input data.
@@ -205,6 +222,7 @@ load_input = function(x,
 #' are flagged and removed from downnstream analysis.
 #'
 #' @param x A dataframe or tibble.
+#' @param cna Copy Number data in the format of package \code{CNAqc}.
 #' @param VAF_range_tumour 2D vector for a VAF range used to filter
 #' mutations from the tumour sample.
 #' @param N If there are more than `N` mutations in VAF range
@@ -218,46 +236,70 @@ load_input = function(x,
 #' # Generating a random TIN input
 #' load_TINC_input(random_TIN())
 load_TINC_input = function(x,
-                      VAF_range_tumour = c(0, 0.7),
-                      N = 20000
-)
+                           cna,
+                           VAF_range_tumour = c(0, 0.7),
+                           N = 20000)
 {
   cli::cli_h1("Loading TINC input data")
 
   stopifnot(is.data.frame(x))
 
-  required_colnames = c('chr', 'from', 'to', 'ref', 'alt',
-                        'n_ref_count', 'n_alt_count',
-                        't_ref_count', 't_alt_count')
+  # Check columns
+  required_colnames = c(
+    'chr',
+    'from',
+    'to',
+    'ref',
+    'alt',
+    'n_ref_count',
+    'n_alt_count',
+    't_ref_count',
+    't_alt_count'
+  )
 
   stopifnot(all(required_colnames %in% colnames(x)))
 
+  # Data
   x = x[, required_colnames] %>%
     as_tibble() %>%
-    mutate(
-      id = paste(chr, from, to, ref, alt, sep = ':')
-    )
+    mutate(id = paste(chr, from, to, ref, alt, sep = ':'))
 
   # cli::cli_alert_info("Using for mutation data {.url {required_colnames}} for n = {.value {nrow(x)}}.")
-  cli::cli_alert_info("Found data for n = {.value {nrow(x)}} mutations.")
+  cli::cli_alert_success("Found data for n = {.value {nrow(x)}} mutations.")
+
+  # Map CNA data, and retainn only mappable mutations
+  if(!all(is.null(cna)))
+  {
+    cli::cli_alert_info("Found CNA data, mapping mutations to segmennts.")
+
+    cn_obj = CNAqc::init(snvs = TINC:::as_tumour(x), cna = cna, .8)
+
+    mappable = cn_obj$snvs %>%
+      dplyr::filter(!is.na(segment_id)) %>%
+      dplyr::pull(id)
+
+    x = x %>%
+      dplyr::filter(id %in% mappable)
+
+    cli::cli_alert_success("Found {.value {nrow(cna)}} CNA segmennts, mapped n = {.value {nrow(x)}} mutations.")
+  }
 
   # Tumour filter
   tumour_exclude_VAF_range = as_tumour(x) %>%
-    dplyr::filter(
-      (VAF < VAF_range_tumour[1]) | (VAF > VAF_range_tumour[2])
-    ) %>%
+    dplyr::filter((VAF < VAF_range_tumour[1]) |
+                    (VAF > VAF_range_tumour[2])) %>%
     dplyr::pull(id)
 
   x = x %>%
-    dplyr::mutate(
-      # OK_tumour = TRUE,
-      OK_tumour = !(id %in% tumour_exclude_VAF_range)
-    )
+    dplyr::mutate(# OK_tumour = TRUE,
+      OK_tumour = !(id %in% tumour_exclude_VAF_range))
 
-  cli::cli_alert_success("Mutation with VAF within {.value {VAF_range_tumour}} ~ n = {.value { sum(x$OK_tumour) }}")
+  cli::cli_alert_success(
+    "Mutation with VAF within {.value {VAF_range_tumour}} ~ n = {.value { sum(x$OK_tumour) }}"
+  )
 
   # Downsample
-  if(sum(x$OK_tumour) > N)
+  if (sum(x$OK_tumour) > N)
   {
     cli::cli_alert_warning("More than {.value {N}} mutations, downsampling.")
 
@@ -268,7 +310,7 @@ load_TINC_input = function(x,
   return(x)
 }
 
-as_normal = function(x){
+as_normal = function(x) {
   x %>%
     dplyr::mutate(DP = n_ref_count + n_alt_count,
                   NV = n_alt_count,
@@ -276,7 +318,7 @@ as_normal = function(x){
     dplyr::select(-dplyr::ends_with('count'))
 }
 
-as_tumour = function(x){
+as_tumour = function(x) {
   x %>%
     dplyr::mutate(DP = t_ref_count + t_alt_count,
                   NV = t_alt_count,
@@ -284,10 +326,10 @@ as_tumour = function(x){
     dplyr::select(-dplyr::ends_with('count'))
 }
 
-as_joint = function(x){
+as_joint = function(x) {
   x %>%
     mutate(
-      n_VAF = n_alt_count/(n_alt_count + n_ref_count),
-      t_VAF = t_alt_count/(t_alt_count + t_ref_count)
+      n_VAF = n_alt_count / (n_alt_count + n_ref_count),
+      t_VAF = t_alt_count / (t_alt_count + t_ref_count)
     )
 }

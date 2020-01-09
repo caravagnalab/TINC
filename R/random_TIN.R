@@ -13,6 +13,7 @@
 #' random_TIN()
 random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumour_coverage = 120)
 {
+  # SNVs
   mb = mobster::random_dataset(N, K_betas = 1, Beta_bounds = c((TIT/2)-0.01, (TIT/2) + 0.01),
                                Beta_variance_scaling = runif(1, 200, 500))
 
@@ -64,12 +65,24 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumou
     geom_hline(yintercept = TIT/2, linetype = 'dashed', size = .3) +
     mobster:::my_ggplot_theme()
 
+  # CNA
+  td_cna =   TINC:::as_tumour(z) %>%
+    dplyr::mutate(minor = 1, Major = 1, from = from - 1, to = to + 1) %>%
+    dplyr::select(-ref, -alt, -DP, -NV, -VAF)
+
   return(
     list(
       data =   z %>%
         dplyr::select(-VAF, -T.VAF, -N.VAF),
+      cna = td_cna,
       plot = plot
     )
   )
 }
 
+random_CNA = function(x)
+{
+  CNAqc::chr_coordinates_hg19 %>%
+    dplyr::select(-length, -starts_with('centromer')) %>%
+    dplyr::mutate(minor = 1, Major = 1)
+}

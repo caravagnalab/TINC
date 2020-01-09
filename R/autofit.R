@@ -12,8 +12,9 @@
 #' }
 #' An S3 object is returned that contains the results of the analysis.
 #'
-#' @param input A `file` to load from disk, or a `dataframe `consistent
-#' with the required input. See the vignette for more information.
+#' @param input A`dataframe` of the iput mutations. Must be in a certain format,
+#' see the vignette for more information.
+#' @param cna Copy Number data in the format of package \code{CNAqc}.
 #' @param VAF_range_tumour A range `[x, y]` so that only mutations
 #' with VAF in that range are actually used to determine the TIN/ TIT
 #' levels of the input.
@@ -41,6 +42,7 @@
 #' @examples
 #' autofit(random_TIN(), FAST = TRUE)
 autofit = function(input,
+                   cna,
                    VAF_range_tumour = c(0, 0.7),
                    cutoff_miscalled_clonal = .6,
                    cutoff_lv_assignment = 0.75,
@@ -52,7 +54,7 @@ autofit = function(input,
   pio::pioHdr("TINC")
 
   # Load data, checks VAF range and N limit
-  x = TINC:::load_TINC_input(input, VAF_range_tumour = VAF_range_tumour, N = N)
+  x = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
