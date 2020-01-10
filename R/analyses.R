@@ -7,6 +7,7 @@ analyse_mobster = function(x,
                            ...)
 {
   cli::cli_h1("Analysing tumour sample with MOBSTER")
+  cat('\n')
 
   #  MOBSTER fit
   mobster_fit_tumour = mobster::mobster_fit(x,
@@ -52,6 +53,7 @@ analyse_mobster = function(x,
 analyse_BMix = function(x, ...)
 {
   cli::cli_h1("Analysing normal sample with BMix")
+  cat('\n')
 
   if(nrow(x) == 0)
   {
@@ -105,6 +107,7 @@ analyse_BMix = function(x, ...)
 analyze_VIBER = function(x, ...)
 {
   cli::cli_h1("Analysing tumour and normal samples with VIBER")
+  cat('\n')
 
   options(easypar.parallel = FALSE)
 
@@ -122,6 +125,8 @@ analyze_VIBER = function(x, ...)
   )
 
   options(easypar.parallel = TRUE)
+
+  cat('\n')
 
   fit = VIBER::choose_clusters(fit, binomial_cutoff = 0, dimensions_cutoff = 0, pi_cutoff = 0.02)
   pl = VIBER::plot_2D(fit, "Normal", "Tumour") + labs(title = 'VIBER analysis')

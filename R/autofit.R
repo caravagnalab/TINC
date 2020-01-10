@@ -84,8 +84,9 @@ autofit = function(input,
       init = 'random'
     )
 
+  cat('\n')
   x$OK_clonal = x$id %in% mobster_analysis$clonal_mutations
-  cli::cli_alert_info(
+  cli::cli_alert_success(
     "MOBSTER found n = {.value {sum(x$OK_clonal)}} clonal mutations from cluster {.value {mobster_analysis$clonal_cluster}}"
   )
 

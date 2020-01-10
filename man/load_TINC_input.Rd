@@ -4,10 +4,12 @@
 \alias{load_TINC_input}
 \title{Load TINC input data.}
 \usage{
-load_TINC_input(x, VAF_range_tumour = c(0, 0.7), N = 20000)
+load_TINC_input(x, cna, VAF_range_tumour = c(0, 0.7), N = 20000)
 }
 \arguments{
 \item{x}{A dataframe or tibble.}
+
+\item{cna}{Copy Number data in the format of package \code{CNAqc}.}
 
 \item{VAF_range_tumour}{2D vector for a VAF range used to filter
 mutations from the tumour sample.}

@@ -270,10 +270,11 @@ load_TINC_input = function(x,
   # Map CNA data, and retainn only mappable mutations
   if(!all(is.null(cna)))
   {
-    cli::cli_alert_info("Found CNA data, mapping mutations to segmennts.")
+    cli::cli_alert_warning("Found CNA data, mapping mutations to copy number segments with CNAqc...")
 
+    cat("\n")
     cn_obj = CNAqc::init(snvs = TINC:::as_tumour(x), cna = cna, .8)
-
+    cat("\n")
     mappable = cn_obj$snvs %>%
       dplyr::filter(!is.na(segment_id)) %>%
       dplyr::pull(id)
@@ -281,7 +282,7 @@ load_TINC_input = function(x,
     x = x %>%
       dplyr::filter(id %in% mappable)
 
-    cli::cli_alert_success("Found {.value {nrow(cna)}} CNA segmennts, mapped n = {.value {nrow(x)}} mutations.")
+    cli::cli_alert_success("n = {.value {nrow(x)}} mutations mapped to {.value {nrow(cna)}} CNA segmennts.")
   }
 
   # Tumour filter
@@ -295,7 +296,7 @@ load_TINC_input = function(x,
       OK_tumour = !(id %in% tumour_exclude_VAF_range))
 
   cli::cli_alert_success(
-    "Mutation with VAF within {.value {VAF_range_tumour}} ~ n = {.value { sum(x$OK_tumour) }}"
+    "Mutation with VAF within {.value {VAF_range_tumour}} ~ n = {.value { sum(x$OK_tumour)}}."
   )
 
   # Downsample
