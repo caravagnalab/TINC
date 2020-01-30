@@ -4,6 +4,7 @@
 analyse_mobster = function(x,
                            cutoff_miscalled_clonal,
                            cutoff_lv_assignment,
+                           chromosomes,
                            ...)
 {
   cli::cli_h1("Analysing tumour sample with MOBSTER")
@@ -17,7 +18,9 @@ analyse_mobster = function(x,
     rename(tumour.cluster = cluster)
 
   # Determine clonal cluster
-  clonal_cluster = guess_mobster_clonal_cluster(mobster_fit_tumour, cutoff_miscalled_clonal)
+  clonal_cluster = guess_mobster_clonal_cluster(mobster_fit_tumour = mobster_fit_tumour,
+                                                cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+                                                chromosomes = chromosomes)
 
   stopifnot(length(clonal_cluster) > 0)
 
@@ -83,10 +86,14 @@ analyse_BMix = function(x, ...)
   clonal_mutations = output %>%
     filter(normal.cluster %in% TIN$clonal_cluster) %>% pull(id)
 
-  pio::pioStr("\n    Binomial peaks", paste(Binomial_peaks, collapse = ' '), suffix = '\n')
-  pio::pioStr("Mixing proportions", paste(Binomial_pi, collapse = ' '), suffix = '\n')
-  pio::pioStr("      Clonal score", clonal_score, suffix = '\n')
-  pio::pioStr("               TIN", TIN$estimated_purity, suffix = '\n')
+  # pio::pioStr("\n    Binomial peaks", paste(Binomial_peaks, collapse = ' '), suffix = '\n')
+  # pio::pioStr("Mixing proportions", paste(Binomial_pi, collapse = ' '), suffix = '\n')
+  # pio::pioStr("      Clonal score", clonal_score, suffix = '\n')
+  # pio::pioStr("               TIN", TIN$estimated_purity, suffix = '\n')
+
+  cli::cli_alert_success(
+    "Binomial peaks {.value {Binomial_peaks}} with proportions {.value {Binomial_pi}}. Clonal score {.value {clonal_score}} with TINN {.value {TIN$estimated_purity}}"
+  )
 
   return(
     list(
@@ -113,10 +120,10 @@ analyze_VIBER = function(x, ...)
 
   # Only OK tumour
   NV.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Normal = NV)
-  NV.t = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Tumour = NV)
+  NV.t = as_tumour(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Tumour = NV)
 
   DP.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Normal = DP)
-  DP.t = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Tumour = DP)
+  DP.t = as_tumour(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Tumour = DP)
 
   fit = VIBER::variational_fit(
     dplyr::bind_cols(NV.n, NV.t),
