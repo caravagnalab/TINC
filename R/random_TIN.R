@@ -84,5 +84,6 @@ random_CNA = function(x)
 {
   CNAqc::chr_coordinates_hg19 %>%
     dplyr::select(-length, -starts_with('centromer')) %>%
-    dplyr::mutate(minor = 1, Major = 1)
+    dplyr::mutate(minor = 1, Major = 1) %>%
+    dplyr::mutate(length = to - from)
 }

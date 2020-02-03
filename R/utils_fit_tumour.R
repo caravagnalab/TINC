@@ -202,8 +202,21 @@ location_likelihood = function(mobster_fit_tumour, cluster, chromosomes)
   # Sort them by size, and determinne 80% prob
   all_mapping = sort(all_mapping, decreasing = TRUE)
 
+  min_cutoff_mapping = sum(all_mapping) * 0.01
+  if(min_cutoff_mapping > 10) min_cutoff_mapping = 10
+
+  if(any(all_mapping <= min_cutoff_mapping, na.rm = T))
+  {
+    cli::cli_alert_warning("Location likelihood: chromosomes arms have < {.value {min_cutoff_mapping + 1}} mutations, and will not be considered.")
+    print(all_mapping)
+
+    all_mapping = all_mapping[all_mapping > min_cutoff_mapping]
+  }
+
   total_mass = sum(all_mapping)
   cumulative_mass = cumsum(all_mapping)
+
+
   index_80p = sum(cumulative_mass < total_mass * 0.6) + 1
   index_20p = length(used_chromosomes) * .2
 

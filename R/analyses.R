@@ -31,9 +31,19 @@ analyse_mobster = function(x,
     pull(fit.value) %>% mean * 2
 
   # List of clonal mutations in the tumour, with LV > cutoff_lv_assignment
-  clonal_tumour = mobster::Clusters(mobster_fit_tumour$best, cutoff_assignment = cutoff_lv_assignment) %>%
-    filter(cluster %in% clonal_cluster) %>%
-    pull(id)
+  clonal_tumour = NULL
+  repeat
+  {
+    clonal_tumour = mobster::Clusters(mobster_fit_tumour$best, cutoff_assignment = cutoff_lv_assignment) %>%
+      filter(cluster %in% clonal_cluster) %>%
+      pull(id)
+
+    if(length(clonal_tumour) > 20 | cutoff_lv_assignment < 0) break
+
+     cutoff_lv_assignment = cutoff_lv_assignment - 0.03
+
+     # cat("Dynamic adjustment: ", cutoff_lv_assignment, " n = ", length(clonal_tumour))
+  }
 
   # Plot
   figure = plot_mobster_fit(mobster_fit_tumour, cutoff_lv_assignment, clonal_cluster)
@@ -45,7 +55,8 @@ analyse_mobster = function(x,
       plot = figure,
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_tumour,
-      estimated_purity = estimated_tumour_purity
+      estimated_purity = estimated_tumour_purity,
+      cutoff_lv_assignment = cutoff_lv_assignment
     )
   )
 }

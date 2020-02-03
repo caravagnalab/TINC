@@ -53,8 +53,6 @@ autofit = function(input,
 
   pio::pioHdr("TINC")
 
-  # cli::cli_process_start("Preparing input data")
-
   # Load data, checks VAF range and N limit
   x = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
 
@@ -76,7 +74,7 @@ autofit = function(input,
 
   if (FAST)
     mobster_analysis = TINC:::analyse_mobster(
-      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
+      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
       chromosomes = used_chromosomes,
@@ -95,6 +93,8 @@ autofit = function(input,
       epsilon = 1e-9,
       init = 'random'
     )
+
+  mobster_analysis_dynamic_cutoff = (cutoff_lv_assignment != mobster_analysis$cutoff_lv_assignment)
 
   cat('\n')
   x$OK_clonal = x$id %in% mobster_analysis$clonal_mutations
@@ -187,6 +187,7 @@ autofit = function(input,
       VAF_range_tumour = VAF_range_tumour,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
+      cutoff_lv_assignment_dynamic = mobster_analysis_dynamic_cutoff,
       N = N,
       FAST = FAST
     )
