@@ -205,7 +205,7 @@ location_likelihood = function(mobster_fit_tumour, cluster, chromosomes)
   min_cutoff_mapping = sum(all_mapping) * 0.01
   if(min_cutoff_mapping > 10) min_cutoff_mapping = 10
 
-  if(any(all_mapping <= min_cutoff_mapping, na.rm = T))
+  if(!all(all_mapping <= min_cutoff_mapping, na.rm = T) & any(all_mapping <= min_cutoff_mapping, na.rm = T))
   {
     cli::cli_alert_warning("Location likelihood: chromosomes arms have < {.value {min_cutoff_mapping + 1}} mutations, and will not be considered.")
     print(all_mapping)
