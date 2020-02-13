@@ -5,14 +5,13 @@
 #'
 #' @param x A TINC analysis computed with \code{autofit}.
 #'
-#' @return A multi-panle \code{ggplot} figure.
+#' @return A multi-panel \code{ggplot} figure.
 #' @export
 #'
 #' @examples
 #' plot_full_page_report(autofit(random_TIN(), FAST = TRUE))
 plot_full_page_report = function(x)
 {
-
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -62,14 +61,22 @@ plot_full_page_report = function(x)
     align = 'h',
     axis = 'bt',
     rel_widths = c(2, 1, 1),
-    labels = c('E', '', 'D')
+    labels = c('E', '', 'F')
   )
+
+  # If there are CNA segments we plot those as well
+  cna_panel = CNAqc:::eplot()
+  if(!(all(is.null(x$fit$CNA))))
+    cna_panel = CNAqc::plot_segments(x$fit$CNA)
+
+  cna_panel = ggarrange(cna_panel, nrow = 1, ncol = 1, labels = 'G')
 
   cowplot::plot_grid(
     data_fit_panel,
     fit_panel,
     sq_panel,
-    nrow = 3,
+    cna_panel,
+    nrow = 4,
     ncol = 1,
     align = 'v',
     axis = 'lr',

@@ -2,8 +2,6 @@
 
 S3method(print,tin_obj)
 export(autofit)
-export(load_TINC_input)
-export(load_input)
 export(plot.tin_obj)
 export(plot_full_page_report)
 export(plot_simple_report)

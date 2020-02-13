@@ -14,14 +14,23 @@ print.tin_obj = function(x, ...)
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
   verbose = FALSE
-  pio::pioHdr("TINC - Profiler for bulk samples TIN/TIT contamination")
-
+  pio::pioHdr("TINC profiler for bulk samples")
   cat('\n')
+
+  if(!(all(is.null(x$fit$CNA))))
+    cli::cli_alert_info("CNA data has been used for this analysis (karyotype {.field {x$data$karyotype[1] }})")
+  else
+    cli::cli_alert_warning("CNA data has not been used for this analysis.")
+
   n = sum(x$data$OK_tumour)
   N = nrow(x$data)
-  pio::pioStr(' Input : ',
-              'n =', n, 'used out of', N,
-              paste0('annotated (', round(n/N, 2) * 100, '%)'), suffix = '\n')
+  cli::cli_alert_info(
+    paste0(' Input : ',
+              'n =', n, ' used out of ', N,
+              paste0(' annotated (', round(n/N, 2) * 100, '%)')
+           ))
+
+  cat("\n")
 
   pio::pioStr('        TIT : ',
               paste0(round(x$TIT, 2) * 100, '%'),

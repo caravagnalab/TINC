@@ -3,6 +3,7 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 analyse_mobster = function(x,
                            cutoff_miscalled_clonal,
+                           cna_map,
                            cutoff_lv_assignment,
                            chromosomes,
                            ...)
@@ -10,7 +11,7 @@ analyse_mobster = function(x,
   cli::cli_h1("Analysing tumour sample with MOBSTER")
   cat('\n')
 
-  #  MOBSTER fit
+  #  MOBSTER fit of the input data
   mobster_fit_tumour = mobster::mobster_fit(x,
                                             ...)
 
@@ -24,11 +25,44 @@ analyse_mobster = function(x,
 
   stopifnot(length(clonal_cluster) > 0)
 
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  # Tumour purity: estimated based on the fact that we could map or no the mutations to CNA
+  estimated_tumour_purity = NULL
+  if(all(is.null(cna_map)))
+  {
+    # If we could not, then we just assume everything is diploid, therefore
+    # therefore 2 * the Beta peak of the clonal cluster
 
-  # Tumour purity is therefore 2 * the Beta peak of the clonal cluster
-  estimated_tumour_purity = mobster_fit_tumour$best$Clusters %>%
-    filter(cluster %in% clonal_cluster, type == 'Mean') %>%
-    pull(fit.value) %>% mean * 2
+    estimated_tumour_purity = mobster_fit_tumour$best$Clusters %>%
+      filter(cluster %in% clonal_cluster, type == 'Mean') %>%
+      pull(fit.value) %>% mean * 2
+
+  }
+  else
+  {
+    # Otherwise we do something a little bit smarter, which is normalising for segment's ploidy.
+
+    # We take the mean of the clonal cluster
+    ccluster_mean = mobster_fit_tumour$best$Clusters %>%
+      filter(cluster %in% clonal_cluster, type == 'Mean') %>%
+      pull(fit.value) %>%
+      mean
+
+    # We found the karyotype of the mutations that we used (we take the first one, because they are all the same)
+    used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
+
+    # By design, we should have correctly taken as coonal cluster the set of mutations that happened before
+    # aneuploidy. Also, again by the fact that we use only simple karyotypes, we assume that the mutation is
+    # present in a number of copies that match the actual Major allele (M). This is the same thing as saying
+    # that the mutations happened *before* aneuploidy
+    estimated_tumour_purity = CNAqc:::purity_estimation_fun(
+      v = ccluster_mean, # Observed VAF
+      m = used_karyotype[2] %>% as.numeric,
+      M = used_karyotype[1] %>% as.numeric,
+      mut.allele = used_karyotype[1]
+      )
+  }
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
 
   # List of clonal mutations in the tumour, with LV > cutoff_lv_assignment
   clonal_tumour = NULL
@@ -64,7 +98,10 @@ analyse_mobster = function(x,
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Analyse normal samples with BMix
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-analyse_BMix = function(x, ...)
+analyse_BMix = function(
+  x,
+  cna_map,
+  ...)
 {
   cli::cli_h1("Analysing normal sample with BMix")
   cat('\n')
@@ -92,10 +129,37 @@ analyse_BMix = function(x, ...)
   figure = plot_Bmix_fit(fit_normal, df_input, clonal_score)
   # options(warn=0)
 
-  TIN = estimate_TIN(fit_normal, clonal_score)
+  # TIN = estimate_TIN(fit_normal, clonal_score, cna_map)
+  #
+  clonal_cluster = names(fit_normal$pi)
+  highest_Binomial_peak = as.vector(clonal_score)
 
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  # TIN Contamination is a form of purity: it is estimated as for cancer
+  estimated_normal_purity = NULL
+
+  if(all(is.null(cna_map)))
+  {
+    # Without CNA it is
+    estimated_normal_purity =  highest_Binomial_peak * 2
+  }
+  else
+  {
+    # Otherwise we use CNA as for tumour purity
+    used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
+
+    estimated_normal_purity = CNAqc:::purity_estimation_fun(
+      v = highest_Binomial_peak, # Observed VAF
+      m = used_karyotype[2] %>% as.numeric,
+      M = used_karyotype[1] %>% as.numeric,
+      mut.allele = used_karyotype[1]
+    )
+  }
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+
+  #
   clonal_mutations = output %>%
-    filter(normal.cluster %in% TIN$clonal_cluster) %>% pull(id)
+    filter(normal.cluster %in% clonal_cluster) %>% pull(id)
 
   # pio::pioStr("\n    Binomial peaks", paste(Binomial_peaks, collapse = ' '), suffix = '\n')
   # pio::pioStr("Mixing proportions", paste(Binomial_pi, collapse = ' '), suffix = '\n')
@@ -103,7 +167,7 @@ analyse_BMix = function(x, ...)
   # pio::pioStr("               TIN", TIN$estimated_purity, suffix = '\n')
 
   cli::cli_alert_success(
-    "Binomial peaks {.value {Binomial_peaks}} with proportions {.value {Binomial_pi}}. Clonal score {.value {clonal_score}} with TINN {.value {TIN$estimated_purity}}"
+    "Binomial peaks {.value {Binomial_peaks}} with proportions {.value {Binomial_pi}}. Clonal score {.value {clonal_score}} with TINN {.value {estimated_normal_purity}}"
   )
 
   return(
@@ -111,9 +175,9 @@ analyse_BMix = function(x, ...)
       output = output,
       fit = fit_normal,
       plot = figure,
-      clonal_cluster = TIN$clonal_cluster,
+      clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_mutations,
-      estimated_purity = TIN$estimated_purity
+      estimated_purity = estimated_normal_purity
     )
   )
 

@@ -52,29 +52,26 @@ autofit = function(input,
   mobster_analysis = BMix_analysis = VIBER_analysis = NULL
 
   pio::pioHdr("TINC")
+  cat('\n')
 
-  # Load data, checks VAF range and N limit
-  x = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
+  # Load data, checks VAF range and N limit; subset with CNA data if required
+  input_data = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
 
-  # By default, we look at the whole genome. When CNA are available, we restrict the set
+  x = input_data$mutations
+  cna_map = input_data$cna_map
+
+  # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
   used_chromosomes = paste0('chr', 1:22)
-  if(!all(is.null(cna))) used_chromosomes = unique(cna$chr)
-
-  # cli::cli_process_done()
+  if(!all(is.null(cna_map))) used_chromosomes = unique(cna$chr)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  # mobster_analysis = wrap_mobster(tumour, cutoff_miscalled_clonal, cutoff_lv_assignment, ...)
-
-  # pio::pioTit("MOBSTER fit", 'n =', nrow(dataset$tumour %>% filter(used)))
-
-  # cli::cli_process_start("MOBSTER analysis of tumour data")
-
   if (FAST)
     mobster_analysis = TINC:::analyse_mobster(
       x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
+      cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
       chromosomes = used_chromosomes,
@@ -83,6 +80,7 @@ autofit = function(input,
   else
     mobster_analysis = TINC:::analyse_mobster(
       x = as_tumour(x) %>% dplyr::filter(OK_tumour),
+      cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
       chromosomes = used_chromosomes,
@@ -118,6 +116,7 @@ autofit = function(input,
     BMix_analysis = TINC:::analyse_BMix(
       x = as_normal(x) %>%
         dplyr::filter(OK_clonal),
+      cna_map = cna_map,
       K.BetaBinomials = 0,
       epsilon = 1e-6,
       samples = 2
@@ -126,6 +125,7 @@ autofit = function(input,
     BMix_analysis = TINC:::analyse_BMix(
       x = as_normal(x) %>%
         dplyr::filter(OK_clonal),
+      cna_map = cna_map,
       K.BetaBinomials = 0,
       epsilon = 1e-9,
       samples = 6
@@ -179,7 +179,8 @@ autofit = function(input,
     fit = list(
       BMix_analysis = BMix_analysis,
       mobster_analysis = mobster_analysis,
-      VIBER_analysis = VIBER_analysis
+      VIBER_analysis = VIBER_analysis,
+      CNA = cna_map
     ),
     TIN = BMix_analysis$estimated_purity,
     TIT = mobster_analysis$estimated_purity,
