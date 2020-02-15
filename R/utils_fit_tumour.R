@@ -4,6 +4,7 @@
 # - non-gathered on chromosome locationns, if geonme locations are available
 guess_mobster_clonal_cluster = function(mobster_fit_tumour,
                                         cutoff_miscalled_clonal,
+                                        use_heuristic = TRUE,
                                         chromosomes = paste0('chr', 1:22))
 {
   # Clonal cluster is guessed to be the highest non-tail peak below cutoff_miscalled_clonal, which - seems reasonable without CNA
@@ -21,44 +22,52 @@ guess_mobster_clonal_cluster = function(mobster_fit_tumour,
 
   cat('\n')
 
-  # Apply the location_likelihood_test to check that mutationns spread evenly §across `chromosomes`
-  all_clusters$location_likelihood_test = sapply(
-    all_clusters %>%
-      pull(cluster),
-    location_likelihood,
-    mobster_fit_tumour = mobster_fit_tumour,
-    chromosomes = chromosomes)
+  if(use_heuristic)
+  {
+    cli::cli_alert_info("Using the location likelihood heuristic to inspect mutations' distribution")
 
-  # all_clusters$OK_chisq = all_clusters$chisq_pval > 0.05
-  all_clusters$OK_8020 = all_clusters$location_likelihood_test
+    # Apply the location_likelihood_test to check that mutationns spread evenly §across `chromosomes`
+    all_clusters$location_likelihood_test = sapply(
+      all_clusters %>%
+        pull(cluster),
+      location_likelihood,
+      mobster_fit_tumour = mobster_fit_tumour,
+      chromosomes = chromosomes)
 
-  # If there is one cluster -- return it whatever it is
-  if(length(all_clusters) == 1) {
-    if(!all_clusters$OK_8020[1]) {
-      cli::cli_alert_danger("Location Likelihood: one clonal cluster that fails the test, non better choice.")
+    # all_clusters$OK_chisq = all_clusters$chisq_pval > 0.05
+    all_clusters$OK_8020 = all_clusters$location_likelihood_test
+
+    # If there is one cluster -- return it whatever it is
+    if(length(all_clusters) == 1) {
+      if(!all_clusters$OK_8020[1]) {
+        cli::cli_alert_danger("Location Likelihood: one clonal cluster that fails the test, non better choice.")
+      }
+      else
+        cli::cli_alert_success("Location Likelihood: one clonal cluster, passing the test.")
+
+      return(all_clusters$cluster)
     }
-    else
-      cli::cli_alert_success("Location Likelihood: one clonal cluster, passing the test.")
 
-    return(all_clusters$cluster)
+    # If there are more, and all non OK_chisq, return top
+    if(all(!all_clusters$OK_8020)) {
+      cli::cli_alert_danger("Location Likelihood: all clusters  fail the test, returning the first one.")
+
+      return(all_clusters$cluster[1])
+    }
+
+    # Return top OK
+    rank = all_clusters %>%
+      dplyr::filter(OK_8020) %>%
+      dplyr::pull(cluster)
+
+    if(rank != "C1")
+      cli::cli_alert_danger("Location Likelihood: changed C1 to cluster {.value {rank[1]}}")
+
+    return(rank[1])
   }
 
-  # If there are more, and all non OK_chisq, return top
-  if(all(!all_clusters$OK_8020)) {
-    cli::cli_alert_danger("Location Likelihood: all clusters  fail the test, returning the first one.")
-
-    return(all_clusters$cluster[1])
-  }
-
-  # Return top OK
-  rank = all_clusters %>%
-    dplyr::filter(OK_8020) %>%
-    dplyr::pull(cluster)
-
-  if(rank != "C1")
-    cli::cli_alert_danger("Location Likelihood: changed C1 to cluster {.value {rank[1]}}")
-
-  return(rank[1])
+  # Just return the top
+  return(all_clusters$cluster[])
 
   # We also check that the clonal cluster has higher dimension of the others
   # cl_map = sapply(all_clusters, mobster:::is_reasonable_clonal_cluster,

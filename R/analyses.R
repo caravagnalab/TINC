@@ -1,3 +1,11 @@
+analysis_mode = function(x)
+{
+  if(all(is.null(x))) return("NO_CNA")
+
+  return("CNA")
+}
+
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Analyse tumour sample with MOBSTER
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -19,9 +27,11 @@ analyse_mobster = function(x,
     rename(tumour.cluster = cluster)
 
   # Determine clonal cluster
-  clonal_cluster = guess_mobster_clonal_cluster(mobster_fit_tumour = mobster_fit_tumour,
-                                                cutoff_miscalled_clonal = cutoff_miscalled_clonal,
-                                                chromosomes = chromosomes)
+  clonal_cluster = guess_mobster_clonal_cluster(
+    mobster_fit_tumour = mobster_fit_tumour,
+    cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+    use_heuristic = analysis_mode(cna_map) == "NO_CNA",
+    chromosomes = chromosomes)
 
   stopifnot(length(clonal_cluster) > 0)
 
@@ -59,7 +69,7 @@ analyse_mobster = function(x,
       v = ccluster_mean, # Observed VAF
       m = used_karyotype[2] %>% as.numeric,
       M = used_karyotype[1] %>% as.numeric,
-      mut.allele = used_karyotype[1]
+      mut.allele = 2
       )
   }
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
@@ -152,7 +162,7 @@ analyse_BMix = function(
       v = highest_Binomial_peak, # Observed VAF
       m = used_karyotype[2] %>% as.numeric,
       M = used_karyotype[1] %>% as.numeric,
-      mut.allele = used_karyotype[1]
+      mut.allele = 2
     )
   }
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######

@@ -62,7 +62,8 @@ autofit = function(input,
 
   # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
   used_chromosomes = paste0('chr', 1:22)
-  if(!all(is.null(cna_map))) used_chromosomes = unique(cna$chr)
+  if(analysis_mode(cna) == "CNA")
+    used_chromosomes = unique(cna$chr)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
