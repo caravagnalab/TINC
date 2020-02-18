@@ -1,7 +1,7 @@
 # The clonal cluster is
 # - the highest-mean peak below cutoff_miscalled_clonal;
 # - due to a Beta distribution;
-# - non-gathered on chromosome locationns, if geonme locations are available
+# - not enriched for mutations that cluster on spefic chromosome locations
 guess_mobster_clonal_cluster = function(mobster_fit_tumour,
                                         cutoff_miscalled_clonal,
                                         use_heuristic = TRUE,
@@ -9,15 +9,15 @@ guess_mobster_clonal_cluster = function(mobster_fit_tumour,
 {
   # Clonal cluster is guessed to be the highest non-tail peak below cutoff_miscalled_clonal, which - seems reasonable without CNA
   all_clusters = mobster_fit_tumour$best$Clusters %>%
-    filter(type == 'Mean', cluster != 'Tail', fit.value < cutoff_miscalled_clonal) %>%
-    arrange(desc(fit.value))
+    dplyr::filter(type == 'Mean', cluster != 'Tail', fit.value < cutoff_miscalled_clonal) %>%
+    dplyr::arrange(desc(fit.value))
 
   # Handle the extreme case of only one Beta cluster above cutoff_miscalled_clonal
   if(length(all_clusters) == 0) {
     # Force picking that cluster anyway
     all_clusters = mobster_fit_tumour$best$Clusters %>%
-      filter(type == 'Mean', cluster != 'Tail') %>%
-      arrange(desc(fit.value))
+      dplyr::filter(type == 'Mean', cluster != 'Tail') %>%
+      dplyr::arrange(dplyr::desc(fit.value))
   }
 
   cat('\n')
@@ -29,7 +29,7 @@ guess_mobster_clonal_cluster = function(mobster_fit_tumour,
     # Apply the location_likelihood_test to check that mutationns spread evenly §across `chromosomes`
     all_clusters$location_likelihood_test = sapply(
       all_clusters %>%
-        pull(cluster),
+        dplyr::pull(cluster),
       location_likelihood,
       mobster_fit_tumour = mobster_fit_tumour,
       chromosomes = chromosomes)

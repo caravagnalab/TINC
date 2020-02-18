@@ -1,8 +1,7 @@
 plot_contamination_full_size = function(dataset)
 {
-  # fot the plots we half the estimates
-  TIT = dataset$TIT / 2
-  TIN = dataset$TIN / 2
+  TIT = dataset$TIT
+  TIN = dataset$TIN
 
   ggplot(
     as_joint(dataset$data) %>%
@@ -60,10 +59,8 @@ plot_contamination_full_size = function(dataset)
 
 plot_contamination_zoom = function(dataset)
 {
-  # fot the plots we half the estimates
-  TIT = dataset$TIT / 2
-  TIN = dataset$TIN / 2
-
+  TIT = dataset$TIT
+  TIN = dataset$TIN
 
   data_table = TINC:::as_joint(dataset$data) %>%
     mutate(group = paste(tumour.cluster, '~', normal.cluster))
@@ -117,12 +114,12 @@ plot_contamination_zoom = function(dataset)
 plot_sample_contamination = function(dataset, assemble = TRUE)
 {
   # fot the plots we half the estimates
-  TIT = dataset$TIT / 2
-  TIN = dataset$TIN / 2
+  TIT = dataset$TIT
+  TIN = dataset$TIN
 
   vtin = data.frame(
     variable = c('Tumour cells', 'Normal cells', 'Tumour cells', 'Normal cells'),
-    value = c(TIN * 2, 1 - (TIN * 2), TIT * 2, 1 - (TIT * 2)),
+    value = c(TIN, 1 - (TIN), TIT, 1 - (TIT)),
     sample = c(
       'Normal sample',
       'Normal sample',
