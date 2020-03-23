@@ -40,7 +40,10 @@
 #' @import VIBER
 #'
 #' @examples
-#' autofit(random_TIN(), FAST = TRUE)
+#' # Random
+#' rt = TINC::random_TIN()
+#' x = TINC::autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+#' print(x)
 autofit = function(input,
                    cna,
                    VAF_range_tumour = c(0, 0.7),
