@@ -14,21 +14,32 @@ print.tin_obj = function(x, ...)
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
   verbose = FALSE
-  pio::pioHdr("TINC - Profiler for bulk samples TIN/TIT contamination")
-
+  pio::pioHdr("TINC profiler for bulk samples")
   cat('\n')
-  pio::pioStr(' Input : ',
-              'n =', sum(x$fit$joint$used), 'used out of', nrow(x$fit$joint),
-              paste0('annotated (', round(sum(x$fit$joint$used)/nrow(x$fit$joint), 2) * 100, '%)'), suffix = '\n')
+
+  if(!(all(is.null(x$fit$CNA))))
+    cli::cli_alert_info("CNA data has been used for this analysis (karyotype {.field {x$data$karyotype[1] }})")
+  else
+    cli::cli_alert_warning("CNA data has not been used for this analysis.")
+
+  n = sum(x$data$OK_tumour)
+  N = nrow(x$data)
+  cli::cli_alert_info(
+    paste0(' Input : ',
+              'n =', n, ' used out of ', N,
+              paste0(' annotated (', round(n/N, 2) * 100, '%)')
+           ))
+
+  cat("\n")
 
   pio::pioStr('        TIT : ',
-              paste0(round(x$fit$mobster_analysis$estimated_purity, 2) * 100, '%'),
+              paste0(round(x$TIT, 2) * 100, '%'),
               ' ~ n =', length(x$fit$mobster_analysis$clonal_mutations),
               'clonal mutations, cluster', x$fit$mobster_analysis$clonal_cluster,
               suffix = '\n')
 
   pio::pioStr('        TIN : ',
-              paste0(round(x$fit$BMix_analysis$estimated_purity, 2) * 100, '%'),
+              paste0(round(x$TIN, 2) * 100, '%'),
               ' ~ n =',
               sum(x$fit$BMix_analysis$output$VAF > 0), 'with VAF > 0',
               suffix = '\n')
@@ -36,8 +47,8 @@ print.tin_obj = function(x, ...)
   # Report Classification
   cat('\n')
 
-  cn = classification_normal(x$fit$BMix_analysis$estimated_purity)
-  ct = classification_tumour(x$fit$mobster_analysis$estimated_purity)
+  cn = TINC:::classification_normal(x$TIN)
+  ct = TINC:::classification_tumour(x$TIT)
 
   # pc = c('forestgreen', 'steelblue', 'goldenrod1', 'indianred3', 'purple')
 

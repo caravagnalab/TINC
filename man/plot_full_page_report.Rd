@@ -10,7 +10,7 @@ plot_full_page_report(x)
 \item{x}{A TINC analysis computed with \code{autofit}.}
 }
 \value{
-A multi-panle \code{ggplot} figure.
+A multi-panel \code{ggplot} figure.
 }
 \description{
 The report is a multi-panel figure that contains the following

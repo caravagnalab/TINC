@@ -15,7 +15,7 @@ plot_simple_report = function(x)
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
   # Labels
-  mut_load = x$fit$tumour %>% nrow
+  mut_load = sum(x$data$OK_tumour)
   all_clonal = mobster::Clusters(x$fit$mobster_analysis$fit$best) %>%
     dplyr::filter(cluster == x$fit$mobster_analysis$clonal_cluster) %>%
     nrow
@@ -29,8 +29,8 @@ plot_simple_report = function(x)
   )
 
   # data_plot = plot_raw(x$fit)
-  stats_plot = TINC:::plot_sample_contamination(x$fit, assemble = F)
-  cont_plot = TINC:::plot_contamination_full_size(x$fit) +
+  stats_plot = TINC:::plot_sample_contamination(x, assemble = F)
+  cont_plot = TINC:::plot_contamination_full_size(x) +
     labs(
       title = bquote(bold("Summary")),
       subtitle =  paste0("Clonal mutations: n = ",

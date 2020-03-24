@@ -1,12 +1,25 @@
+analysis_mode = function(x)
+{
+  if(all(is.null(x))) return("NO_CNA")
+
+  return("CNA")
+}
+
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Analyse tumour sample with MOBSTER
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 analyse_mobster = function(x,
                            cutoff_miscalled_clonal,
+                           cna_map,
                            cutoff_lv_assignment,
+                           chromosomes,
                            ...)
 {
-  #  MOBSTER fit
+  cli::cli_h1("Analysing tumour sample with MOBSTER")
+  cat('\n')
+
+  #  MOBSTER fit of the input data
   mobster_fit_tumour = mobster::mobster_fit(x,
                                             ...)
 
@@ -14,20 +27,67 @@ analyse_mobster = function(x,
     rename(tumour.cluster = cluster)
 
   # Determine clonal cluster
-  clonal_cluster = guess_mobster_clonal_cluster(mobster_fit_tumour, cutoff_miscalled_clonal)
+  clonal_cluster = guess_mobster_clonal_cluster(
+    mobster_fit_tumour = mobster_fit_tumour,
+    cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+    use_heuristic = analysis_mode(cna_map) == "NO_CNA",
+    chromosomes = chromosomes)
 
   stopifnot(length(clonal_cluster) > 0)
 
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  # Tumour purity: estimated based on the fact that we could map or no the mutations to CNA
+  estimated_tumour_purity = NULL
+  if(all(is.null(cna_map)))
+  {
+    # If we could not, then we just assume everything is diploid, therefore
+    # therefore 2 * the Beta peak of the clonal cluster
 
-  # Tumour purity is therefore 2 * the Beta peak of the clonal cluster
-  estimated_tumour_purity = mobster_fit_tumour$best$Clusters %>%
-    filter(cluster %in% clonal_cluster, type == 'Mean') %>%
-    pull(fit.value) %>% mean * 2
+    estimated_tumour_purity = mobster_fit_tumour$best$Clusters %>%
+      filter(cluster %in% clonal_cluster, type == 'Mean') %>%
+      pull(fit.value) %>% mean * 2
+
+  }
+  else
+  {
+    # Otherwise we do something a little bit smarter, which is normalising for segment's ploidy.
+
+    # We take the mean of the clonal cluster
+    ccluster_mean = mobster_fit_tumour$best$Clusters %>%
+      filter(cluster %in% clonal_cluster, type == 'Mean') %>%
+      pull(fit.value) %>%
+      mean
+
+    # We found the karyotype of the mutations that we used (we take the first one, because they are all the same)
+    used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
+
+    # By design, we should have correctly taken as coonal cluster the set of mutations that happened before
+    # aneuploidy. Also, again by the fact that we use only simple karyotypes, we assume that the mutation is
+    # present in a number of copies that match the actual Major allele (M). This is the same thing as saying
+    # that the mutations happened *before* aneuploidy
+    estimated_tumour_purity = CNAqc:::purity_estimation_fun(
+      v = ccluster_mean, # Observed VAF
+      m = used_karyotype[2] %>% as.numeric,
+      M = used_karyotype[1] %>% as.numeric,
+      mut.allele = 2
+      )
+  }
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
 
   # List of clonal mutations in the tumour, with LV > cutoff_lv_assignment
-  clonal_tumour = mobster::Clusters(mobster_fit_tumour$best, cutoff_assignment = cutoff_lv_assignment) %>%
-    filter(cluster %in% clonal_cluster) %>%
-    pull(id)
+  clonal_tumour = NULL
+  repeat
+  {
+    clonal_tumour = mobster::Clusters(mobster_fit_tumour$best, cutoff_assignment = cutoff_lv_assignment) %>%
+      filter(cluster %in% clonal_cluster) %>%
+      pull(id)
+
+    if(length(clonal_tumour) > 20 | cutoff_lv_assignment < 0) break
+
+     cutoff_lv_assignment = cutoff_lv_assignment - 0.03
+
+     # cat("Dynamic adjustment: ", cutoff_lv_assignment, " n = ", length(clonal_tumour))
+  }
 
   # Plot
   figure = plot_mobster_fit(mobster_fit_tumour, cutoff_lv_assignment, clonal_cluster)
@@ -39,7 +99,8 @@ analyse_mobster = function(x,
       plot = figure,
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_tumour,
-      estimated_purity = estimated_tumour_purity
+      estimated_purity = estimated_tumour_purity,
+      cutoff_lv_assignment = cutoff_lv_assignment
     )
   )
 }
@@ -47,11 +108,17 @@ analyse_mobster = function(x,
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Analyse normal samples with BMix
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-analyse_BMix = function(x, ...)
+analyse_BMix = function(
+  x,
+  cna_map,
+  ...)
 {
+  cli::cli_h1("Analysing normal sample with BMix")
+  cat('\n')
+
   if(nrow(x) == 0)
   {
-    stop("There are no tumour clonal mutations in the normal sample, there is no contamiation?")
+    stop("There are no tumour clonal mutations in the normal sample, there is no contamination?")
   }
 
   df_input = x %>%
@@ -66,30 +133,61 @@ analyse_BMix = function(x, ...)
   Binomial_peaks = BMix::Parameters(fit_normal) %>% pull(mean)
   Binomial_pi = fit_normal$pi
 
-  clonal_score = (Binomial_peaks %*% Binomial_pi) %>% as.numeric()
+  clonal_score = (Binomial_peaks %*% Binomial_pi) %>% as.numeric
 
   # options(warn=-1)
   figure = plot_Bmix_fit(fit_normal, df_input, clonal_score)
   # options(warn=0)
 
-  TIN = estimate_TIN(fit_normal, clonal_score)
+  # TIN = estimate_TIN(fit_normal, clonal_score, cna_map)
+  #
+  clonal_cluster = names(fit_normal$pi)
+  highest_Binomial_peak = as.vector(clonal_score)
 
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+  # TIN Contamination is a form of purity: it is estimated as for cancer
+  estimated_normal_purity = NULL
+
+  if(all(is.null(cna_map)))
+  {
+    # Without CNA it is
+    estimated_normal_purity =  highest_Binomial_peak * 2
+  }
+  else
+  {
+    # Otherwise we use CNA as for tumour purity
+    used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
+
+    estimated_normal_purity = CNAqc:::purity_estimation_fun(
+      v = highest_Binomial_peak, # Observed VAF
+      m = used_karyotype[2] %>% as.numeric,
+      M = used_karyotype[1] %>% as.numeric,
+      mut.allele = 2
+    )
+  }
+  ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
+
+  #
   clonal_mutations = output %>%
-    filter(normal.cluster %in% TIN$clonal_cluster) %>% pull(id)
+    filter(normal.cluster %in% clonal_cluster) %>% pull(id)
 
-  pio::pioStr("\n    Binomial peaks", paste(Binomial_peaks, collapse = ' '), suffix = '\n')
-  pio::pioStr("Mixing proportions", paste(Binomial_pi, collapse = ' '), suffix = '\n')
-  pio::pioStr("      Clonal score", clonal_score, suffix = '\n')
-  pio::pioStr("               TIN", TIN$estimated_purity, suffix = '\n')
+  # pio::pioStr("\n    Binomial peaks", paste(Binomial_peaks, collapse = ' '), suffix = '\n')
+  # pio::pioStr("Mixing proportions", paste(Binomial_pi, collapse = ' '), suffix = '\n')
+  # pio::pioStr("      Clonal score", clonal_score, suffix = '\n')
+  # pio::pioStr("               TIN", TIN$estimated_purity, suffix = '\n')
+
+  cli::cli_alert_success(
+    "Binomial peaks {.value {Binomial_peaks}} with proportions {.value {Binomial_pi}}. Clonal score {.value {clonal_score}} with TINN {.value {estimated_normal_purity}}"
+  )
 
   return(
     list(
       output = output,
       fit = fit_normal,
       plot = figure,
-      clonal_cluster = TIN$clonal_cluster,
+      clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_mutations,
-      estimated_purity = TIN$estimated_purity
+      estimated_purity = estimated_normal_purity
     )
   )
 
@@ -100,18 +198,46 @@ analyse_BMix = function(x, ...)
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 analyze_VIBER = function(x, ...)
 {
+  cli::cli_h1("Analysing tumour and normal samples with VIBER")
+  cat('\n')
+
   options(easypar.parallel = FALSE)
 
+  # Only OK tumour
+  NV.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Normal = NV)
+  NV.t = as_tumour(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(NV) %>% rename(Tumour = NV)
+
+  DP.n = as_normal(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Normal = DP)
+  DP.t = as_tumour(x) %>% dplyr::filter(OK_tumour) %>% dplyr::select(DP) %>% rename(Tumour = DP)
+
   fit = VIBER::variational_fit(
-    x %>% dplyr::select(NV.normal, NV.tumour) %>% rename(Normal = NV.normal, Tumour = NV.tumour),
-    x %>% dplyr::select(DP.normal, DP.tumour) %>% rename(Normal = DP.normal, Tumour = DP.tumour),
+    dplyr::bind_cols(NV.n, NV.t),
+    dplyr::bind_cols(DP.n, DP.t),
     ...
   )
 
   options(easypar.parallel = TRUE)
 
+  cat('\n')
+
   fit = VIBER::choose_clusters(fit, binomial_cutoff = 0, dimensions_cutoff = 0, pi_cutoff = 0.02)
   pl = VIBER::plot_2D(fit, "Normal", "Tumour") + labs(title = 'VIBER analysis')
 
-  return(list(fit=fit, plot=pl))
+  # Table
+  # x %>%
+  #   full_join(
+  #     dplyr::bind_cols(
+  #       fit$labels %>% rename(VIBER.cluster = cluster.Binomial),
+  #       x %>% dplyr::filter(OK_tumour) %>% dplyr::select(id)
+  #     ),
+  #     by = 'id')
+  out = dplyr::bind_cols(
+        fit$labels %>% rename(VIBER.cluster = cluster.Binomial),
+        x %>% dplyr::filter(OK_tumour) %>% dplyr::select(id)
+        )
+
+
+
+
+  return(list(output = out, fit=fit, plot=pl))
 }

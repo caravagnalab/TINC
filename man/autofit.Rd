@@ -4,13 +4,15 @@
 \alias{autofit}
 \title{Runs a TINC analysis.}
 \usage{
-autofit(input, VAF_range_tumour = c(0, 0.7),
+autofit(input, cna, VAF_range_tumour = c(0, 0.7),
   cutoff_miscalled_clonal = 0.6, cutoff_lv_assignment = 0.75,
   N = 20000, FAST = FALSE)
 }
 \arguments{
-\item{input}{A `file` to load from disk, or a `dataframe `consistent
-with the required input. See the vignette for more information.}
+\item{input}{A`dataframe` of the iput mutations. Must be in a certain format,
+see the vignette for more information.}
+
+\item{cna}{Copy Number data in the format of package \code{CNAqc}.}
 
 \item{VAF_range_tumour}{A range `[x, y]` so that only mutations
 with VAF in that range are actually used to determine the TIN/ TIT
@@ -48,5 +50,8 @@ contamination level is estimated.
 An S3 object is returned that contains the results of the analysis.
 }
 \examples{
-autofit(random_TIN(), FAST = TRUE)
+# Random
+rt = TINC::random_TIN()
+x = TINC::autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+print(x)
 }

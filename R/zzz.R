@@ -30,17 +30,28 @@
 
   if(TINC_welcome_message)
   {
-    pio::pioHdr('TINC - Tumour in Normal contamination')
-    pio::pioStr("Author : ", "Giulio Caravagna <gcaravagn@gmail.com>", suffix = '\n')
-    pio::pioStr("GitHub : ", "caravagn/TINC", suffix = '\n')
-    pio::pioStr("   WWW : ", "https://caravagn.github.io/TINC/", suffix = '\n')
+    # pio::pioHdr('TINC - Tumour in Normal contamination')
+    # pio::pioStr("Author : ", "Giulio Caravagna <gcaravagn@gmail.com>", suffix = '\n')
+    # pio::pioStr("GitHub : ", "caravagn/TINC", suffix = '\n')
+    # pio::pioStr("   WWW : ", "https://caravagn.github.io/TINC/", suffix = '\n')
+    #
+    #
+    # cat(
+    #   "\n > TINC is part of the", crayon::green("\"evoverse\""),
+    #   crayon::blue("[https://bit.ly/2orn94e]"),
+    #   "- a collection of packages to implement Cancer Evolution analyses from cancer sequencing data.\n"
+    # )
 
+    pk = 'TINC'
+    pk_l = 'Tumour In Normal Contamination'
+    www = "https://caravagn.github.io/TINC/"
+    em = "gcaravagn@gmail.com"
 
-    cat(
-      "\n > TINC is part of the", crayon::green("\"evoverse\""),
-      crayon::blue("[https://bit.ly/2orn94e]"),
-      "- a collection of packages to implement Cancer Evolution analyses from cancer sequencing data.\n"
-    )
+    cli::cli_alert_success(
+      'Loading {.field {pk}}, {.emph \'{pk_l}\'}. Support : {.url { www}}' )
+
+    # pio::pioStr("GitHub : ", "caravagn/TINC", suffix = '\n')
+    # pio::pioStr("   WWW : ", "https://caravagn.github.io/TINC/", suffix = '\n')
 
     options(TINC_welcome_message = FALSE)
   }

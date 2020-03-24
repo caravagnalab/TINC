@@ -24,34 +24,37 @@
 #' tumour calls, normal calls and joint calls, plus the input
 #' VAF range and file name.
 #'
-#' @export
-#'
 #' @examples
 #' # Generating a random TIN input
 #' load_input(random_TIN())
 load_input = function(x,
                       verbose = FALSE,
                       VAF_range_tumour = c(0, 0.7),
-                      N = 20000
-                      )
+                      N = 20000)
 {
   file = x
   pio::pioHdr("TINC ~ Load tumour/normal data")
 
   ######## Detect if it is filename or data.frame, and open it
-  if(is.character(file) && file.exists(file))
+  if (is.character(file) && file.exists(file))
   {
-    pio::pioStr("\n    Input file ", file, '~',
-                file.size(file) %>% utils:::format.object_size(units = "auto"),
-                suffix = '\n')
+    pio::pioStr(
+      "\n    Input file ",
+      file,
+      '~',
+      file.size(file) %>% utils:::format.object_size(units = "auto"),
+      suffix = '\n'
+    )
 
     # VCF file dumped in our TIN format
-    dataset =  read.csv(file,
-                        sep = '\t',
-                        header = FALSE,
-                        stringsAsFactors = FALSE) %>% as_tibble
+    dataset =  read.csv(
+      file,
+      sep = '\t',
+      header = FALSE,
+      stringsAsFactors = FALSE
+    ) %>% as_tibble
 
-    if(ncol(dataset) > 5) {
+    if (ncol(dataset) > 5) {
       message("Input VCF file has more than 5 columns, only the first 5 will be used.")
       dataset = dataset[, 1:5]
     }
@@ -64,19 +67,23 @@ load_input = function(x,
 
   }
 
-  if(is.data.frame(file))
+  if (is.data.frame(file))
   {
     pio::pioStr("\n    Input dataframe ", dim(file)[1],  'x', dim(file)[2],
                 suffix = '\n')
 
     # required TIN format
-    required_cols = c('id', 'n_ref_count',
+    required_cols = c('id',
+                      'n_ref_count',
                       'n_alt_count',
                       't_ref_count',
                       't_alt_count')
 
-    if(!all(required_cols %in% colnames(file)))
-      stop("The input dataframe must have the following named columns: ", paste(required_cols, collapse = ', '))
+    if (!all(required_cols %in% colnames(file)))
+      stop(
+        "The input dataframe must have the following named columns: ",
+        paste(required_cols, collapse = ', ')
+      )
 
     dataset = file %>% as_tibble()
   }
@@ -87,8 +94,8 @@ load_input = function(x,
   germline = dataset %>%
     dplyr::select(id, starts_with('n')) %>%
     dplyr::mutate(DP = n_ref_count + n_alt_count,
-           NV = n_alt_count,
-           VAF = NV / DP) %>%
+                  NV = n_alt_count,
+                  VAF = NV / DP) %>%
     tidyr::separate(
       id,
       into = c('chr', 'from', 'to', 'ref', 'alt'),
@@ -96,15 +103,15 @@ load_input = function(x,
       remove = FALSE
     ) %>%
     dplyr::select(chr,
-           from,
-           to,
-           ref,
-           alt,
-           id,
-           ends_with('count'),
-           DP,
-           NV,
-           VAF)
+                  from,
+                  to,
+                  ref,
+                  alt,
+                  id,
+                  ends_with('count'),
+                  DP,
+                  NV,
+                  VAF)
 
   pio::pioTit("Mutations annotated in the normal sample")
   pio::pioDisp(germline)
@@ -113,8 +120,8 @@ load_input = function(x,
   tumour = dataset %>%
     dplyr::select(id, starts_with('t')) %>%
     dplyr::mutate(DP = t_ref_count + t_alt_count,
-           NV = t_alt_count,
-           VAF = NV / DP) %>%
+                  NV = t_alt_count,
+                  VAF = NV / DP) %>%
     tidyr::separate(
       id,
       into = c('chr', 'from', 'to', 'ref', 'alt'),
@@ -122,15 +129,15 @@ load_input = function(x,
       remove = FALSE
     ) %>%
     dplyr::select(chr,
-           from,
-           to,
-           ref,
-           alt,
-           id,
-           ends_with('count'),
-           DP,
-           NV,
-           VAF)
+                  from,
+                  to,
+                  ref,
+                  alt,
+                  id,
+                  ends_with('count'),
+                  DP,
+                  NV,
+                  VAF)
 
   pio::pioTit("Mutations annotated in the tumour sample")
   pio::pioDisp(tumour)
@@ -152,14 +159,17 @@ load_input = function(x,
 
   # Tumour filter
   tumour = tumour %>%
-    dplyr::mutate(
-      used = (VAF > VAF_range_tumour[1]) & (VAF < VAF_range_tumour[2])
-      )
+    dplyr::mutate(used = (VAF > VAF_range_tumour[1]) &
+                    (VAF < VAF_range_tumour[2]))
 
   # Downsample
-  if(sum(tumour$used) > N)
+  if (sum(tumour$used) > N)
   {
-    message("\nMore than n = ", N, ' tumour mutations in the required VAF range, downsampling the data.\n')
+    message(
+      "\nMore than n = ",
+      N,
+      ' tumour mutations in the required VAF range, downsampling the data.\n'
+    )
 
     w_t =  tumour %>% dplyr::filter(used) %>% dplyr::sample_n(N) %>% dplyr::pull(id)
     tumour$used[!(tumour$id %in% w_t)] = FALSE
@@ -175,20 +185,25 @@ load_input = function(x,
 
   # Print
   TB = table(tumour$used)
-  pio::pioStr("\n     VAF range",
-              VAF_range_tumour[1], '~',
-              VAF_range_tumour[2],
-              ' [',
-              paste(names(TB), TB),
-              '] tumour mutations',
-              suffix = '\n')
+  pio::pioStr(
+    "\n     VAF range",
+    VAF_range_tumour[1],
+    '~',
+    VAF_range_tumour[2],
+    ' [',
+    paste(names(TB), TB),
+    '] tumour mutations',
+    suffix = '\n'
+  )
 
 
-  return(list(
-    tumour = tumour,
-    normal = germline,
-    joint = joint_data,
-    VAF_range_tumour = VAF_range_tumour,
-    file = file
-  ))
+  return(
+    list(
+      tumour = tumour,
+      normal = germline,
+      joint = joint_data,
+      VAF_range_tumour = VAF_range_tumour,
+      file = file
+    )
+  )
 }

@@ -12,8 +12,9 @@
 #' }
 #' An S3 object is returned that contains the results of the analysis.
 #'
-#' @param input A `file` to load from disk, or a `dataframe `consistent
-#' with the required input. See the vignette for more information.
+#' @param input A`dataframe` of the iput mutations. Must be in a certain format,
+#' see the vignette for more information.
+#' @param cna Copy Number data in the format of package \code{CNAqc}.
 #' @param VAF_range_tumour A range `[x, y]` so that only mutations
 #' with VAF in that range are actually used to determine the TIN/ TIT
 #' levels of the input.
@@ -39,40 +40,54 @@
 #' @import VIBER
 #'
 #' @examples
-#' autofit(random_TIN(), FAST = TRUE)
+#' # Random
+#' rt = TINC::random_TIN()
+#' x = TINC::autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+#' print(x)
 autofit = function(input,
+                   cna,
                    VAF_range_tumour = c(0, 0.7),
                    cutoff_miscalled_clonal = .6,
                    cutoff_lv_assignment = 0.75,
                    N = 20000,
                    FAST = FALSE)
 {
-  # Load data, requires the "VAF_range_tumour" status
-  dataset = load_input(input, VAF_range_tumour = VAF_range_tumour, N = N)
+  mobster_analysis = BMix_analysis = VIBER_analysis = NULL
 
-  # Plot input data
-  # dataset_plot_raw = plot_raw(dataset = dataset)
+  pio::pioHdr("TINC")
+  cat('\n')
+
+  # Load data, checks VAF range and N limit; subset with CNA data if required
+  input_data = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
+
+  x = input_data$mutations
+  cna_map = input_data$cna_map
+
+  # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
+  used_chromosomes = paste0('chr', 1:22)
+  if(TINC:::analysis_mode(cna) == "CNA")
+    used_chromosomes = unique(cna$chr)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  # mobster_analysis = wrap_mobster(tumour, cutoff_miscalled_clonal, cutoff_lv_assignment, ...)
-
-  pio::pioTit("MOBSTER fit", 'n =', nrow(dataset$tumour %>% filter(used)))
-
-  if(FAST)
-    dataset$mobster_analysis = analyse_mobster(
-      dataset$tumour %>% filter(used),
-      cutoff_miscalled_clonal,
-      cutoff_lv_assignment,
+  if (FAST)
+    mobster_analysis = TINC:::analyse_mobster(
+      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
+      cna_map = cna_map,
+      cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+      cutoff_lv_assignment = cutoff_lv_assignment,
+      chromosomes = used_chromosomes,
       auto_setup = 'FAST'
     )
   else
-    dataset$mobster_analysis = analyse_mobster(
-      dataset$tumour %>% filter(used),
-      cutoff_miscalled_clonal,
-      cutoff_lv_assignment,
+    mobster_analysis = TINC:::analyse_mobster(
+      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
+      cna_map = cna_map,
+      cutoff_miscalled_clonal = cutoff_miscalled_clonal,
+      cutoff_lv_assignment = cutoff_lv_assignment,
+      chromosomes = used_chromosomes,
       K = 1:3,
       samples = 6,
       maxIter = 300,
@@ -81,78 +96,119 @@ autofit = function(input,
       init = 'random'
     )
 
-  # pio::pioStr(
-  #   "\n  Clonal cluster",
-  #   dataset$mobster_analysis$clonal_cluster,
-  #   '~ n =',
-  #   mobster_fit_tumour$best$N.k[clonal_cluster],
-  #   suffix = '\n'
-  # )
-  # pio::pioStr("Estimated purity", estimated_tumour_purity, suffix = '\n')
+  mobster_analysis_dynamic_cutoff = (cutoff_lv_assignment != mobster_analysis$cutoff_lv_assignment)
+
+  cat('\n')
+  x$OK_clonal = x$id %in% mobster_analysis$clonal_mutations
+  cli::cli_alert_success(
+    "MOBSTER found n = {.value {sum(x$OK_clonal)}} clonal mutations from cluster {.value {mobster_analysis$clonal_cluster}}"
+  )
+
+  # cli::cli_process_done()
+
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # BMix fit of the germline read counts of clonal mutations identified by MOBSTER.
   # It fits the tumour, determines the clonal cluster,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  g_input = dataset$normal %>%
-    dplyr::filter(id %in% dataset$mobster_analysis$clonal_mutations)
 
-  pio::pioTit("BMix fit", 'n =', nrow(g_input), prefix = '\t')
+  # cli::cli_process_start("BMix analysis of normal data")
 
   # Normal sample ~ use putative clonal mutations from MOBSTER
-  if(FAST)
-  dataset$BMix_analysis = analyse_BMix(
-    x = g_input,
-    K.BetaBinomials = 0,
-    epsilon = 1e-6,
-    samples = 2
+  if (FAST)
+    BMix_analysis = TINC:::analyse_BMix(
+      x = as_normal(x) %>%
+        dplyr::filter(OK_clonal),
+      cna_map = cna_map,
+      K.BetaBinomials = 0,
+      epsilon = 1e-6,
+      samples = 2
     )
   else
-    dataset$BMix_analysis = analyse_BMix(
-      x = g_input,
+    BMix_analysis = TINC:::analyse_BMix(
+      x = as_normal(x) %>%
+        dplyr::filter(OK_clonal),
+      cna_map = cna_map,
       K.BetaBinomials = 0,
       epsilon = 1e-9,
       samples = 6
     )
 
-  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  # TIN profiling (plus TIT)
-  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  final_TIN_profile = TIN_profiler(dataset)
+  # cli::cli_process_done()
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # VIBER profiling
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  pio::pioTit("VIBER fit", 'n =', nrow(dataset$joint), prefix = '\t')
+  # pio::pioTit("VIBER fit", 'n =', nrow(dataset$joint), prefix = '\t')
 
-  if(FAST)
-    final_TIN_profile$VIBER_analysis = analyze_VIBER(dataset$joint,
-                                                     K = 5,
-                                                     alpha_0 = 1e-6,
-                                                     max_iter = 1000,
-                                                     epsilon_conv = 1e-6,
-                                                     samples = 3)
+  # cli::cli_process_start("VIBER analysis of joint data")
+
+  if (FAST)
+    VIBER_analysis = analyze_VIBER(
+      x = x,
+      K = 5,
+      alpha_0 = 1e-6,
+      max_iter = 1000,
+      epsilon_conv = 1e-6,
+      samples = 3
+    )
   else
-    final_TIN_profile$VIBER_analysis = analyze_VIBER(dataset$joint,
-                                                     K = 8,
-                                                     alpha_0 = 1e-6,
-                                                     max_iter = 5000,
-                                                     epsilon_conv = 1e-9,
-                                                     samples = 10)
+    VIBER_analysis = analyze_VIBER(
+      x = x,
+      K = 8,
+      alpha_0 = 1e-6,
+      max_iter = 5000,
+      epsilon_conv = 1e-9,
+      samples = 10
+    )
+
+  # cli::cli_process_done()
+
+  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  # Full profiling
+  # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  x = x %>%
+    full_join(mobster_analysis$output %>% dplyr::select(id, tumour.cluster),
+              by = c("id")) %>%
+    full_join(BMix_analysis$output %>% dplyr::select(id, normal.cluster),
+              by = c("id")) %>%
+    full_join(VIBER_analysis$output,
+              by = c("id"))
+
 
   # Output TINC object of class tin_obj
+  cna_list = list(NULL)
+  if(analysis_mode(cna) == "CNA")
+    {
+      cna_list = data.frame(
+        used_chromosomes = paste(used_chromosomes, collapse = ':'),
+        karyotype = input_data$what_we_used,
+        ploidy = cna_map$ploidy,
+        stringsAsFactors = FALSE
+      )
+  }
+
   output_obj = list(
-    fit = final_TIN_profile,
-    TIN = final_TIN_profile$BMix_analysis$estimated_purity,
-    TIT = final_TIN_profile$mobster_analysis$estimated_purity,
+    data = x,
+    analysis_type = analysis_mode(cna),
+    fit = list(
+      BMix_analysis = BMix_analysis,
+      mobster_analysis = mobster_analysis,
+      VIBER_analysis = VIBER_analysis,
+      CNA = cna_map
+    ),
+    TIN = BMix_analysis$estimated_purity,
+    TIT = mobster_analysis$estimated_purity,
     params = list(
       VAF_range_tumour = VAF_range_tumour,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
+      cutoff_lv_assignment_dynamic = mobster_analysis_dynamic_cutoff,
       N = N,
       FAST = FAST
-    )
+    ),
+    cna_params = cna_list
   )
 
   class(output_obj) = "tin_obj"

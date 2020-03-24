@@ -70,29 +70,17 @@ bin_heatmap = function(C = 42, offset = 1.5, p = 0.07)
                inherit.aes = FALSE,
                aes(x = x, y = C),
                size = 4)
-
-
-
-
 }
 
-# TIN estimation
-estimate_TIN = function(fit_normal, clonal_score)
-{
-  clonal_cluster = names(fit_normal$pi)
-  # ccl =   paste0(round(fit_normal$pi, 2), ' x ', round(fit_normal$B.params, 2), collapse = ' + ')
-  # clonal_cluster = names(which.max(fit_normal$B.params))
-  # highest_Binomial_peak = fit_normal$B.params[clonal_cluster]
-  highest_Binomial_peak = as.vector(clonal_score)
-
-  # estimated_normal_purity = 1 - (0.5 - highest_Binomial_peak) * 2
-  estimated_normal_purity =  highest_Binomial_peak * 2
-
-  return(
-    list(
-      clonal_cluster = clonal_cluster,
-      estimated_purity = estimated_normal_purity
-    )
-  )
-
-}
+# # TIN estimation
+# estimate_TIN = function(fit_normal, clonal_score, cna_map)
+# {
+#
+#   return(
+#     list(
+#       clonal_cluster = clonal_cluster,
+#       estimated_purity = estimated_normal_purity
+#     )
+#   )
+#
+# }
