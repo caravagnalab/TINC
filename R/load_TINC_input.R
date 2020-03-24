@@ -59,7 +59,7 @@ load_TINC_input = function(x,
   ####################################
   # With CNA data: establish a special execution setup of this run
   ####################################
-  cn_obj = NULL
+  cn_obj = what_we_used = NULL
   if(analysis_mode(cna) == "CNA")
   {
     cli::cli_alert_warning("Found CNA data, retaining only mutations that map to segments with predominant karyotype ...")
@@ -127,6 +127,6 @@ load_TINC_input = function(x,
     x$OK_tumour[!(x$id %in% w_t)] = FALSE
   }
 
-  return(list(mutations = x, cna_map = cn_obj))
+  return(list(mutations = x, cna_map = cn_obj, what_we_used = what_we_used))
 }
 

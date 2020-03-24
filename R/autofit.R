@@ -65,7 +65,7 @@ autofit = function(input,
 
   # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
   used_chromosomes = paste0('chr', 1:22)
-  if(analysis_mode(cna) == "CNA")
+  if(TINC:::analysis_mode(cna) == "CNA")
     used_chromosomes = unique(cna$chr)
 
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -178,8 +178,20 @@ autofit = function(input,
 
 
   # Output TINC object of class tin_obj
+  cna_list = list(NULL)
+  if(analysis_mode(cna) == "CNA")
+    {
+      cna_list = data.frame(
+        used_chromosomes = paste(used_chromosomes, collapse = ':'),
+        karyotype = input_data$what_we_used,
+        ploidy = cna_map$ploidy,
+        stringsAsFactors = FALSE
+      )
+  }
+
   output_obj = list(
     data = x,
+    analysis_type = analysis_mode(cna),
     fit = list(
       BMix_analysis = BMix_analysis,
       mobster_analysis = mobster_analysis,
@@ -195,7 +207,8 @@ autofit = function(input,
       cutoff_lv_assignment_dynamic = mobster_analysis_dynamic_cutoff,
       N = N,
       FAST = FAST
-    )
+    ),
+    cna_params = cna_list
   )
 
   class(output_obj) = "tin_obj"
