@@ -67,7 +67,7 @@ guess_mobster_clonal_cluster = function(mobster_fit_tumour,
   }
 
   # Just return the top
-  return(all_clusters$cluster[])
+  return(all_clusters$cluster[1])
 
   # We also check that the clonal cluster has higher dimension of the others
   # cl_map = sapply(all_clusters, mobster:::is_reasonable_clonal_cluster,
