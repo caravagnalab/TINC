@@ -74,13 +74,16 @@ load_TINC_input = function(x,
 
     supported_karyotypes = c('1:0', '1:1', '2:1', '2:2', '2:0')
 
+    cli::cli_h2("Genome coverage by karyotype, in basepairs.\n")
+    print(cn_obj$basepairs_by_karyotype)
+
     if(!(most_prevalent_karyotype %in% supported_karyotypes))
     {
       cli::cli_alert_danger(
         "The most prevalent karyotype (in basepairs) is {.field {most_prevalent_karyotype}} and is not any of {.field {supported_karyotypes}}, will use the largest among those instead ..."
         )
 
-      most_prevalent_karyotype = cn_obj$precentage_genome_karyotype %>%
+      most_prevalent_karyotype = cn_obj$basepairs_by_karyotype %>%
         dplyr::filter(karyotype %in% supported_karyotypes) %>%
         dplyr::pull(karyotype)
 
@@ -92,11 +95,11 @@ load_TINC_input = function(x,
     # Extract those mutations
     mappable = cn_obj$snvs %>% dplyr::filter(karyotype == most_prevalent_karyotype) %>% pull(id)
 
-    cli::cli_alert_success("n = {.value {nrow(x)}} mutations mapped to {.value {nrow(cna)}} CNA segments with karyotype {.field {what_we_used}} (largest available in basepairs).")
-
     x = x %>%
       dplyr::filter(id %in% mappable) %>%
       dplyr::mutate(karyotype = most_prevalent_karyotype)
+
+    cli::cli_alert_success("n = {.value {nrow(x)}} mutations mapped to CNA segments with karyotype {.field {most_prevalent_karyotype}} (largest available in basepairs).")
   }
 
   # Tumour filter
