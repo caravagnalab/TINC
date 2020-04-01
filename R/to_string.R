@@ -22,6 +22,7 @@ to_string = function(x)
     latentvar_clonal_cutoff = x$fit$mobster_analysis$cutoff_lv_assignment,
     n_binomial_clusters_bmix = x$fit$BMix_analysis$clonal_cluster %>% length,
     n_binomial_clusters_viber = x$fit$VIBER_analysis$fit$K,
+    binomial_peaks_bmix = x$fit$BMix_analysis$fit$B.params %>% paste(collapse = ':'),
     stringsAsFactors = FALSE
   ) %>%
     bind_cols(dfp) %>%
