@@ -63,6 +63,13 @@ autofit = function(input,
   x = input_data$mutations
   cna_map = input_data$cna_map
 
+  # Used karyptype, only for CNA-based analyses
+  used_karyotype = ifelse(
+    TINC:::analysis_mode(cna) != "CNA",
+    NA,
+    input_data$what_we_used
+  )
+
   # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
   used_chromosomes = paste0('chr', 1:22)
   if(TINC:::analysis_mode(cna) == "CNA")
@@ -81,20 +88,31 @@ autofit = function(input,
       chromosomes = used_chromosomes,
       auto_setup = 'FAST'
     )
-  else
+  else{
+    # When we are asked not to run the fast analysis, we actually decide what is a reasonable
+    # value of K. If we have CNA data, we use that as a strong "prior" (not in a Bayesian sense);
+    # otherwise we just use the default
+    K = 1:3
+    if(TINC:::analysis_mode(cna) == "CNA"){
+      # The prior is on the mixture expected
+      if(used_karyotype %in% c("2:0", "2:1", "2:2")) K = 2:3
+    }
+
+
     mobster_analysis = TINC:::analyse_mobster(
       x = as_tumour(x) %>% dplyr::filter(OK_tumour),
       cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
       chromosomes = used_chromosomes,
-      K = 1:3,
+      K = K,
       samples = 6,
       maxIter = 300,
       parallel = FALSE,
       epsilon = 1e-9,
       init = 'random'
     )
+  }
 
   mobster_analysis_dynamic_cutoff = (cutoff_lv_assignment != mobster_analysis$cutoff_lv_assignment)
 
@@ -191,7 +209,7 @@ autofit = function(input,
 
   output_obj = list(
     data = x,
-    analysis_type = analysis_mode(cna),
+    analysis_type = TINC:::analysis_mode(cna),
     fit = list(
       BMix_analysis = BMix_analysis,
       mobster_analysis = mobster_analysis,

@@ -69,39 +69,37 @@ load_TINC_input = function(x,
     cn_obj = CNAqc::init(snvs = TINC:::as_tumour(x), cna = cna, .8)
     cat("\n")
 
-    # First mappable in general
-    mappable = cn_obj$snvs %>% dplyr::filter(!is.na(segment_id))
+    # CNAqc computes the most prevalent karyotype with the largest prevalence (in basepairs).
+    most_prevalent_karyotype = cn_obj$most_prevalent_karyotype
 
-    # CNAqc estimates the ploidy as the karyotypes with the largest prevalence (in basepairs).
-    #
-    # We subset CNAs according to the prevalent karyotype (defined from total ploidy, p). For p = 1 we take LOH regions,
-    # for p = 2 we take balanced diploid regions (1:1), for p = 3 triploid (2:1), for p = 4 tetraploid (2:2).
-    # For anything else, we take diploid ones.
-    ploidy_by_karyotypes = round(cn_obj$ploidy)
+    supported_karyotypes = c('1:0', '1:1', '2:1', '2:2', '2:0')
 
-    if(ploidy_by_karyotypes == 1) mappable = mappable %>% dplyr::filter(karyotype =='1:0')
-    if(ploidy_by_karyotypes == 2) mappable = mappable %>% dplyr::filter(karyotype =='1:1')
-    if(ploidy_by_karyotypes == 3) mappable = mappable %>% dplyr::filter(karyotype =='2:1')
-    if(ploidy_by_karyotypes == 4) mappable = mappable %>% dplyr::filter(karyotype =='2:2')
+    cli::cli_h2("Genome coverage by karyotype, in basepairs.\n")
+    print(cn_obj$basepairs_by_karyotype)
 
-    if(ploidy_by_karyotypes > 4) {
+    if(!(most_prevalent_karyotype %in% supported_karyotypes))
+    {
+      cli::cli_alert_danger(
+        "The most prevalent karyotype (in basepairs) is {.field {most_prevalent_karyotype}} and is not any of {.field {supported_karyotypes}}, will use the largest among those instead ..."
+        )
 
-      largest_karyotypes_below_4 = cn_obj$n_karyotype[which(names(cn_obj$n_karyotype) %in% c('1:0', '1:1', '2:1', '2:2'))] %>% sort(decreasing = TRUE)
-      largest = largest_karyotypes_below_4[1] %>% names
+      most_prevalent_karyotype = cn_obj$basepairs_by_karyotype %>%
+        dplyr::filter(karyotype %in% supported_karyotypes) %>%
+        dplyr::pull(karyotype)
 
-      cli::cli_alert_danger("The ploidy of this tumour is > 4, we will use as karyotype {.field {largest}} which is the largest one with ploidy <= 4.")
-
-      mappable = mappable %>% dplyr::filter(karyotype == largest)
+      if(length(most_prevalent_karyotype) == 0) {
+        stop("We did not find any of the supported karyotypes, will not analyse this samples with CNA data.")
+      }
     }
 
-    what_we_used = mappable$karyotype[1]
+    # Extract those mutations
+    mappable = cn_obj$snvs %>% dplyr::filter(karyotype == most_prevalent_karyotype) %>% pull(id)
 
-    cli::cli_alert_success("n = {.value {nrow(x)}} mutations mapped to {.value {nrow(cna)}} CNA segments with karyotype {.field {what_we_used}} (largest available).")
-
-    mappable = mappable %>% dplyr::pull(id)
     x = x %>%
       dplyr::filter(id %in% mappable) %>%
-      dplyr::mutate(karyotype = what_we_used)
+      dplyr::mutate(karyotype = most_prevalent_karyotype)
+
+    cli::cli_alert_success("n = {.value {nrow(x)}} mutations mapped to CNA segments with karyotype {.field {most_prevalent_karyotype}} (largest available in basepairs).")
   }
 
   # Tumour filter
@@ -127,6 +125,6 @@ load_TINC_input = function(x,
     x$OK_tumour[!(x$id %in% w_t)] = FALSE
   }
 
-  return(list(mutations = x, cna_map = cn_obj, what_we_used = what_we_used))
+  return(list(mutations = x, cna_map = cn_obj, what_we_used = most_prevalent_karyotype))
 }
 
