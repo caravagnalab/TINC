@@ -169,11 +169,17 @@ analyse_BMix = function(
     # Otherwise we use CNA as for tumour purity
     used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
 
+    # We behave as for mobster fits.
+    if(sum(as.numeric(used_karyotype)) <= 2)
+      mut.allele = 1
+    else
+      mut.allele = 2
+
     estimated_normal_purity = CNAqc:::purity_estimation_fun(
       v = highest_Binomial_peak, # Observed VAF
       m = used_karyotype[2] %>% as.numeric,
       M = used_karyotype[1] %>% as.numeric,
-      mut.allele = 2
+      mut.allele = mut.allele
     )
   }
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
