@@ -53,6 +53,8 @@ load_TINC_input = function(x,
       id = paste(chr, from, to, ref, alt, sep = ':')
     )
 
+  most_prevalent_karyotype = NULL
+
   # cli::cli_alert_info("Using for mutation data {.url {required_colnames}} for n = {.value {nrow(x)}}.")
   cli::cli_alert_success("Input data contains n = {.value {nrow(x)}} mutations, selecting operation mode.")
 
@@ -85,6 +87,7 @@ load_TINC_input = function(x,
 
       most_prevalent_karyotype = cn_obj$basepairs_by_karyotype %>%
         dplyr::filter(karyotype %in% supported_karyotypes) %>%
+        dplyr::filter(row_number() == 1) %>%
         dplyr::pull(karyotype)
 
       if(length(most_prevalent_karyotype) == 0) {
