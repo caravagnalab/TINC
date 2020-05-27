@@ -100,9 +100,8 @@ autofit = function(input,
       if(used_karyotype %in% c("2:0", "2:1", "2:2")) K = 2:3
     }
 
-
     mobster_analysis = TINC:::analyse_mobster(
-      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
+      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
       cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
@@ -138,7 +137,7 @@ autofit = function(input,
   # Normal sample ~ use putative clonal mutations from MOBSTER
   if (FAST)
     BMix_analysis = TINC:::analyse_BMix(
-      x = as_normal(x) %>%
+      x = TINC:::as_normal(x) %>%
         dplyr::filter(OK_clonal),
       cna_map = cna_map,
       K.BetaBinomials = 0,
@@ -165,7 +164,7 @@ autofit = function(input,
   # cli::cli_process_start("VIBER analysis of joint data")
 
   if (FAST)
-    VIBER_analysis = analyze_VIBER(
+    VIBER_analysis = TINC:::analyze_VIBER(
       x = x,
       K = 5,
       alpha_0 = 1e-6,

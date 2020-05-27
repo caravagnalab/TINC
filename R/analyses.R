@@ -41,7 +41,7 @@ analyse_mobster = function(x,
 
   if(all(is.null(cna_map)))
   {
-    cli::cli_alert_info("Without CNA, TINC will be estimating tumour purity as 2*x, with x the clonal peak.")
+    cli::cli_alert_info("Without CNA, TINC will estimate tumour purity as 2*x, with x the clonal peak.")
 
     # If we could not, then we just assume everything is diploid, therefore
     # therefore 2 * the Beta peak of the clonal cluster
@@ -63,7 +63,7 @@ analyse_mobster = function(x,
   else
   {
     # Otherwise we do something a little bit smarter, which is normalising for segment's ploidy.
-    cli::cli_alert_info("With CNA, TINC will be wstimating tumour purity as 2*x, with x the clonal peak.")
+    cli::cli_alert_info("With CNA, TINC will estimating tumour purity adjusting by copy number and mutation multiplicity.")
 
     # We take the mean of the clonal cluster
     ccluster_mean = mobster_fit_tumour$best$Clusters %>%
@@ -86,6 +86,8 @@ analyse_mobster = function(x,
       x$karyotype[1] == "2:2" ~ 2,
       TRUE ~ -1
      )
+
+    cli::cli_alert_info("Mutant allele copies {.field {mut.allele}} for karyotype {.field {x$karyotype[1]}}")
 
     if(mut.allele == -1) stop("Karyotype not recognised: ", x$karyotype[1])
 
