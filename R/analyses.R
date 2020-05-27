@@ -37,20 +37,28 @@ analyse_mobster = function(x,
 
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
   # Tumour purity: estimated based on the fact that we could map or no the mutations to CNA
-  estimated_tumour_purity = NULL
+  estimated_tumour_purity = params_purity_adj = NULL
+
   if(all(is.null(cna_map)))
   {
-    cli::cli_alert_info("Without CNA, TINC will be wstimating tumour purity as 2*x, with x the clonal peak.")
+    cli::cli_alert_info("Without CNA, TINC will be estimating tumour purity as 2*x, with x the clonal peak.")
 
     # If we could not, then we just assume everything is diploid, therefore
     # therefore 2 * the Beta peak of the clonal cluster
 
-    estimated_tumour_purity = (
-      mobster_fit_tumour$best$Clusters %>%
-        filter(cluster %in% clonal_cluster, type == 'Mean') %>%
-        pull(fit.value) %>% mean
-    ) * 2
+    ccluster_mean = mobster_fit_tumour$best$Clusters %>%
+      filter(cluster %in% clonal_cluster, type == 'Mean') %>%
+      pull(fit.value) %>% mean
 
+    estimated_tumour_purity = ccluster_mean * 2
+
+    params_purity_adj = list(
+      mean_cluster_VAF = ccluster_mean, # Observed VAF
+      karyotype = NA,
+      minor_copies = NA,
+      Major_copies = NA,
+      mutant_alleles = NA
+    )
   }
   else
   {
@@ -66,15 +74,20 @@ analyse_mobster = function(x,
     # We found the karyotype of the mutations that we used (we take the first one, because they are all the same)
     used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
 
-    # By design, we should have correctly taken as coonal cluster the set of mutations that happened before
-    # aneuploidy. Also, again by the fact that we use only simple karyotypes, we assume that the mutation is
-    # present in a number of copies that match the actual Major allele (M). This is the same thing as saying
-    # that the mutations happened *before* aneuploidy for copy states with >2 copies, and
-    # is 1 otherwise.
-    if(sum(as.numeric(used_karyotype)) <= 2)
-      mut.allele = 1
-    else
-      mut.allele = 2
+    # By design, we should have correctly identified the clonal cluster, as the set of
+    # mutations that happened before aneuploidy. Also, again by the fact that we use
+    # only simple karyotypes, we assume that the mutation is present in a number of
+    # copies that match the actual Major allele (M).
+    mut.allele = case_when(
+      x$karyotype[1] == "1:0" ~ 1,
+      x$karyotype[1] == "2:0" ~ 2,
+      x$karyotype[1] == "1:1" ~ 1,
+      x$karyotype[1] == "2:1" ~ 2,
+      x$karyotype[1] == "2:2" ~ 2,
+      TRUE ~ -1
+     )
+
+    if(mut.allele == -1) stop("Karyotype not recognised: ", x$karyotype[1])
 
     estimated_tumour_purity = CNAqc:::purity_estimation_fun(
       v = ccluster_mean, # Observed VAF
@@ -82,6 +95,14 @@ analyse_mobster = function(x,
       M = used_karyotype[1] %>% as.numeric,
       mut.allele = mut.allele
       )
+
+    params_purity_adj = list(
+      mean_cluster_VAF = ccluster_mean, # Observed VAF
+      karyotype = paste(used_karyotype, collapse =':'),
+      minor_copies = used_karyotype[2] %>% as.numeric,
+      Major_copies = used_karyotype[1] %>% as.numeric,
+      mutant_alleles = mut.allele
+    )
   }
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
 
@@ -111,6 +132,7 @@ analyse_mobster = function(x,
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_tumour,
       estimated_purity = estimated_tumour_purity,
+      params_purity_adj = params_purity_adj,
       cutoff_lv_assignment = cutoff_lv_assignment
     )
   )
@@ -157,12 +179,20 @@ analyse_BMix = function(
 
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
   # TIN Contamination is a form of purity: it is estimated as for cancer
-  estimated_normal_purity = NULL
+  estimated_normal_purity = params_purity_adj = NULL
 
   if(all(is.null(cna_map)))
   {
     # Without CNA it is
     estimated_normal_purity =  highest_Binomial_peak * 2
+
+    params_purity_adj = list(
+      mean_cluster_VAF = highest_Binomial_peak, # Observed VAF
+      karyotype = NA,
+      minor_copies = NA,
+      Major_copies = NA,
+      mutant_alleles = NA
+    )
   }
   else
   {
@@ -170,16 +200,30 @@ analyse_BMix = function(
     used_karyotype = strsplit(x$karyotype[1], ':')[[1]]
 
     # We behave as for mobster fits.
-    if(sum(as.numeric(used_karyotype)) <= 2)
-      mut.allele = 1
-    else
-      mut.allele = 2
+    mut.allele = case_when(
+      x$karyotype[1] == "1:0" ~ 1,
+      x$karyotype[1] == "2:0" ~ 2,
+      x$karyotype[1] == "1:1" ~ 1,
+      x$karyotype[1] == "2:1" ~ 2,
+      x$karyotype[1] == "2:2" ~ 2,
+      TRUE ~ -1
+    )
+
+    if(mut.allele == -1) stop("Karyotype not recognised: ", x$karyotype[1])
 
     estimated_normal_purity = CNAqc:::purity_estimation_fun(
       v = highest_Binomial_peak, # Observed VAF
       m = used_karyotype[2] %>% as.numeric,
       M = used_karyotype[1] %>% as.numeric,
       mut.allele = mut.allele
+    )
+
+    params_purity_adj = list(
+      mean_cluster_VAF = highest_Binomial_peak, # Observed VAF
+      karyotype = paste(used_karyotype, collapse =':'),
+      minor_copies = used_karyotype[2] %>% as.numeric,
+      Major_copies = used_karyotype[1] %>% as.numeric,
+      mutant_alleles = mut.allele
     )
   }
   ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### ####### #######
@@ -204,7 +248,8 @@ analyse_BMix = function(
       plot = figure,
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_mutations,
-      estimated_purity = estimated_normal_purity
+      estimated_purity = estimated_normal_purity,
+      params_purity_adj = params_purity_adj
     )
   )
 
