@@ -75,6 +75,8 @@ autofit = function(input,
   if(TINC:::analysis_mode(cna) == "CNA")
     used_chromosomes = unique(cna$chr)
 
+  # TODO maybe used_chromosomes should be subset according to used_karyotype?
+
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
