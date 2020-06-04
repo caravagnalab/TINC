@@ -74,3 +74,91 @@ load_VCF_Canvas = function(file) {
 
   return(list(calls = canvas_calls, purity = tumour_purity))
 }
+
+
+
+#' Allele depth pull function
+#'
+#' @description Pulls out normal and tumour allele depths from
+#' Strelka 2 vcf columns
+#'
+#'
+#' @param as columns in vcf
+#'
+#' @return Allele depths for normal and tumour
+#'
+#' @export
+#'
+#' @importFrom
+#'
+#' @examples
+#' # not run
+
+pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
+
+#Identify ref and alt alleles
+  refAlle = paste(REF, "U", sep = "")
+  altAlle = paste(ALT, "U", sep = "")
+  FORMAT_split = unlist(strsplit(FORMAT, ":"))
+  refIndex = match(refAlle, FORMAT_split)
+  altIndex = match(altAlle, FORMAT_split)
+
+#Pull ref and alt depths for normal and tumour
+  normal = unlist(strsplit(normal, ":"))
+  tumour = unlist(strsplit(tumour, ":"))
+  varAD = tibble::tibble(paste(CHROM,
+                   as.numeric(POS) - 1,
+                   POS,
+                   REF,
+                   ALT, sep = ":"),
+                   strsplit(normal[refIndex], ",")[[1]][1],
+                   strsplit(normal[altIndex], ",")[[1]][1],
+                   strsplit(tumour[refIndex], ",")[[1]][1],
+                   strsplit(tumour[altIndex], ",")[[1]][1],
+                   FILTER
+                   ) %>%
+  purrr::set_names(c("id", "n_ref_count", "n_alt_count", "t_ref_count", "t_alt_count", "FILTERS"))
+
+  return(varAD)
+}
+
+
+#' Strelka 2 VCF parsing function
+#'
+#' @description Parse a VCF file from Srelka 2, which stores for
+#' PASS SNVs the read depth of the alleles in the
+#' nornmal and tumour
+#'
+#' @param file is Strelka 2 vcf file path
+#'
+#' @return Allele depths for normal and tumour
+#' for all PASS autosome SNVs
+#'
+#' @export
+#'
+#' @importFrom 
+#'
+#' @examples
+#' # not run
+
+
+load_VCF_Strelka = function(file) {
+
+#  file = "/home/jmitchell1/TIN/berthaRscript/input/LP3000417-DNA_F02_LP3000396-DNA_F02_12.vcf.gz"
+
+  if (!file.exists(file))
+    stop("Input file", file, "not found!")
+
+# Load vcf and filter to leave PASS SNVs in autosome
+  vcfSmallVar = read.table(file, colClasses = "character")
+  autosome = sprintf("chr%s",seq(1:22))
+  vcfSmallVarFilt = vcfSmallVar %>%
+    filter(V1 %in% autosome, nchar(V4) == 1, nchar(V5) == 1, V7 == "PASS")
+
+# Pull allele depths from normal and tumour
+  SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
+    rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
+    purrr::pmap_dfr(., pullAD)
+
+  return(SNVnADtAD)
+}
