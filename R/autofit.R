@@ -208,6 +208,10 @@ autofit = function(input,
       )
   }
 
+
+
+
+  # Output object
   output_obj = list(
     data = x,
     analysis_type = TINC:::analysis_mode(cna),
@@ -219,6 +223,8 @@ autofit = function(input,
     ),
     TIN = BMix_analysis$estimated_purity,
     TIT = mobster_analysis$estimated_purity,
+    TIN_rf = BMix_analysis$estimated_read_fraction,
+    TIT_rf = mobster_analysis$estimated_read_fraction,
     params = list(
       VAF_range_tumour = VAF_range_tumour,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,

@@ -126,6 +126,41 @@ analyse_mobster = function(x,
   # Plot
   figure = plot_mobster_fit(mobster_fit_tumour, cutoff_lv_assignment, clonal_cluster)
 
+  # Adjustment correction for GEL
+
+  ######################################################
+  ##                                                  ##
+  ## Function to calulcate tumour read fraction (pi)  ##
+  ## from tumour cellular fraction (lambda)           ##
+  ##                                                  ##
+  ## arguments:                                       ##
+  ##           lambda is tumour cellular fraction     ##
+  ##           K is the most prevalent tumour         ##
+  ##           karyotype                              ##
+  ######################################################
+  cf_to_rf = function(lambda, K){
+    pi = (lambda * K)/((lambda * K) + 2 - (2 * lambda))
+    return(pi)
+  }
+
+  TIT_rf = NULL
+  if(all(is.null(cna_map)))
+  {
+    # Without CNA
+    TIT_rf = cf_to_rf(
+      lambda = estimated_tumour_purity,
+      K = 2
+    )
+  }
+  else
+  {
+    # With CNA data
+    TIT_rf = cf_to_rf(
+      lambda = estimated_tumour_purity,
+      K = params_purity_adj$minor_copies + params_purity_adj$Major_copies
+    )
+  }
+
   return(
     list(
       output = output,
@@ -134,6 +169,7 @@ analyse_mobster = function(x,
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_tumour,
       estimated_purity = estimated_tumour_purity,
+      estimated_read_fraction = TIT_rf,
       params_purity_adj = params_purity_adj,
       cutoff_lv_assignment = cutoff_lv_assignment
     )
@@ -242,6 +278,42 @@ analyse_BMix = function(
   cli::cli_alert_success(
     "Binomial peaks {.value {Binomial_peaks}} with proportions {.value {Binomial_pi}}. Clonal score {.value {clonal_score}} with TINN {.value {estimated_normal_purity}}"
   )
+
+  # Adjustment correction for GEL
+
+  ######################################################
+  ##                                                  ##
+  ## Function to calulcate tumour read fraction (pi)  ##
+  ## from tumour cellular fraction (lambda)           ##
+  ##                                                  ##
+  ## arguments:                                       ##
+  ##           lambda is tumour cellular fraction     ##
+  ##           K is the most prevalent tumour         ##
+  ##           karyotype                              ##
+  ######################################################
+  cf_to_rf = function(lambda, K){
+    pi = (lambda * K)/((lambda * K) + 2 - (2 * lambda))
+    return(pi)
+  }
+
+  TIN_rf = NULL
+  if(all(is.null(cna_map)))
+  {
+    # Without CNA
+    TIN_rf = cf_to_rf(
+      lambda = estimated_normal_purity,
+      K = 2
+    )
+  }
+  else
+  {
+    # With CNA data
+    TIN_rf = cf_to_rf(
+      lambda = estimated_normal_purity,
+      K = params_purity_adj$minor_copies + params_purity_adj$Major_copies
+    )
+  }
+
 
   return(
     list(
