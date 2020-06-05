@@ -87,13 +87,9 @@ load_VCF_Canvas = function(file) {
 #'
 #' @return Allele depths for normal and tumour
 #'
-#' @export
-#'
-#' @importFrom
 #'
 #' @examples
 #' # not run
-
 pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
 
 #Identify ref and alt alleles
@@ -136,12 +132,10 @@ pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
 #'
 #' @export
 #'
-#' @importFrom 
+#' @importFrom  purrr  pmap_dfr
 #'
 #' @examples
 #' # not run
-
-
 load_VCF_Strelka = function(file) {
 
 #  file = "/home/jmitchell1/TIN/berthaRscript/input/LP3000417-DNA_F02_LP3000396-DNA_F02_12.vcf.gz"
@@ -153,11 +147,11 @@ load_VCF_Strelka = function(file) {
   vcfSmallVar = read.table(file, colClasses = "character")
   autosome = sprintf("chr%s",seq(1:22))
   vcfSmallVarFilt = vcfSmallVar %>%
-    filter(V1 %in% autosome, nchar(V4) == 1, nchar(V5) == 1, V7 == "PASS")
+    dplyr::filter(V1 %in% autosome, nchar(V4) == 1, nchar(V5) == 1, V7 == "PASS")
 
 # Pull allele depths from normal and tumour
   SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
-    rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
+    dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
     purrr::pmap_dfr(., pullAD)
 
   return(SNVnADtAD)

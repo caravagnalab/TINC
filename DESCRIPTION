@@ -30,7 +30,7 @@ Remotes:
   caravagn/BMix,
   caravagn/mobster,
   caravagn/VIBER
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown

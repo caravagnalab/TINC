@@ -4,11 +4,19 @@
 \alias{random_TIN}
 \title{Title}
 \usage{
-random_TIN(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30,
-  tumour_coverage = 120)
+random_TIN(
+  N = 1000,
+  TIN = 0.05,
+  TIT = 1,
+  normal_coverage = 30,
+  tumour_coverage = 120
+)
 }
 \arguments{
 \item{tumour_coverage}{}
+}
+\value{
+
 }
 \description{
 Title

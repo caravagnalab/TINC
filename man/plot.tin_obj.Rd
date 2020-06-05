@@ -4,7 +4,7 @@
 \alias{plot.tin_obj}
 \title{Plot a TINC analysis.}
 \usage{
-plot.tin_obj(x, ...)
+\method{plot}{tin_obj}(x, ...)
 }
 \arguments{
 \item{x}{A TINC analysis computed with \code{autofit}.}
