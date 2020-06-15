@@ -323,6 +323,7 @@ analyse_BMix = function(
       clonal_cluster = clonal_cluster,
       clonal_mutations = clonal_mutations,
       estimated_purity = estimated_normal_purity,
+      estimated_read_fraction = TIN_rf,
       params_purity_adj = params_purity_adj
     )
   )

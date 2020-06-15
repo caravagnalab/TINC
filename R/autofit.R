@@ -198,7 +198,7 @@ autofit = function(input,
 
   # Output TINC object of class tin_obj
   cna_list = list(NULL)
-  if(analysis_mode(cna) == "CNA")
+  if(TINC:::analysis_mode(cna) == "CNA")
     {
       cna_list = data.frame(
         used_chromosomes = paste(used_chromosomes, collapse = ':'),
