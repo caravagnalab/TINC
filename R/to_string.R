@@ -26,6 +26,7 @@ to_string = function(x)
     vv = rep(NA, 3)
     names(vv) = c("cna_params_used_chromosomes", "cna_params_karyotype", "cna_params_ploidy")
     dfp2 = t(data.frame(vv, stringsAsFactors = FALSE))
+    dfp2 = data.frame(dfp2)
   }
 
   data.frame(
