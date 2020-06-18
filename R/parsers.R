@@ -31,9 +31,9 @@ load_VCF_Canvas_Manta = function(file) {
   # Locations (Canvas only, not Manta)
   locs = segments@fix[, "ID"] %>%
     dplyr::as_tibble()
-  row_ids = which(str_detect(locs$value, "Canvas")) + nrow(locs)
+  row_ids = which(stringr::str_detect(locs$value, "Canvas")) + nrow(locs)
   locs = locs %>%
-    filter(str_detect(value, "Canvas")) %>%
+    filter(stringr::str_detect(value, "Canvas")) %>%
     tidyr::separate(value, into = c("A", "SD", "chr", "range"), sep = ":") %>%
     tidyr::separate(range, into = c("from", "to"), sep = "-") %>%
     dplyr::mutate(
@@ -79,6 +79,7 @@ load_VCF_Canvas_Manta = function(file) {
 
   return(list(calls = canvas_calls, purity = tumour_purity))
 }
+
 
 
 
