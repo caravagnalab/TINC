@@ -18,7 +18,8 @@ A TINC analysis plot (a `ggplot` figure with multiple panels).
 This function is a wrapper to call \code{plot_simple_report}.
 }
 \examples{
-plot(autofit(random_TIN(), FAST = TRUE))
+rt = random_TIN()
+plot(autofit(input = rt$data, cna = rt$cna, FAST = TRUE))
 }
 \seealso{
 \code{plot_simple_report}.

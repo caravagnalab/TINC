@@ -19,5 +19,6 @@ Print a TINC object to screen
 }
 \examples{
 # Automatic call
-autofit(random_TIN(), FAST = TRUE)
+rt = random_TIN()
+autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
 }

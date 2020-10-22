@@ -30,5 +30,6 @@ are flagged and removed from downnstream analysis.
 }
 \examples{
 # Generating a random TIN input
-load_TINC_input(random_TIN())
+rt = random_TIN()
+load_TINC_input(x = rt$data, cna = rt$cna)
 }

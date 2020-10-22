@@ -38,6 +38,7 @@
 #' @import mobster
 #' @import BMix
 #' @import VIBER
+#' @importFrom cowplot plot_grid
 #'
 #' @examples
 #' # Random

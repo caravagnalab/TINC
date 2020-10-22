@@ -13,7 +13,15 @@ random_TIN(
 )
 }
 \arguments{
-\item{tumour_coverage}{}
+\item{N}{N}
+
+\item{TIN}{TIN}
+
+\item{TIT}{TIT}
+
+\item{normal_coverage}{normal_coverage}
+
+\item{tumour_coverage}{tumour_coverage}
 }
 \value{
 

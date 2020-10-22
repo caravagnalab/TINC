@@ -18,9 +18,14 @@
 #'
 #' @return A tibble with the loaded data.
 #'
+#' @import CNAqc
+#'
+#' @export
+#'
 #' @examples
 #' # Generating a random TIN input
-#' load_TINC_input(random_TIN())
+#' rt = random_TIN()
+#' load_TINC_input(x = rt$data, cna = rt$cna)
 load_TINC_input = function(x,
                            cna,
                            VAF_range_tumour = c(0, 0.7),
