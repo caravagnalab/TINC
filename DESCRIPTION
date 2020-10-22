@@ -24,13 +24,19 @@ Imports:
     ggrepel,
     mobster,
     BMix,
-    VIBER
+    VIBER,
+    vcfR,
+    purrr,
+    dplyr,
+    cowplot,
+    CNAqc
 Remotes: 
   caravagn/pio,
   caravagn/BMix,
   caravagn/mobster,
-  caravagn/VIBER
-RoxygenNote: 7.0.0
+  caravagn/VIBER,
+  caravagn/CNAqc
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown

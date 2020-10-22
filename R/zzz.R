@@ -3,19 +3,19 @@
   # =-=-=-=-=-=-
   # Required packages will be listed here
   # =-=-=-=-=-=-
-  requirements = c('dplyr', 'crayon', 'pio',  'ggpubr',
-                   'cowplot', 'RColorBrewer', 'mobster', 'BMix', 'VIBER')
-
-  ip = installed.packages()
-  sapply(
-    requirements,
-    function(r)
-    {
-      if(!(r %in% ip[, 'Package'])) stop("Missing package ", r, " - you should install it to run TINC.")
-    }
-  )
-
-  suppressMessages(sapply(requirements, require, character.only = TRUE))
+  #requirements = c('dplyr', 'crayon', 'pio',  'ggpubr',
+  #                 'cowplot', 'RColorBrewer', 'mobster', 'BMix', 'VIBER')
+  #
+  #ip = installed.packages()
+  #sapply(
+  #  requirements,
+  #  function(r)
+  #  {
+  #    if(!(r %in% ip[, 'Package'])) stop("Missing package ", r, " - you should install it to run TINC.")
+  #  }
+  #)
+  #
+  #suppressMessages(sapply(requirements, require, character.only = TRUE))
 
   # =-=-=-=-=-=-
   # Package options

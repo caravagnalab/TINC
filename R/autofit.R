@@ -38,6 +38,7 @@
 #' @import mobster
 #' @import BMix
 #' @import VIBER
+#' @importFrom cowplot plot_grid
 #'
 #' @examples
 #' # Random
@@ -75,6 +76,8 @@ autofit = function(input,
   if(TINC:::analysis_mode(cna) == "CNA")
     used_chromosomes = unique(cna$chr)
 
+  # TODO maybe used_chromosomes should be subset according to used_karyotype?
+
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   # MOBSTER fit of the tumour. It fits the tumour, determines the clonal cluster,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
@@ -98,9 +101,8 @@ autofit = function(input,
       if(used_karyotype %in% c("2:0", "2:1", "2:2")) K = 2:3
     }
 
-
     mobster_analysis = TINC:::analyse_mobster(
-      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
+      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
       cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
@@ -136,7 +138,7 @@ autofit = function(input,
   # Normal sample ~ use putative clonal mutations from MOBSTER
   if (FAST)
     BMix_analysis = TINC:::analyse_BMix(
-      x = as_normal(x) %>%
+      x = TINC:::as_normal(x) %>%
         dplyr::filter(OK_clonal),
       cna_map = cna_map,
       K.BetaBinomials = 0,
@@ -163,7 +165,7 @@ autofit = function(input,
   # cli::cli_process_start("VIBER analysis of joint data")
 
   if (FAST)
-    VIBER_analysis = analyze_VIBER(
+    VIBER_analysis = TINC:::analyze_VIBER(
       x = x,
       K = 5,
       alpha_0 = 1e-6,
@@ -197,7 +199,7 @@ autofit = function(input,
 
   # Output TINC object of class tin_obj
   cna_list = list(NULL)
-  if(analysis_mode(cna) == "CNA")
+  if(TINC:::analysis_mode(cna) == "CNA")
     {
       cna_list = data.frame(
         used_chromosomes = paste(used_chromosomes, collapse = ':'),
@@ -207,6 +209,10 @@ autofit = function(input,
       )
   }
 
+
+
+
+  # Output object
   output_obj = list(
     data = x,
     analysis_type = TINC:::analysis_mode(cna),
@@ -218,6 +224,8 @@ autofit = function(input,
     ),
     TIN = BMix_analysis$estimated_purity,
     TIT = mobster_analysis$estimated_purity,
+    TIN_rf = BMix_analysis$estimated_read_fraction,
+    TIT_rf = mobster_analysis$estimated_read_fraction,
     params = list(
       VAF_range_tumour = VAF_range_tumour,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,

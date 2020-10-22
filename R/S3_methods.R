@@ -8,7 +8,8 @@
 #'
 #' @examples
 #' # Automatic call
-#' autofit(random_TIN(), FAST = TRUE)
+#' rt = random_TIN()
+#' autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
 print.tin_obj = function(x, ...)
 {
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
@@ -95,7 +96,8 @@ print.tin_obj = function(x, ...)
 #' @export
 #'
 #' @examples
-#' plot(autofit(random_TIN(), FAST = TRUE))
+#' rt = random_TIN()
+#' plot(autofit(input = rt$data, cna = rt$cna, FAST = TRUE))
 plot.tin_obj = function(x, ...)
 {
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")

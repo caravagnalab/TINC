@@ -4,7 +4,7 @@
 \alias{plot.tin_obj}
 \title{Plot a TINC analysis.}
 \usage{
-plot.tin_obj(x, ...)
+\method{plot}{tin_obj}(x, ...)
 }
 \arguments{
 \item{x}{A TINC analysis computed with \code{autofit}.}
@@ -18,7 +18,8 @@ A TINC analysis plot (a `ggplot` figure with multiple panels).
 This function is a wrapper to call \code{plot_simple_report}.
 }
 \examples{
-plot(autofit(random_TIN(), FAST = TRUE))
+rt = random_TIN()
+plot(autofit(input = rt$data, cna = rt$cna, FAST = TRUE))
 }
 \seealso{
 \code{plot_simple_report}.

@@ -3,8 +3,8 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/caravagn/TINC.svg?branch=master)](https://travis-ci.org/caravagn/TINC)
+[![Actions Status](https://github.com/caravagn/TINC/workflows/check-master/badge.svg)](https://github.com/caravagn/TINC/actions?query=workflow%3Acheck-master)
+[![Actions Status](https://github.com/caravagn/TINC/workflows/check-development/badge.svg)](https://github.com/caravagn/TINC/actions?query=workflow%3Acheck-development)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/badge/Part%20of-evoverse-blue.svg)](https://caravagn.github.io/evoverse)

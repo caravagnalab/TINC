@@ -1,10 +1,10 @@
 #' Title
 #'
-#' @param N
-#' @param TIN
-#' @param TIT
-#' @param normal_coverage
-#' @param tumour_coverage
+#' @param N N
+#' @param TIN TIN
+#' @param TIT TIT
+#' @param normal_coverage normal_coverage
+#' @param tumour_coverage tumour_coverage
 #'
 #' @return
 #' @export

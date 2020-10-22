@@ -18,9 +18,14 @@
 #'
 #' @return A tibble with the loaded data.
 #'
+#' @import CNAqc
+#'
+#' @export
+#'
 #' @examples
 #' # Generating a random TIN input
-#' load_TINC_input(random_TIN())
+#' rt = random_TIN()
+#' load_TINC_input(x = rt$data, cna = rt$cna)
 load_TINC_input = function(x,
                            cna,
                            VAF_range_tumour = c(0, 0.7),
@@ -53,6 +58,8 @@ load_TINC_input = function(x,
       id = paste(chr, from, to, ref, alt, sep = ':')
     )
 
+  most_prevalent_karyotype = NULL
+
   # cli::cli_alert_info("Using for mutation data {.url {required_colnames}} for n = {.value {nrow(x)}}.")
   cli::cli_alert_success("Input data contains n = {.value {nrow(x)}} mutations, selecting operation mode.")
 
@@ -60,7 +67,7 @@ load_TINC_input = function(x,
   # With CNA data: establish a special execution setup of this run
   ####################################
   cn_obj = what_we_used = NULL
-  if(analysis_mode(cna) == "CNA")
+  if(TINC:::analysis_mode(cna) == "CNA")
   {
     cli::cli_alert_warning("Found CNA data, retaining only mutations that map to segments with predominant karyotype ...")
 
@@ -85,6 +92,7 @@ load_TINC_input = function(x,
 
       most_prevalent_karyotype = cn_obj$basepairs_by_karyotype %>%
         dplyr::filter(karyotype %in% supported_karyotypes) %>%
+        dplyr::filter(row_number() == 1) %>%
         dplyr::pull(karyotype)
 
       if(length(most_prevalent_karyotype) == 0) {
@@ -103,7 +111,7 @@ load_TINC_input = function(x,
   }
 
   # Tumour filter
-  tumour_exclude_VAF_range = as_tumour(x) %>%
+  tumour_exclude_VAF_range = TINC:::as_tumour(x) %>%
     dplyr::filter((VAF < VAF_range_tumour[1]) |
                     (VAF > VAF_range_tumour[2])) %>%
     dplyr::pull(id)
