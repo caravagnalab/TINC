@@ -53,7 +53,7 @@ bin_heatmap = function(C = 42, offset = 1.5, p = 0.07)
   ggplot(points, aes(x = NV, y = C, fill = z)) +
     geom_raster() +
     coord_flip() +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     scale_x_continuous(limits = c(0, max_C_plot)) +
     # scale_fill_gradientn(
     #   colours = c("#0D0887FF", "#CC4678FF", "#F0F921FF")) +

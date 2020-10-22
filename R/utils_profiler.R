@@ -43,7 +43,7 @@ plot_contamination_full_size = function(dataset)
     xlim(0, 1) +
     ylim(0, 1) +
     guides(color = guide_legend('', override.aes = list(alpha = 1, size = 2))) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     labs(
       title = paste0("Contamination of clonal mutations"),
       x = 'VAF germline',
@@ -62,7 +62,7 @@ plot_contamination_zoom = function(dataset)
   TIT = dataset$TIT
   TIN = dataset$TIN
 
-  data_table = TINC:::as_joint(dataset$data) %>%
+  data_table = as_joint(dataset$data) %>%
     mutate(group = paste(tumour.cluster, '~', normal.cluster))
 
   group_labels = data_table$group %>% unique
@@ -104,7 +104,7 @@ plot_contamination_zoom = function(dataset)
       shape = 21
     ) +
     guides(shape = guide_legend("Clusters"), color = FALSE) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     labs(title = paste0(""),
          x = 'VAF germline (zoom)',
          y = "VAF tumour (zoom)") +
@@ -162,8 +162,8 @@ plot_sample_contamination = function(dataset, assemble = TRUE)
       lab.ypos = cumsum(value) - 0.5 * value
       )
 
-  cn = TINC:::classification_normal(dataset$TIN)
-  ct = TINC:::classification_tumour(dataset$TIT)
+  cn = classification_normal(dataset$TIN)
+  ct = classification_tumour(dataset$TIT)
 
   normal = ggplot(
     vtin %>% filter(sample == 'Normal sample'),
@@ -178,7 +178,7 @@ plot_sample_contamination = function(dataset, assemble = TRUE)
           label = paste0(round(value * 100, 1),  '%')),
       color = "black", fill = 'white') +
     scale_fill_manual(values = c(`Tumour cells` = 'plum4', `Normal cells` = 'plum2')) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     guides(fill = guide_legend('')) +
     labs(x = '', y = '',
          title = bquote(bold(Normal)),
@@ -207,7 +207,7 @@ plot_sample_contamination = function(dataset, assemble = TRUE)
       aes(y = lab.ypos, label = paste0(round(value * 100, 1),  '%')),
       color = "black", fill = 'white') +
     scale_fill_manual(values = c(`Tumour cells` = 'plum4', `Normal cells` = 'plum2')) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     guides(fill = guide_legend('')) +
     labs(x = '', y = '',
          title = bquote(bold(Tumour)),

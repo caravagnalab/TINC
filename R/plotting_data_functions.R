@@ -20,7 +20,7 @@ plot_raw = function(dataset)
 
 plot_tumour_data = function(dataset)
 {
-  tumour = TINC:::as_tumour(dataset$data)
+  tumour = as_tumour(dataset$data)
   VAF_range_tumour = dataset$params$VAF_range_tumour
 
   ggplot(tumour %>%
@@ -45,7 +45,7 @@ plot_tumour_data = function(dataset)
     labs(y = "n", title = 'Tumour sample') +
     # labs(title = paste0('Tumour (n = ', nrow(tumour %>% filter(VAF > 0)),')')) +
     scale_fill_manual(values = c(`TRUE` = 'black', `FALSE` = 'gray')) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     # geom_text(
     #   x = 0.85,
     #   y = h * .8,
@@ -58,11 +58,11 @@ plot_tumour_data = function(dataset)
 plot_normal_data = function(dataset)
 {
   ggplot(
-    TINC:::as_normal(dataset$data),
+    as_normal(dataset$data),
     aes(VAF)) +
     geom_histogram(binwidth = 0.01, aes(fill = OK_tumour)) +
     xlim(-0.01, 1) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     labs(y = "n", title = 'Normal sample') +
     coord_cartesian(clip = 'off') +
     scale_fill_manual(values = c(`TRUE` = 'black', `FALSE` = 'gray')) +
@@ -71,7 +71,7 @@ plot_normal_data = function(dataset)
 
 plot_normal_data_inline = function(dataset)
 {
-  germline = TINC:::as_normal(dataset$data)
+  germline = as_normal(dataset$data)
 
   sorted_data = germline %>% arrange(VAF) %>% mutate(x = row_number())
   x_nonz = which.max(sorted_data$VAF > 0)
@@ -84,7 +84,7 @@ plot_normal_data_inline = function(dataset)
     # xlim(0, 1) +
     labs(x = 'Mutation') +
     scale_fill_manual(values = c(`TRUE` = 'black', `FALSE` = 'gray'))  +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     geom_vline(
       xintercept = x_nonz,
       color = 'red',
@@ -105,11 +105,11 @@ plot_normal_data_inline = function(dataset)
 plot_joint_data = function(dataset)
 {
   ggplot(
-    TINC:::as_joint(dataset$data) %>%
+    as_joint(dataset$data) %>%
            mutate(used = ifelse(OK_tumour, "Included", "Excluded")),
          aes(x = n_VAF, y = t_VAF)) +
     geom_point(size = .5, alpha = .5, aes(color = used)) +
-    mobster:::my_ggplot_theme() +
+    my_ggplot_theme() +
     xlim(0, 1) + ylim(0, 1) + labs(
       title = bquote(bold(TIN) ~ '   Tumour vs normal (n = ' ~ .(sum(dataset$data$OK_tumour)) * ')'),
       y = 'Tumour VAF',

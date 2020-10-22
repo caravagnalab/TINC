@@ -20,6 +20,8 @@
 #' @param N If there are more than `N` mutations in VAF range
 #' `VAF_range_tumour`, a random subset of size `N` is retained.
 #'
+#' @importFrom tidyr separate
+#'
 #' @return A list that contains the following informations:
 #' tumour calls, normal calls and joint calls, plus the input
 #' VAF range and file name.

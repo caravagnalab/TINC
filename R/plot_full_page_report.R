@@ -20,12 +20,12 @@ plot_full_page_report = function(x)
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
   # Plot input data
-  dataset_plot_raw = TINC:::plot_raw(dataset = x)
+  dataset_plot_raw = plot_raw(dataset = x)
 
   # Plots of all the data
   data_fit_panel = cowplot::plot_grid(
     dataset_plot_raw,
-    TINC:::plot_sample_contamination(x),
+    plot_sample_contamination(x),
     rel_widths = c(1, .7),
     align = 'h',
     labels = c("A", "B"),
@@ -54,8 +54,8 @@ plot_full_page_report = function(x)
     )
 
   sq_panel = cowplot::plot_grid(
-    TINC:::plot_contamination_full_size(x),
-    TINC:::plot_contamination_zoom(x),
+    plot_contamination_full_size(x),
+    plot_contamination_zoom(x),
     x$fit$VIBER_analysis$plot,
     nrow = 1,
     ncol = 3,

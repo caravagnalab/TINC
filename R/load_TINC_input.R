@@ -67,13 +67,13 @@ load_TINC_input = function(x,
   # With CNA data: establish a special execution setup of this run
   ####################################
   cn_obj = what_we_used = NULL
-  if(TINC:::analysis_mode(cna) == "CNA")
+  if(analysis_mode(cna) == "CNA")
   {
     cli::cli_alert_warning("Found CNA data, retaining only mutations that map to segments with predominant karyotype ...")
 
     # Map CNA data, and retain only mappable mutations that belong to the largest karyotype
     cat("\n")
-    cn_obj = CNAqc::init(snvs = TINC:::as_tumour(x), cna = cna, .8)
+    cn_obj = CNAqc::init(snvs = as_tumour(x), cna = cna, .8)
     cat("\n")
 
     # CNAqc computes the most prevalent karyotype with the largest prevalence (in basepairs).
@@ -111,7 +111,7 @@ load_TINC_input = function(x,
   }
 
   # Tumour filter
-  tumour_exclude_VAF_range = TINC:::as_tumour(x) %>%
+  tumour_exclude_VAF_range = as_tumour(x) %>%
     dplyr::filter((VAF < VAF_range_tumour[1]) |
                     (VAF > VAF_range_tumour[2])) %>%
     dplyr::pull(id)
