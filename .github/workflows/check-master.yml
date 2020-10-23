@@ -365,7 +365,7 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
-      BIOCVERSIONNUM: ${{ needs.R-CMD-check-bioc.outputs.biocversionnum }}
+      BIOCVERSIONNUM: ${{ needs.R-CMD-check.outputs.biocversionnum }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -374,7 +374,7 @@ jobs:
       - name: Setup R from r-lib
         uses: r-lib/actions/setup-r@master
         with:
-          r-version: ${{ needs.R-CMD-check-bioc.outputs.rversion }}
+          r-version: ${{ needs.R-CMD-check.outputs.rversion }}
 
       - name: Setup pandoc from r-lib
         uses: r-lib/actions/setup-pandoc@master
@@ -403,8 +403,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ env.cache-version }}-${{ runner.os }}-biocbranch-r-${{ needs.R-CMD-check-bioc.outputs.rversion }}-bioc-${{ needs.define-docker-info.outputs.biocversion }}-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-biocbranch-r-${{ needs.R-CMD-check-bioc.outputs.rversion }}-bioc-${{ needs.define-docker-info.outputs.biocversion }}-
+          key: ${{ env.cache-version }}-${{ runner.os }}-biocbranch-r-${{ needs.R-CMD-check.outputs.rversion }}-bioc-${{ needs.define-docker-info.outputs.biocversion }}-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ env.cache-version }}-${{ runner.os }}-biocbranch-r-${{ needs.R-CMD-check.outputs.rversion }}-bioc-${{ needs.define-docker-info.outputs.biocversion }}-
 
       - name: Install Linux system dependencies
         if: runner.os == 'Linux'
@@ -546,5 +546,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@master
         with:
-          name: ${{ runner.os }}-biocbranch-${{ needs.R-CMD-check-bioc.outputs.biocversion }}-r-${{ needs.R-CMD-check-bioc.outputs.rversion }}-bioc-${{ needs.R-CMD-check-bioc.outputs.biocversion }}-results
+          name: ${{ runner.os }}-biocbranch-${{ needs.R-CMD-check.outputs.biocversion }}-r-${{ needs.R-CMD-check.outputs.rversion }}-bioc-${{ needs.R-CMD-check.outputs.biocversion }}-results
           path: check
