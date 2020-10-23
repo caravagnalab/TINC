@@ -35,10 +35,13 @@
 #' @export
 #'
 #' @import dplyr
-#' @import mobster
-#' @import BMix
-#' @import VIBER
+#' @import cli
 #' @importFrom cowplot plot_grid
+#' @importFrom BMix bmixfit Parameters plot_clusters plot_density
+#' @importFrom VIBER variational_fit choose_clusters plot_2D
+#' @importFrom mobster plot_entropy  plot_latent_variables
+#' @importFrom mobster plot.dbpmm ddbpmm random_dataset Clusters
+#' @importFrom mobster mobster_fit
 #'
 #' @examples
 #' # Random
@@ -59,21 +62,21 @@ autofit = function(input,
   cat('\n')
 
   # Load data, checks VAF range and N limit; subset with CNA data if required
-  input_data = TINC:::load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
+  input_data = load_TINC_input(input, cna, VAF_range_tumour = VAF_range_tumour, N = N)
 
   x = input_data$mutations
   cna_map = input_data$cna_map
 
   # Used karyptype, only for CNA-based analyses
   used_karyotype = ifelse(
-    TINC:::analysis_mode(cna) != "CNA",
+    analysis_mode(cna) != "CNA",
     NA,
     input_data$what_we_used
   )
 
   # By default, we assume we are looking at the whole genome. When CNA are available, we restrict the set
   used_chromosomes = paste0('chr', 1:22)
-  if(TINC:::analysis_mode(cna) == "CNA")
+  if(analysis_mode(cna) == "CNA")
     used_chromosomes = unique(cna$chr)
 
   # TODO maybe used_chromosomes should be subset according to used_karyotype?
@@ -83,8 +86,8 @@ autofit = function(input,
   # a pool of highly-confidence clonal mutations and estimates the purity of the tumour
   # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   if (FAST)
-    mobster_analysis = TINC:::analyse_mobster(
-      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
+    mobster_analysis = analyse_mobster(
+      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
       cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
@@ -96,13 +99,13 @@ autofit = function(input,
     # value of K. If we have CNA data, we use that as a strong "prior" (not in a Bayesian sense);
     # otherwise we just use the default
     K = 1:3
-    if(TINC:::analysis_mode(cna) == "CNA"){
+    if(analysis_mode(cna) == "CNA"){
       # The prior is on the mixture expected
       if(used_karyotype %in% c("2:0", "2:1", "2:2")) K = 2:3
     }
 
-    mobster_analysis = TINC:::analyse_mobster(
-      x = TINC:::as_tumour(x) %>% dplyr::filter(OK_tumour),
+    mobster_analysis = analyse_mobster(
+      x = as_tumour(x) %>% dplyr::filter(OK_tumour),
       cna_map = cna_map,
       cutoff_miscalled_clonal = cutoff_miscalled_clonal,
       cutoff_lv_assignment = cutoff_lv_assignment,
@@ -137,8 +140,8 @@ autofit = function(input,
 
   # Normal sample ~ use putative clonal mutations from MOBSTER
   if (FAST)
-    BMix_analysis = TINC:::analyse_BMix(
-      x = TINC:::as_normal(x) %>%
+    BMix_analysis = analyse_BMix(
+      x = as_normal(x) %>%
         dplyr::filter(OK_clonal),
       cna_map = cna_map,
       K.BetaBinomials = 0,
@@ -146,7 +149,7 @@ autofit = function(input,
       samples = 2
     )
   else
-    BMix_analysis = TINC:::analyse_BMix(
+    BMix_analysis = analyse_BMix(
       x = as_normal(x) %>%
         dplyr::filter(OK_clonal),
       cna_map = cna_map,
@@ -165,7 +168,7 @@ autofit = function(input,
   # cli::cli_process_start("VIBER analysis of joint data")
 
   if (FAST)
-    VIBER_analysis = TINC:::analyze_VIBER(
+    VIBER_analysis = analyze_VIBER(
       x = x,
       K = 5,
       alpha_0 = 1e-6,
@@ -199,7 +202,7 @@ autofit = function(input,
 
   # Output TINC object of class tin_obj
   cna_list = list(NULL)
-  if(TINC:::analysis_mode(cna) == "CNA")
+  if(analysis_mode(cna) == "CNA")
     {
       cna_list = data.frame(
         used_chromosomes = paste(used_chromosomes, collapse = ':'),
@@ -215,7 +218,7 @@ autofit = function(input,
   # Output object
   output_obj = list(
     data = x,
-    analysis_type = TINC:::analysis_mode(cna),
+    analysis_type = analysis_mode(cna),
     fit = list(
       BMix_analysis = BMix_analysis,
       mobster_analysis = mobster_analysis,

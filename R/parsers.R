@@ -14,7 +14,8 @@
 #' @export
 #'
 #' @importFrom vcfR read.vcfR
-#'
+#' @importFrom stringr str_detect
+#' 
 #' @examples
 #' # not run
 #'
@@ -168,8 +169,17 @@ load_VCF_Canvas = function(file) {
 #' Strelka 2 vcf columns
 #'
 #'
-#' @param as columns in vcf
+#' @param CHROM as CHROM in vcf
+#' @param POS as POS in vcf
+#' @param REF as REF in vcf
+#' @param ALT as ALT in vcf
+#' @param FILTER as FILTER in vcf
+#' @param FORMAT as FORMAT in vcf
+#' @param normal as normal in vcf
+#' @param tumour as tumour in vcf
 #'
+#' @importFrom tibble tibble
+#' 
 #' @return Allele depths for normal and tumour
 #'
 #'

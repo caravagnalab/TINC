@@ -48,8 +48,8 @@ print.tin_obj = function(x, ...)
   # Report Classification
   cat('\n')
 
-  cn = TINC:::classification_normal(x$TIN)
-  ct = TINC:::classification_tumour(x$TIT)
+  cn = classification_normal(x$TIN)
+  ct = classification_tumour(x$TIT)
 
   # pc = c('forestgreen', 'steelblue', 'goldenrod1', 'indianred3', 'purple')
 

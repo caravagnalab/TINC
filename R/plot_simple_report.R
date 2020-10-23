@@ -30,8 +30,8 @@ plot_simple_report = function(x)
   )
 
   # data_plot = plot_raw(x$fit)
-  stats_plot = TINC:::plot_sample_contamination(x, assemble = F)
-  cont_plot = TINC:::plot_contamination_full_size(x) +
+  stats_plot = plot_sample_contamination(x, assemble = F)
+  cont_plot = plot_contamination_full_size(x) +
     labs(
       title = bquote(bold("Summary")),
       subtitle =  paste0("Clonal mutations: n = ",
@@ -41,7 +41,7 @@ plot_simple_report = function(x)
     )
 
   # Sample pie
-  sample_pies = ggpubr:::ggarrange(
+  sample_pies = ggpubr::ggarrange(
     stats_plot$normal,
     stats_plot$tumour,
     ncol = 2,

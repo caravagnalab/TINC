@@ -7,7 +7,21 @@
 pullAD(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour)
 }
 \arguments{
-\item{as}{columns in vcf}
+\item{CHROM}{as CHROM in vcf}
+
+\item{POS}{as POS in vcf}
+
+\item{REF}{as REF in vcf}
+
+\item{ALT}{as ALT in vcf}
+
+\item{FILTER}{as FILTER in vcf}
+
+\item{FORMAT}{as FORMAT in vcf}
+
+\item{normal}{as normal in vcf}
+
+\item{tumour}{as tumour in vcf}
 }
 \value{
 Allele depths for normal and tumour

@@ -20,7 +20,6 @@ Imports:
     pio,
     crayon,
     ggpubr,
-    tidyverse,
     ggrepel,
     mobster,
     BMix,
@@ -29,7 +28,11 @@ Imports:
     purrr,
     dplyr,
     cowplot,
-    CNAqc
+    CNAqc,
+    tidyr,
+    tibble,
+    cli,
+    stringr
 Remotes: 
   caravagn/pio,
   caravagn/BMix,

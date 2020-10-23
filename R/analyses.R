@@ -27,10 +27,10 @@ analyse_mobster = function(x,
     rename(tumour.cluster = cluster)
 
   # Determine clonal cluster
-  clonal_cluster = TINC:::guess_mobster_clonal_cluster(
+  clonal_cluster = guess_mobster_clonal_cluster(
     mobster_fit_tumour = mobster_fit_tumour,
     cutoff_miscalled_clonal = cutoff_miscalled_clonal,
-    use_heuristic = TINC:::analysis_mode(cna_map) == "NO_CNA",
+    use_heuristic = analysis_mode(cna_map) == "NO_CNA",
     chromosomes = chromosomes)
 
   stopifnot(length(clonal_cluster) > 0)
