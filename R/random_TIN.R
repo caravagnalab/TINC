@@ -1,15 +1,28 @@
-#' Title
+#' Generate a random dataset for TINC.
+#' 
+#' @description This function simulates a random dataset for TINC analysis,
+#' with mutations and copy number data. Segments are not real, they are assumed
+#' to be constant heterozygous diploid (`Major = minor = 1`) and span just
+#' mutations (for mappability).
+#' 
+#' This samples has some noise so that the obtained TIT score might be slightly
+#' lower than the required input.
 #'
-#' @param N N
-#' @param TIN TIN
-#' @param TIT TIT
-#' @param normal_coverage normal_coverage
-#' @param tumour_coverage tumour_coverage
+#' @param N Number of input simulations
+#' @param TIN TIN - Tumour in normal contamination level.
+#' @param TIT TIT - Tumour in tumour contamination level (aka tumour purity).
+#' @param normal_coverage Normal coverage (mean). 
+#' @param tumour_coverage Tumour coverage (mean).
 #'
-#' @return
+#' @return Tibbles with the data, and a plot.
 #' @export
+#' @md
 #'
 #' @examples
+#' 
+#' set.seed(1234)
+#' 
+#' # Default dataset
 #' random_TIN()
 random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumour_coverage = 120)
 {
@@ -24,14 +37,17 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumou
     CNAqc::chr_coordinates_hg19$length
   )
 
-  z = mb$data
+  z = mb$data %>% filter(VAF < ((TIT/2) * 1.5))
+  
+  N = z %>% nrow
+  
   z$chr = paste0('chr', sample(1:22, N, replace = T))
   z$from = sapply(z$chr, function(x) sample(1:L_sample[x], 1))
   z$to = z$from + 1
   z$ref = sample(c("A", "C", "T", "G"), replace = TRUE, nrow(z))
   z$alt = sample(c("A", "C", "T", "G"), replace = TRUE, nrow(z))
 
-  z = z %>% dplyr::select(chr, from, to, ref, alt, VAF, cluster) %>%
+  z = z %>% dplyr::select(chr, from, to, ref, alt, VAF, simulated_cluster) %>%
     dplyr::mutate(
       T.VAF = VAF,
       N.VAF = T.VAF * factor_correction
@@ -48,6 +64,20 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumou
 
   z$sim_t_vaf =  z$t_alt_count/z$t_tot_count
   z$sim_n_vaf =  z$n_alt_count/z$n_tot_count
+  
+  p_t = z %>% 
+    ggplot() + 
+    geom_histogram(aes(T.VAF), binwidth = 0.01) +
+    my_ggplot_theme() +
+    xlim(0,1) +
+    labs(x = "Tumour VAF")
+  
+  p_n =   z %>% 
+    ggplot() + 
+    geom_histogram(aes(N.VAF), binwidth = 0.01) +
+    my_ggplot_theme() +
+    xlim(0,1) +
+    labs(x = "Normal VAF")
 
   cli::cli_alert_success(
     'Generated TINC dataset (n = {.value {N}} mutations), TIN ({.value {TIN}}) and TIT ({.value {TIT}}), normal and tumour coverage {.value {normal_coverage}}x and {.value {tumour_coverage}}x.'
@@ -64,11 +94,19 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumou
     geom_vline(xintercept = TIN/2, linetype = 'dashed', size = .3) +
     geom_hline(yintercept = TIT/2, linetype = 'dashed', size = .3) +
     my_ggplot_theme()
+  
+  plot = 
+    cowplot::plot_grid(
+      plot,
+      cowplot::plot_grid(p_t, p_n, nrow = 2),
+      axis = 'tb', 
+      align = 'h'
+    )
 
   # CNA
-  td_cna =   as_tumour(z) %>%
+  td_cna =  as_tumour(z) %>%
     dplyr::mutate(minor = 1, Major = 1, from = from - 1, to = to + 1) %>%
-    dplyr::select(-ref, -alt, -DP, -NV, -VAF)
+    dplyr::select(chr, from, to, ref, Major, minor)
 
   return(
     list(
@@ -76,6 +114,7 @@ random_TIN = function(N = 1000, TIN = 0.05, TIT = 1, normal_coverage = 30, tumou
         dplyr::select(-VAF, -T.VAF, -N.VAF),
       cna = td_cna,
       plot = plot
+      
     )
   )
 }

@@ -9,8 +9,8 @@
 #' @export
 #'
 #' @examples
-#' rt = random_TIN()
-#' plot_simple_report(autofit(input = rt$data, cna = rt$cna, FAST = TRUE))
+#' data(fit_example, package = 'TINC')
+#' plot_simple_report(fit_example)
 plot_simple_report = function(x)
 {
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")

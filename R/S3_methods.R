@@ -15,32 +15,37 @@ print.tin_obj = function(x, ...)
   if(!inherits(x, "tin_obj")) stop("Not a TINC object .... run autofit(.) first, aborting.")
 
   verbose = FALSE
-  pio::pioHdr("TINC profiler for bulk samples")
+  cli::cli_h1("TINC profiler for bulk WGS")
   cat('\n')
 
   if(!(all(is.null(x$fit$CNA))))
-    cli::cli_alert_info("CNA data has been used for this analysis (karyotype {.field {x$data$karyotype[1] }})")
+  {
+    cli::cli_alert_info("Copy Number data has been used for this analysis (karyotype {.field {x$data$karyotype[1]}})")
+    cat("\n")
+    
+    cli::cli_rule()
+    x$fit$CNA %>% print
+    cli::cli_rule()
+  }
   else
-    cli::cli_alert_warning("CNA data has not been used for this analysis.")
+    cli::cli_alert_warning("Copy Number data has not been used for this analysis.")
 
   n = sum(x$data$OK_tumour)
   N = nrow(x$data)
-  cli::cli_alert_info(
-    paste0(' Input : ',
-              'n =', n, ' used out of ', N,
-              paste0(' annotated (', round(n/N, 2) * 100, '%)')
-           ))
-
+  
+  cli::cli_alert(
+    "Mutations data: n = {.field {n}} out of {.value {N}} within range ({.field {round(n/N, 2) * 100}%})."
+  )
   cat("\n")
 
   pio::pioStr('        TIT : ',
-              paste0(round(x$TIT, 2) * 100, '%'),
+              paste0(round(x$TIT, 2) * 100, '% (RF ', round(x$TIT_rf, 2) * 100, ')'),
               ' ~ n =', length(x$fit$mobster_analysis$clonal_mutations),
               'clonal mutations, cluster', x$fit$mobster_analysis$clonal_cluster,
               suffix = '\n')
 
   pio::pioStr('        TIN : ',
-              paste0(round(x$TIN, 2) * 100, '%'),
+              paste0(round(x$TIN, 2) * 100, '% (RF ', round(x$TIN_rf, 2) * 100, ')'),
               ' ~ n =',
               sum(x$fit$BMix_analysis$output$VAF > 0), 'with VAF > 0',
               suffix = '\n')
@@ -55,7 +60,7 @@ print.tin_obj = function(x, ...)
 
   if(ct['color'] == 'forestgreen') cat(black$bgGreen$bold("   QC Tumour  "), ct['QC'] %>% green)
   if(ct['color'] == 'steelblue') cat(black$bgBlue$bold("   QC Tumour  "), ct['QC'] %>% blue)
-  if(ct['color'] == 'goldenrod1') cat(black$bgYellow$bold("   QC Tumour  "), ct['QC'] %>% yellow)
+  if(ct['color'] == 'goldenrod4') cat(black$bgYellow$bold("   QC Tumour  "), ct['QC'] %>% yellow)
   if(ct['color'] == 'indianred3') cat(black$bgRed$bold("   QC Tumour  "), ct['QC'] %>% red)
   if(ct['color'] == 'purple') cat(black$bgMagenta$bold("   QC Tumour  "), ct['QC'] %>% magenta)
 
@@ -63,7 +68,7 @@ print.tin_obj = function(x, ...)
 
   if(cn['color'] == 'forestgreen') cat(black$bgGreen$bold("   QC Normal  "), cn['QC'] %>% green)
   if(cn['color'] == 'steelblue') cat(black$bgBlue$bold("   QC Normal  "), cn['QC'] %>% blue)
-  if(cn['color'] == 'goldenrod1') cat(black$bgYellow$bold("   QC Normal  "), cn['QC'] %>% yellow)
+  if(cn['color'] == 'goldenrod4') cat(black$bgYellow$bold("   QC Normal  "), cn['QC'] %>% yellow)
   if(cn['color'] == 'indianred3') cat(black$bgRed$bold("   QC Normal  "), cn['QC'] %>% red)
   if(cn['color'] == 'purple') cat(black$bgMagenta$bold("   QC Normal  "), cn['QC'] %>% magenta)
 

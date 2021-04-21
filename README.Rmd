@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.org/caravagn/TINC.svg?branch=master)](https://travis-ci.org/caravagn/TINC)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![](https://img.shields.io/badge/Part%20of-evoverse-blue.svg)](https://caravagn.github.io/evoverse)
+[![R-CMD-check](https://github.com/caravagnalab/TINC/workflows/R-CMD-check/badge.svg)](https://github.com/caravagnalab/TINC/actions)
 <!-- badges: end -->
 
 `TINC` is a package to determine the contamination of bulk samples, from read counts data.

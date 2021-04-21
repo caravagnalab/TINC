@@ -20,4 +20,7 @@ nornmal and tumour
 }
 \examples{
 # not run
+\dontrun{
+ load_VCF_Strelka("Myfile.vcf")
+}
 }

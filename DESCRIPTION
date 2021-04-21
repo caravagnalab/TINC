@@ -15,7 +15,8 @@ Description: TINC is a package that implements algorithms to determine the conta
 License: GPL
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 2.1.0)
+Depends: 
+    R (>= 2.10)
 Imports: 
     pio,
     crayon,

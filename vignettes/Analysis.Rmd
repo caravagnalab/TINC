@@ -1,0 +1,70 @@
+---
+title: "TINC analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TINC analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, warning=FALSE, message=FALSE}
+library(TINC)
+```
+# Analysis pipeline
+
+The TINC pipelines requires to run a single function: `autofit`.
+
+Results can then be inspected using two report functions (see below).
+
+# Example simulated inputs
+
+TIN provides a function to generate a random dataset to test the tool. The input `TIN` and `TIT` parameters
+can be specified.
+
+> Note: the sampler generates VAFs using [MOBSTER](https://caravagnalab.github.io/mobster/), and then samples some  clonal mutations and contaminates the normal. This process is noisy and might return slightly lower values for the actual `TIT` estimate. The best setup to test TINC is with a simulated BAM file - e.g., created via [BAMSurgeon](https://github.com/adamewing/bamsurgeon).
+
+```{r, message=FALSE, warning=F, fig.width=6, fig.height=4}
+set.seed(1234)
+
+# Sample data from a tumour with 80% purity, and 10% contamination in the normal
+sampled_data = random_TIN(TIT = .8, TIN = 0.1)
+
+print(sampled_data)
+```
+
+The sampler generates random SNVs, and plain diploid CNA segments. These segments are not real and span just
+through each one of the simulated SNVs.
+
+Data mappings - done internally by TINC - are also available via the `load_TINC_input` function.
+
+```{r}
+load_TINC_input(x = sampled_data$data, cna = sampled_data$cna)
+```
+
+TINC fits the data via the `autofit` function.
+
+A flag `FAST` sets faster set of parameters to determine TIN and TIT scores - we usually this for prototyping analyses and then turn it to `FALSE`.
+
+```{r, message=TRUE, warning=F}
+# Autofit function
+TINC_fit = autofit(sampled_data$data, cna = NULL, FAST = TRUE)
+```
+
+Summary of the results (with an S3 object)
+```{r, message=TRUE, warning=F}
+print(TINC_fit)
+```
+
+Plot the results (with an S3 object)
+```{r, message=FALSE, warning=F, fig.width=10, fig.height=4}
+plot(TINC_fit)
+```
+
+A similar fit object is available inside the package (called `fit_example`).

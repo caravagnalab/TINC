@@ -1,1 +1,46 @@
 destination: docs
+
+template:
+  params:
+    part_of: evoverse
+    footer: G. Caravagna, PhD.
+url:
+  caravagnalab.github.io/TINC
+  
+repo:
+  url:
+    home: https://github.com/caravagnalab/TINC/
+    source: https://github.com/caravagnalab/TINC
+    issue: https://github.com/caravagnalab/TINC/issues
+    user: https://github.com/caravagnalab
+
+
+authors:
+  Giulio Caravagna:
+    href: https://www.caravagnalab.org
+
+reference:
+- title: Available data
+  desc:  Example fit data, and data sampler.
+  contents:
+  - fit_example
+  - random_TIN
+
+- title: Data processing
+  desc:  Functions to pre-process the data, mainly parsers.
+  contents:
+  - load_TINC_input
+  - load_VCF_Canvas
+  - load_VCF_Canvas_Manta
+  - load_VCF_Strelka
+
+
+- title: Data analysis
+  desc:  Functions to analyse the data, and plot results.
+  contents:
+  - autofit
+  - to_string
+  - plot_simple_report
+  - plot_full_page_report
+
+

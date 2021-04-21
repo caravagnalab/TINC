@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • TINC</title>
+<title>Example TINC fit — fit_example • TINC</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Example TINC fit — fit_example" />
+<meta property="og:description" content="Example TINC fit" />
 <meta property="og:image" content="caravagnalab.github.io/TINC/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,122 +129,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Example TINC fit</h1>
+    <small class="dont-index">Source: <a href='https://github.com/caravagnalab/TINCR/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>fit_example.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Example TINC fit</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>fit_example</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-available-data" class="hasAnchor"><a href="#section-available-data" class="anchor"></a>Available data</h2>
-          <p class="section-desc"><p>Example fit data, and data sampler.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="fit_example.html">fit_example</a></code> </p>
-        </td>
-        <td><p>Example TINC fit</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="random_TIN.html">random_TIN()</a></code> </p>
-        </td>
-        <td><p>Generate a random dataset for TINC.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data-processing" class="hasAnchor"><a href="#section-data-processing" class="anchor"></a>Data processing</h2>
-          <p class="section-desc"><p>Functions to pre-process the data, mainly parsers.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="load_TINC_input.html">load_TINC_input()</a></code> </p>
-        </td>
-        <td><p>Load TINC input data.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_VCF_Canvas.html">load_VCF_Canvas()</a></code> </p>
-        </td>
-        <td><p>Canvas VCF parsing function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_VCF_Canvas_Manta.html">load_VCF_Canvas_Manta()</a></code> </p>
-        </td>
-        <td><p>Merged Canvas and Manta VCF parsing function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_VCF_Strelka.html">load_VCF_Strelka()</a></code> </p>
-        </td>
-        <td><p>Strelka 2 VCF parsing function</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-data-analysis" class="hasAnchor"><a href="#section-data-analysis" class="anchor"></a>Data analysis</h2>
-          <p class="section-desc"><p>Functions to analyse the data, and plot results.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="autofit.html">autofit()</a></code> </p>
-        </td>
-        <td><p>Runs a TINC analysis.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="to_string.html">to_string()</a></code> </p>
-        </td>
-        <td><p>Create a data frame representation of a TINC fit</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_simple_report.html">plot_simple_report()</a></code> </p>
-        </td>
-        <td><p>Plot a strip short report of the TINC analysis.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_full_page_report.html">plot_full_page_report()</a></code> </p>
-        </td>
-        <td><p>Plot a full page detailed report of the TINC analysis</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>Fit from TINC.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Simulated data.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>fit_example</span><span class='op'>)</span>
+<span class='va'>fit_example</span>
+</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>TINC profiler for bulk WGS</span><span> </span><span style='color: #00BBBB;'>──────────────────────────────────────────────────</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Copy Number data has been used for this analysis (karyotype </span><span style='color: #00BB00;'>1:1</span><span>)</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>────────────────────────────────────────────────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='color: #000000;background-color: #BBBB00;'>[ CNAqc ] </span><span> n = 985 mutations in </span><span style='color: #00BB00;'>985</span><span> segments (985 clonal + 0 subclonal). Geno</span></div><div class='output co'>#&gt; 
+#&gt;  1:1  [n = 985, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■
+#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Sample Purity: 80% ~ Ploidy: 2.</span></div><div class='output co'>#&gt; <span class='message'>────────────────────────────────────────────────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>→ Mutations data: n = </span><span style='color: #00BB00;'>985</span><span> out of 985 within range (</span><span style='color: #00BB00;'>100%</span><span>).</span></div><div class='output co'>#&gt; 
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>        TIT : </span><span> 78% (RF 78)  ~ n = 714 clonal mutations, cluster C1 </span><span style='color: #000000;background-color: #BBBB00;'>
+#&gt;         TIN : </span><span> 7% (RF 7)  ~ n = 694 with VAF &gt; 0 </span><span style='color: #000000;background-color: #BBBB00;'>
+#&gt; </span><span>
+#&gt; </span><span style='color: #000000;background-color: #0000BB;font-weight: bold;'>   QC Tumour  </span><span> </span><span style='color: #0000BB;'>Good purity (65-85%)</span><span>
+#&gt; </span><span style='color: #000000;background-color: #BBBB00;font-weight: bold;'>   QC Normal  </span><span> </span><span style='color: #BBBB00;'>Some contamination (3-7%)</span><span></div><div class='input'>
+</div></span></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

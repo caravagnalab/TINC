@@ -17,6 +17,6 @@ The report is a multi-panel figure that contains the following
 information. TODO fill in.
 }
 \examples{
-rt = random_TIN()
-plot_full_page_report(autofit(input = rt$data, cna = rt$cna, FAST = TRUE))
+data(fit_example, package = 'TINC')
+plot_full_page_report(fit_example)
 }

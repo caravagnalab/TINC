@@ -7,11 +7,13 @@
 load_TINC_input(x, cna, VAF_range_tumour = c(0, 0.7), N = 20000)
 }
 \arguments{
-\item{x}{A dataframe or tibble.}
+\item{x}{A dataframe or tibble with input mutation data, reporting `chr`, `from`, `to`, `ref` and `alt`,
+plus `n_ref_count` and `n_alt_count`, and `t_ref_count` and `t_tot_count`.}
 
-\item{cna}{Copy Number data in the format of package \code{CNAqc}.}
+\item{cna}{Copy Number data in the format of package \code{CNAqc}, providing `chr`, `from`, `to`,
+`Major` and `minor`.}
 
-\item{VAF_range_tumour}{2D vector for a VAF range used to filter
+\item{VAF_range_tumour}{VAF range used to filter
 mutations from the tumour sample.}
 
 \item{N}{If there are more than `N` mutations in VAF range
@@ -21,12 +23,12 @@ mutations from the tumour sample.}
 A tibble with the loaded data.
 }
 \description{
-The function loads a dataframe or tibble, with a set of required
-column names. See the package for a detailed description of the
-input format.
+The function loads input mutations and optional copy number data for TINC.
+Input formats are reported at the package website.
 
 After loading data, mutation with VAF outside a range (default [0; 0.7])
-are flagged and removed from downnstream analysis.
+are removed from analysis. Similarly, mutations are down-sampled if in excess of
+some  threshold (default `N=20000`).
 }
 \examples{
 # Generating a random TIN input

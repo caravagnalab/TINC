@@ -6,15 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • TINC</title>
+<title>Allele depth pull function — pullAD • TINC</title>
 
 <!-- favicons -->
-<link rel="icon" type="image/png" sizes="16x16" href="caravagnalab.github.io/TINC/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="caravagnalab.github.io/TINC/favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="caravagnalab.github.io/TINC/apple-touch-icon.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="caravagnalab.github.io/TINC/apple-touch-icon-120x120.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="caravagnalab.github.io/TINC/apple-touch-icon-76x76.png" />
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="caravagnalab.github.io/TINC/apple-touch-icon-60x60.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -25,8 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="caravagnalab.github.io/TINC/bootstrap-toc.css">
-<script src="caravagnalab.github.io/TINC/bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -40,14 +40,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="caravagnalab.github.io/TINC/pkgdown.css" rel="stylesheet">
-<script src="caravagnalab.github.io/TINC/pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
-<meta property="og:image" content="caravagnalab.github.io/TINC/logo.png" />
+<meta property="og:title" content="Allele depth pull function — pullAD" />
+<meta property="og:description" content="Pulls out normal and tumour allele depths from
+Strelka 2 vcf columns" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -66,7 +68,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -78,7 +80,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="caravagnalab.github.io/TINC/index.html">TINC</a>
+        <a class="navbar-link" href="../index.html">TINC</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
@@ -86,16 +88,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="articles/TINC.html">Get started</a>
+  <a href="../articles/TINC.html">Get started</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -105,14 +107,14 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/Analysis.html">TINC analysis</a>
+      <a href="../articles/Analysis.html">TINC analysis</a>
     </li>
   </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/caravagnalab/TINC/">
+  <a href="https://github.com/caravagn/TINC/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -128,28 +130,76 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Allele depth pull function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/caravagn/TINC/blob/master/R/parsers.R'><code>R/parsers.R</code></a></small>
+    <div class="hidden name"><code>pullAD.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Pulls out normal and tumour allele depths from
+Strelka 2 vcf columns</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>pullAD</span><span class='op'>(</span><span class='va'>CHROM</span>, <span class='va'>POS</span>, <span class='va'>REF</span>, <span class='va'>ALT</span>, <span class='va'>FILTER</span>, <span class='va'>FORMAT</span>, <span class='va'>normal</span>, <span class='va'>tumour</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>CHROM</th>
+      <td><p>as CHROM in vcf</p></td>
+    </tr>
+    <tr>
+      <th>POS</th>
+      <td><p>as POS in vcf</p></td>
+    </tr>
+    <tr>
+      <th>REF</th>
+      <td><p>as REF in vcf</p></td>
+    </tr>
+    <tr>
+      <th>ALT</th>
+      <td><p>as ALT in vcf</p></td>
+    </tr>
+    <tr>
+      <th>FILTER</th>
+      <td><p>as FILTER in vcf</p></td>
+    </tr>
+    <tr>
+      <th>FORMAT</th>
+      <td><p>as FORMAT in vcf</p></td>
+    </tr>
+    <tr>
+      <th>normal</th>
+      <td><p>as normal in vcf</p></td>
+    </tr>
+    <tr>
+      <th>tumour</th>
+      <td><p>as tumour in vcf</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Allele depths for normal and tumour</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># not run</span>
+</div></pre>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://www.caravagnalab.org'>Giulio Caravagna</a>.</p>
+  <p>Developed by Giulio Caravagna.</p>
 </div>
 
 <div class="pkgdown">

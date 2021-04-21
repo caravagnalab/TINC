@@ -44,10 +44,18 @@
 #' @importFrom mobster mobster_fit
 #'
 #' @examples
+#' 
 #' # Random
-#' rt = TINC::random_TIN()
-#' x = TINC::autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+#' rt = random_TIN()
+#' 
+#' x = autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+#' 
 #' print(x)
+#' 
+#' # Fit in the package
+#' data('fit_example', package = 'TINC')
+#' 
+#' print(fit_example)
 autofit = function(input,
                    cna,
                    VAF_range_tumour = c(0, 0.7),
@@ -99,6 +107,7 @@ autofit = function(input,
     # value of K. If we have CNA data, we use that as a strong "prior" (not in a Bayesian sense);
     # otherwise we just use the default
     K = 1:3
+    
     if(analysis_mode(cna) == "CNA"){
       # The prior is on the mixture expected
       if(used_karyotype %in% c("2:0", "2:1", "2:2")) K = 2:3

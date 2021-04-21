@@ -1,0 +1,49 @@
+---
+title: "TINC introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TINC introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, warning=FALSE, message=FALSE}
+library(TINC)
+```
+
+TINC is a package to estimate Tumour-in-Normal (TIN) and Tumour-in-Tumour (TIT) scores for a matched tumour-normal assay (ideally, a whole-genome one).
+
+# Input formats
+
+TINC takes as input mutation data, with read counts reported for both the tumour and the matched normal.
+
+**Somatic mutations.** Input mutations should report the following information:
+
+- the mutation genomic coordinates, and the substituted alleles: `chr`, `from`, `to`, `ref` and `alt`
+- he number of total reads witht the reference and alternative alleles in the _normal_ sample: `n_ref_count` and `n_alt_count`. 
+- the analogous information for the _tumour_ sample: `t_ref_count` and `t_tot_count`. 
+
+Example input mutations are shown below.
+
+**Copy number segments.** Optionally, allele-specific copy number segments can also be used These can be extremely important if the sample has high levels of aneuploidy, and we do suggest to use those in such cases. 
+
+Copy number segments data must follow the formats from the [CNAqc package](https://caravagnalab.github.io/CNAqc/):
+
+- genomic coordinates of a segment: `chr`, `from` and `to`
+- the allele-specific ploidy value for the `Major` and `minor` alleles
+
+```{r}
+# devtools::install_github("caravagnalab/CNAqc")
+require(CNAqc)
+
+# This is the format
+CNAqc::example_dataset_CNAqc$cna %>% print
+```
+

@@ -22,6 +22,7 @@ can be used to call function \code{autofit}.
 }
 \examples{
 # not run
-
-
+\dontrun{
+ load_VCF_Canvas_Manta("Myfile.vcf")
+}
 }

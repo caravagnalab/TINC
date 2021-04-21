@@ -2,7 +2,7 @@
 % Please edit documentation in R/random_TIN.R
 \name{random_TIN}
 \alias{random_TIN}
-\title{Title}
+\title{Generate a random dataset for TINC.}
 \usage{
 random_TIN(
   N = 1000,
@@ -13,22 +13,32 @@ random_TIN(
 )
 }
 \arguments{
-\item{N}{N}
+\item{N}{Number of input simulations}
 
-\item{TIN}{TIN}
+\item{TIN}{TIN - Tumour in normal contamination level.}
 
-\item{TIT}{TIT}
+\item{TIT}{TIT - Tumour in tumour contamination level (aka tumour purity).}
 
-\item{normal_coverage}{normal_coverage}
+\item{normal_coverage}{Normal coverage (mean).}
 
-\item{tumour_coverage}{tumour_coverage}
+\item{tumour_coverage}{Tumour coverage (mean).}
 }
 \value{
-
+Tibbles with the data, and a plot.
 }
 \description{
-Title
+This function simulates a random dataset for TINC analysis,
+with mutations and copy number data. Segments are not real, they are assumed
+to be constant heterozygous diploid (\code{Major = minor = 1}) and span just
+mutations (for mappability).
+
+This samples has some noise so that the obtained TIT score might be slightly
+lower than the required input.
 }
 \examples{
+
+set.seed(1234)
+
+# Default dataset
 random_TIN()
 }

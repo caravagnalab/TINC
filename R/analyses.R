@@ -338,6 +338,7 @@ analyze_VIBER = function(x, ...)
   cli::cli_h1("Analysing tumour and normal samples with VIBER")
   cat('\n')
 
+  curr_o = getOption("easypar.parallel")
   options(easypar.parallel = FALSE)
 
   # Only OK tumour
@@ -353,7 +354,7 @@ analyze_VIBER = function(x, ...)
     ...
   )
 
-  options(easypar.parallel = TRUE)
+  options(easypar.parallel = curr_o)
 
   cat('\n')
 

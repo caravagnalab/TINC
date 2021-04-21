@@ -18,8 +18,9 @@
 #' 
 #' @examples
 #' # not run
-#'
-#'
+#' \dontrun{
+#'  load_VCF_Canvas_Manta("Myfile.vcf")
+#' }
 load_VCF_Canvas_Manta = function(file) {
   if (!file.exists(file))
     stop("Input file", file, "not found!")
@@ -82,8 +83,6 @@ load_VCF_Canvas_Manta = function(file) {
 }
 
 
-
-
 #' Canvas VCF parsing function
 #'
 #' @description Parse a VCF file from Canvas, which stores a
@@ -102,7 +101,9 @@ load_VCF_Canvas_Manta = function(file) {
 #'
 #' @examples
 #' # not run
-#'
+#' \dontrun{
+#'  load_VCF_Canvas("Myfile.vcf")
+#' }
 #'
 load_VCF_Canvas = function(file) {
   if (!file.exists(file))
@@ -163,28 +164,28 @@ load_VCF_Canvas = function(file) {
 
 
 
-#' Allele depth pull function
-#'
-#' @description Pulls out normal and tumour allele depths from
-#' Strelka 2 vcf columns
-#'
-#'
-#' @param CHROM as CHROM in vcf
-#' @param POS as POS in vcf
-#' @param REF as REF in vcf
-#' @param ALT as ALT in vcf
-#' @param FILTER as FILTER in vcf
-#' @param FORMAT as FORMAT in vcf
-#' @param normal as normal in vcf
-#' @param tumour as tumour in vcf
-#'
-#' @importFrom tibble tibble
-#' 
-#' @return Allele depths for normal and tumour
-#'
-#'
-#' @examples
-#' # not run
+# Allele depth pull function
+#
+# @description Pulls out normal and tumour allele depths from
+# Strelka 2 vcf columns
+#
+#
+# @param CHROM as CHROM in vcf
+# @param POS as POS in vcf
+# @param REF as REF in vcf
+# @param ALT as ALT in vcf
+# @param FILTER as FILTER in vcf
+# @param FORMAT as FORMAT in vcf
+# @param normal as normal in vcf
+# @param tumour as tumour in vcf
+#
+# @importFrom tibble tibble
+# 
+# @return Allele depths for normal and tumour
+#
+#
+# @examples
+# # not run
 pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
 
 #Identify ref and alt alleles
@@ -234,6 +235,9 @@ pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
 #'
 #' @examples
 #' # not run
+#' \dontrun{
+#'  load_VCF_Strelka("Myfile.vcf")
+#' }
 load_VCF_Strelka = function(file) {
 
 #  file = "/home/jmitchell1/TIN/berthaRscript/input/LP3000417-DNA_F02_LP3000396-DNA_F02_12.vcf.gz"

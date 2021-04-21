@@ -56,8 +56,16 @@ contamination level is estimated.
 An S3 object is returned that contains the results of the analysis.
 }
 \examples{
+
 # Random
-rt = TINC::random_TIN()
-x = TINC::autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+rt = random_TIN()
+
+x = autofit(input = rt$data, cna = rt$cna, FAST = TRUE)
+
 print(x)
+
+# Fit in the package
+data('fit_example', package = 'TINC')
+
+print(fit_example)
 }
