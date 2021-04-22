@@ -42,6 +42,8 @@
 #' @importFrom mobster plot_entropy  plot_latent_variables
 #' @importFrom mobster plot.dbpmm ddbpmm random_dataset Clusters
 #' @importFrom mobster mobster_fit
+#' @importFrom stats complete.cases dbinom median qbinom rpois runif
+#' @importFrom utils read.table
 #'
 #' @examples
 #' 

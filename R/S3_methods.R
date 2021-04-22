@@ -3,7 +3,7 @@
 #' @param x A TINC analysis computed with \code{autofit}.
 #' @param ... Extra S3 parameters
 #'
-#' @return
+#' @return Nothing.
 #' @export
 #'
 #' @examples

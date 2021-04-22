@@ -1,4 +1,9 @@
-#' Create a data frame representation of a TINC fit
+#' Dataframe description of a TINC fit
+#' 
+#' @description 
+#' 
+#' Create a data frame representation of a TINC fit, reporting the most
+#' relevant information of the data and model fit.
 #'
 #' @param x A TINC fit.
 #'
@@ -6,6 +11,8 @@
 #' @export
 #'
 #' @examples
+#' data(fit_example, package = 'TINC')
+#' to_string(fit_example)
 to_string = function(x)
 {
   x$params$VAF_range_tumour = paste(x$params$VAF_range_tumour, collapse = ':')

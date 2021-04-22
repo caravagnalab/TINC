@@ -2,7 +2,7 @@
 % Please edit documentation in R/to_string.R
 \name{to_string}
 \alias{to_string}
-\title{Create a data frame representation of a TINC fit}
+\title{Dataframe description of a TINC fit}
 \usage{
 to_string(x)
 }
@@ -13,5 +13,10 @@ to_string(x)
 A dataframe.
 }
 \description{
-Create a data frame representation of a TINC fit
+Create a data frame representation of a TINC fit, reporting the most
+relevant information of the data and model fit.
+}
+\examples{
+data(fit_example, package = 'TINC')
+to_string(fit_example)
 }
