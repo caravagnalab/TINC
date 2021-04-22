@@ -41,17 +41,17 @@ plot_simple_report = function(x)
     )
 
   # Sample pie
-  sample_pies = ggpubr::ggarrange(
-    stats_plot$normal,
-    stats_plot$tumour,
-    ncol = 2,
-    nrow = 1,
-    common.legend = TRUE,
-    legend = 'bottom')
+  # sample_pies = ggpubr::ggarrange(
+  #   stats_plot$normal,
+  #   stats_plot$tumour,
+  #   ncol = 2,
+  #   nrow = 1,
+  #   common.legend = TRUE,
+  #   legend = 'bottom')
 
   figure = cowplot::plot_grid(
     cont_plot,
-    sample_pies,
+    stats_plot,
     ncol = 2,
     nrow = 1,
     align = 'h',

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a data frame representation of a TINC fit — to_string • TINC</title>
+<title>Dataframe description of a TINC fit — to_string • TINC</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Create a data frame representation of a TINC fit — to_string" />
-<meta property="og:description" content="Create a data frame representation of a TINC fit" />
+<meta property="og:title" content="Dataframe description of a TINC fit — to_string" />
+<meta property="og:description" content="Create a data frame representation of a TINC fit, reporting the most
+relevant information of the data and model fit." />
 <meta property="og:image" content="caravagnalab.github.io/TINC/logo.png" />
 
 
@@ -110,6 +111,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -131,13 +135,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a data frame representation of a TINC fit</h1>
+    <h1>Dataframe description of a TINC fit</h1>
     <small class="dont-index">Source: <a href='https://github.com/caravagnalab/TINCR/to_string.R'><code>R/to_string.R</code></a></small>
     <div class="hidden name"><code>to_string.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a data frame representation of a TINC fit</p>
+    <p>Create a data frame representation of a TINC fit, reporting the most
+relevant information of the data and model fit.</p>
     </div>
 
     <pre class="usage"><span class='fu'>to_string</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
@@ -155,6 +160,25 @@
 
     <p>A dataframe.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>fit_example</span>, package <span class='op'>=</span> <span class='st'>'TINC'</span><span class='op'>)</span>
+<span class='fu'>to_string</span><span class='op'>(</span><span class='va'>fit_example</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;          TIN       TIT     TIN_rf    TIT_rf n_mutations_total
+#&gt; 1 0.06871154 0.7833189 0.06871154 0.7833189               985
+#&gt;   n_mutations_clonal clonal_cluster latentvar_clonal_cutoff betas_mobster
+#&gt; 1                714             C1                    0.75             1
+#&gt;   tail_mobster K_mobster n_binomial_clusters_bmix n_binomial_clusters_viber
+#&gt; 1            1         2                        1                         2
+#&gt;   binomial_peaks_bmix params_VAF_range_tumour params_cutoff_miscalled_clonal
+#&gt; 1  0.0343557710236808                   0:0.7                            0.6
+#&gt;   params_cutoff_lv_assignment params_cutoff_lv_assignment_dynamic params_N
+#&gt; 1                        0.75                               FALSE    20000
+#&gt;   params_FAST
+#&gt; 1        TRUE
+#&gt;                                                                                                  cna_params_used_chromosomes
+#&gt; 1 chr21:chr13:chr15:chr9:chr6:chr1:chr19:chr4:chr16:chr7:chr20:chr11:chr8:chr14:chr18:chr5:chr3:chr10:chr22:chr12:chr17:chr2
+#&gt;   cna_params_karyotype cna_params_ploidy
+#&gt; 1                  1:1                 2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

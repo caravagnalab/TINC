@@ -62,9 +62,18 @@ Summary of the results (with an S3 object)
 print(TINC_fit)
 ```
 
-Plot the results (with an S3 object)
+Plot the results (with an S3 object).
 ```{r, message=FALSE, warning=F, fig.width=10, fig.height=4}
 plot(TINC_fit)
+
+# Analogous to
+# plot_simple_report(TINC_fit)
+```
+
+Or make a more detailed report
+```{r, message=FALSE, warning=F, fig.width=10, fig.height=10}
+plot_full_page_report(TINC_fit)
+
 ```
 
 A similar fit object is available inside the package (called `fit_example`).

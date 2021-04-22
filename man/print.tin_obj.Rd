@@ -12,7 +12,7 @@
 \item{...}{Extra S3 parameters}
 }
 \value{
-
+Nothing.
 }
 \description{
 Print a TINC object to screen
