@@ -84,3 +84,4 @@ plot_full_page_report = function(x)
     rel_heights = c(.8, .7, .7)
   )
 }
+

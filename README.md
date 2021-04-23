@@ -3,12 +3,10 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/caravagn/TINC.svg?branch=master)](https://travis-ci.org/caravagn/TINC)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![](https://img.shields.io/badge/Part%20of-evoverse-blue.svg)](https://caravagn.github.io/evoverse)
-[![R-CMD-check](https://github.com/caravagnalab/TINC/workflows/R-CMD-check/badge.svg)](https://github.com/caravagnalab/TINC/actions)
+[![pkgdown](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml)
+[![check-master](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml)
 <!-- badges: end -->
 
 `TINC` is a package to determine the contamination of tumour DNA in a
@@ -17,16 +15,15 @@ read counts data from whole-genome sequencing assays.
 
 Precisely, the package provides methods to determine, for every matched
 pair of normal and tumour sample biopsies, the proportion of cancer
-cells, or tumour read fractions, apparently found in the normal sample
-(Tumour in Normal, TIN). Similarly, it determines the proportion of
-cancer cells in the tumour sample (Tumour in Tumour, TIT), also called
-purity.
+cells, or tumour read fractions, contaminating the normal sample (Tumour
+in Normal, TIN). Similarly, it determines the proportion of cancer cells
+in the tumour sample (Tumour in Tumour, TIT), also called tumour purity.
 
-If the contamination determined by TINC is high, there are good chances
-that a somatic caller will be affected by false negative calls (i.e.,
-non-called mutations that have read support in the normal). In these
-cases TINC can be used to flag samples and implement a tumour-only
-pipeline for somati calling, since that would be more appropriate.
+If the TIN contamination determined by TINC is high, there are good
+chances that a somatic caller will be affected by false negative calls
+(i.e., non-called mutations that have read support in the normal). In
+these cases TINC can be used to flag samples better suited for a
+tumour-only somatic calling pipeline.
 
 #### Help and support
 
