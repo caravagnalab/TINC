@@ -1,0 +1,11 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  Analysis: Analysis.html
+  TINC: TINC.html
+last_built: 2021-11-22T13:50Z
+urls:
+  reference: caravagnalab.github.io/TINC/reference
+  article: caravagnalab.github.io/TINC/articles
+
