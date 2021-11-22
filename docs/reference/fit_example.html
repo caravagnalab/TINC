@@ -154,17 +154,29 @@
     <p>Simulated data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>fit_example</span><span class='op'>)</span>
-<span class='va'>fit_example</span>
-</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>──</span><span> </span><span style='font-weight: bold;'>TINC profiler for bulk WGS</span><span> </span><span style='color: #00BBBB;'>──────────────────────────────────────────────────</span><span></span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Copy Number data has been used for this analysis (karyotype </span><span style='color: #00BB00;'>1:1</span><span>)</span></div><div class='output co'>#&gt; </div><div class='output co'>#&gt; <span class='message'>────────────────────────────────────────────────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>── </span><span style='color: #000000;background-color: #BBBB00;'>[ CNAqc ] </span><span> n = 985 mutations in </span><span style='color: #00BB00;'>985</span><span> segments (985 clonal + 0 subclonal). Geno</span></div><div class='output co'>#&gt; 
-#&gt;  1:1  [n = 985, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■
-#&gt; </div><div class='output co'>#&gt; <span class='message'></span><span style='color: #00BBBB;'>ℹ</span><span> Sample Purity: 80% ~ Ploidy: 2.</span></div><div class='output co'>#&gt; <span class='message'>────────────────────────────────────────────────────────────────────────────────</span></div><div class='output co'>#&gt; <span class='message'>→ Mutations data: n = </span><span style='color: #00BB00;'>985</span><span> out of 985 within range (</span><span style='color: #00BB00;'>100%</span><span>).</span></div><div class='output co'>#&gt; 
-#&gt; </span><span style='color: #000000;background-color: #BBBB00;'>        TIT : </span><span> 78% (RF 78)  ~ n = 714 clonal mutations, cluster C1 </span><span style='color: #000000;background-color: #BBBB00;'>
-#&gt;         TIN : </span><span> 7% (RF 7)  ~ n = 694 with VAF &gt; 0 </span><span style='color: #000000;background-color: #BBBB00;'>
-#&gt; </span><span>
-#&gt; </span><span style='color: #000000;background-color: #0000BB;font-weight: bold;'>   QC Tumour  </span><span> </span><span style='color: #0000BB;'>Good purity (65-85%)</span><span>
-#&gt; </span><span style='color: #000000;background-color: #BBBB00;font-weight: bold;'>   QC Normal  </span><span> </span><span style='color: #BBBB00;'>Some contamination (3-7%)</span><span></div><div class='input'>
-</div></span></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>fit_example</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fit_example</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>TINC profiler for bulk WGS</span> <span style='color: #00BBBB;'>──────────────────────────────────────────────────</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Copy Number data has been used for this analysis (karyotype <span style='color: #00BB00;'>1:1</span>)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── <span style='color: #000000; background-color: #BBBB00;'>[ CNAqc ] </span> n = 985 mutations in <span style='color: #00BB00;'>985</span> segments (985 clonal + 0 subclonal). Geno</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1:1  [n = 985, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Sample Purity: 80% ~ Ploidy: 2.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> → Mutations data: n = <span style='color: #00BB00;'>985</span> out of 985 within range (<span style='color: #00BB00;'>100%</span>).</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #000000; background-color: #BBBB00;'>        TIT : </span> 78% (RF 78)  ~ n = 714 clonal mutations, cluster C1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #000000; background-color: #BBBB00;'>        TIN : </span> 7% (RF 7)  ~ n = 694 with VAF &gt; 0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #000000; background-color: #0000BB; font-weight: bold;'>   QC Tumour  </span> <span style='color: #0000BB;'>Good purity (65-85%)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #000000; background-color: #BBBB00; font-weight: bold;'>   QC Normal  </span> <span style='color: #BBBB00;'>Some contamination (3-7%)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

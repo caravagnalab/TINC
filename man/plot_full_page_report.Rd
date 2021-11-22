@@ -17,6 +17,8 @@ The report is a multi-panel figure that contains the following
 information. TODO fill in.
 }
 \examples{
+\dontrun{
 data(fit_example, package = 'TINC')
 plot_full_page_report(fit_example)
+}
 }
