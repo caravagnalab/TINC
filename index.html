@@ -32,6 +32,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -44,18 +46,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">TINC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/TINC.html">Get started</a>
 </li>
@@ -80,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/caravagnalab/TINC/">
+  <a href="https://github.com/caravagnalab/TINC/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -97,36 +93,35 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="tinc-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#tinc-" class="anchor"></a>TINC <img src="reference/figures/logo.png" align="right" height="139">
+<div class="section level1">
+<div class="page-header"><h1 id="tinc-">TINC <img src="reference/figures/logo.png" align="right" height="139"><a class="anchor" aria-label="anchor" href="#tinc-"></a>
 </h1></div>
 <!-- badges: start -->
 
 <p><code>TINC</code> is a package to determine the contamination of tumour DNA in a matched normal sample. The approach uses evolutionary theory applied to read counts data from whole-genome sequencing assays.</p>
 <p>Precisely, the package provides methods to determine, for every matched pair of normal and tumour sample biopsies, the proportion of cancer cells, or tumour read fractions, contaminating the normal sample (Tumour in Normal, TIN). Similarly, it determines the proportion of cancer cells in the tumour sample (Tumour in Tumour, TIT), also called tumour purity.</p>
 <p>If the TIN contamination determined by TINC is high, there are good chances that a somatic caller will be affected by false negative calls (i.e., non-called mutations that have read support in the normal). In these cases TINC can be used to flag samples better suited for a tumour-only somatic calling pipeline.</p>
-<div id="help-and-support" class="section level4">
-<h4 class="hasAnchor">
-<a href="#help-and-support" class="anchor"></a>Help and support</h4>
+<div class="section level4">
+<h4 id="help-and-support">Help and support<a class="anchor" aria-label="anchor" href="#help-and-support"></a>
+</h4>
 </div>
-<div id="section" class="section level2">
-<h2 class="hasAnchor">
-<a href="#section" class="anchor"></a><a href="https://caravagnalab.github.io/TINC"><img src="https://img.shields.io/badge/GitHub%20Pages-https://caravagnalab.github.io/TINC/-yellow.svg"></a>
+<div class="section level2">
+<h2 id="section">
+<a href="https://caravagnalab.github.io/TINC"><img src="https://img.shields.io/badge/GitHub%20Pages-https://caravagnalab.github.io/TINC/-yellow.svg"></a><a class="anchor" aria-label="anchor" href="#section"></a>
 </h2>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
-<p>You can install the released version of <code>TINC</code> from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>You can install the released version of <code>TINC</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"caravagnalab/TINC"</span><span class="op">)</span></code></pre></div>
 <hr>
-<div id="copyright-and-contacts" class="section level4">
-<h4 class="hasAnchor">
-<a href="#copyright-and-contacts" class="anchor"></a>Copyright and contacts</h4>
+<div class="section level4">
+<h4 id="copyright-and-contacts">Copyright and contacts<a class="anchor" aria-label="anchor" href="#copyright-and-contacts"></a>
+</h4>
 <p>Giulio Caravagna. Cancer Data Science (CDS) Laboratory.</p>
-<p><a href="mailto:gcaravagn@gmail.com"><img src="https://img.shields.io/badge/Email-gcaravagn@gmail.com-steelblue.svg"></a> <a href="https://github.com/caravagnalab"><img src="https://img.shields.io/badge/CDS%20Lab%20Github-caravagnalab-seagreen.svg"></a> <a href="https://www.caravagnalab.org/"><img src="https://img.shields.io/badge/CDS%20Lab%20webpage-https://www.caravagnalab.org/-red.svg"></a></p>
+<p><a href="mailto:gcaravagn@gmail.com"><img src="https://img.shields.io/badge/Email-gcaravagn@gmail.com-steelblue.svg"></a> <a href="https://github.com/caravagnalab" class="external-link"><img src="https://img.shields.io/badge/CDS%20Lab%20Github-caravagnalab-seagreen.svg"></a> <a href="https://www.caravagnalab.org/" class="external-link"><img src="https://img.shields.io/badge/CDS%20Lab%20webpage-https://www.caravagnalab.org/-red.svg"></a></p>
 </div>
 </div>
 </div>
@@ -135,46 +130,57 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/caravagnalab/TINC/">https://​github.com/​caravagnalab/​TINC/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/caravagn/TINC/issues">https://​github.com/​caravagn/​TINC/​issues</a>
-</li>
+<li><a href="https://github.com/caravagnalab/TINC/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/caravagn/TINC/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL</li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://www.caravagnalab.org">Giulio Caravagna</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html#citation">Citing TINC</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
-<li><a href="https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml"><img src="https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
-<li><a href="https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml"><img src="https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml/badge.svg" alt="check-master"></a></li>
+<li>
+<a href="https://www.caravagnalab.org" class="external-link">Giulio Caravagna</a> <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></li>
+<li><a href="https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
+<li><a href="https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml" class="external-link"><img src="https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml/badge.svg" alt="check-master"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.caravagnalab.org">Giulio Caravagna</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.caravagnalab.org" class="external-link">Giulio Caravagna</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -182,6 +188,8 @@
 
   
 
+
+  
 
   </body>
 </html>

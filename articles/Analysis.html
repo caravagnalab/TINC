@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TINC</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/TINC.html">Get started</a>
 </li>
@@ -74,7 +70,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/caravagnalab/TINC/">
+  <a href="https://github.com/caravagnalab/TINC/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -95,7 +91,7 @@
       <h1 data-toc-skip>TINC analysis</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/caravagnalab/TINCvignettes/Analysis.Rmd"><code>vignettes/Analysis.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/caravagnalab/TINCvignettes/Analysis.Rmd" class="external-link"><code>vignettes/Analysis.Rmd</code></a></small>
       <div class="hidden name"><code>Analysis.Rmd</code></div>
 
     </div>
@@ -103,60 +99,60 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/caravagn/TINC">TINC</a></span><span class="op">)</span></code></pre></div>
-<div id="analysis-pipeline" class="section level1">
-<h1 class="hasAnchor">
-<a href="#analysis-pipeline" class="anchor"></a>Analysis pipeline</h1>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/caravagn/TINC" class="external-link">TINC</a></span><span class="op">)</span></code></pre></div>
+<div class="section level1">
+<h1 id="analysis-pipeline">Analysis pipeline<a class="anchor" aria-label="anchor" href="#analysis-pipeline"></a>
+</h1>
 <p>The TINC pipelines requires to run a single function: <code>autofit</code>.</p>
 <p>Results can then be inspected using two report functions (see below).</p>
 </div>
-<div id="example-simulated-inputs" class="section level1">
-<h1 class="hasAnchor">
-<a href="#example-simulated-inputs" class="anchor"></a>Example simulated inputs</h1>
+<div class="section level1">
+<h1 id="example-simulated-inputs">Example simulated inputs<a class="anchor" aria-label="anchor" href="#example-simulated-inputs"></a>
+</h1>
 <p>TIN provides a function to generate a random dataset to test the tool. The input <code>TIN</code> and <code>TIT</code> parameters can be specified.</p>
 <blockquote>
-<p>Note: the sampler generates VAFs using <a href="https://caravagnalab.github.io/mobster/">MOBSTER</a>, and then samples some clonal mutations and contaminates the normal. This process is noisy and might return slightly lower values for the actual <code>TIT</code> estimate. The best setup to test TINC is with a simulated BAM file - e.g., created via <a href="https://github.com/adamewing/bamsurgeon">BAMSurgeon</a>.</p>
+<p>Note: the sampler generates VAFs using <a href="https://caravagnalab.github.io/mobster/" class="external-link">MOBSTER</a>, and then samples some clonal mutations and contaminates the normal. This process is noisy and might return slightly lower values for the actual <code>TIT</code> estimate. The best setup to test TINC is with a simulated BAM file - e.g., created via <a href="https://github.com/adamewing/bamsurgeon" class="external-link">BAMSurgeon</a>.</p>
 </blockquote>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
 
 <span class="co"># Sample data from a tumour with 80% purity, and 10% contamination in the normal</span>
 <span class="va">sampled_data</span> <span class="op">=</span> <span class="fu"><a href="../reference/random_TIN.html">random_TIN</a></span><span class="op">(</span>TIT <span class="op">=</span> <span class="fl">.8</span>, TIN <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">sampled_data</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sampled_data</span><span class="op">)</span>
 <span class="co">#&gt; $data</span>
-<span class="co">#&gt; # A tibble: 984 × 14</span>
-<span class="co">#&gt;    chr        from       to ref   alt   simulated_clust… n_tot_count t_tot_count</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                  &lt;int&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 chr8  118806215   1.19e8 A     T     C1                        20         112</span>
-<span class="co">#&gt;  2 chr15  38021292   3.80e7 T     T     C1                        37         133</span>
-<span class="co">#&gt;  3 chr13  85300297   8.53e7 C     T     C1                        23         123</span>
-<span class="co">#&gt;  4 chr8   86533121   8.65e7 A     G     C1                        30         123</span>
-<span class="co">#&gt;  5 chr1  195709332   1.96e8 T     C     C1                        32         106</span>
-<span class="co">#&gt;  6 chr12  41023861   4.10e7 T     A     C1                        25         142</span>
-<span class="co">#&gt;  7 chr4     411684   4.12e5 G     A     C1                        30         131</span>
-<span class="co">#&gt;  8 chr6   61293754   6.13e7 C     C     C1                        19         118</span>
-<span class="co">#&gt;  9 chr16   2944664   2.94e6 C     T     C1                        31         117</span>
-<span class="co">#&gt; 10 chr20  14935463   1.49e7 A     G     C1                        27         105</span>
-<span class="co">#&gt; # … with 974 more rows, and 6 more variables: n_alt_count &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   t_alt_count &lt;dbl&gt;, n_ref_count &lt;dbl&gt;, t_ref_count &lt;dbl&gt;, sim_t_vaf &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   sim_n_vaf &lt;dbl&gt;</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 995 × 14</span></span>
+<span class="co">#&gt;    chr       from       to ref   alt   simulated_cluster n_tot_count t_tot_count</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr4  60<span style="text-decoration: underline;">545</span>092 60<span style="text-decoration: underline;">545</span>093 G     C     C1                         36         131</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr9  13<span style="text-decoration: underline;">672</span>958 13<span style="text-decoration: underline;">672</span>959 C     T     C1                         35         121</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr8  16<span style="text-decoration: underline;">600</span>825 16<span style="text-decoration: underline;">600</span>826 T     T     C1                         29         120</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr7  61<span style="text-decoration: underline;">836</span>118 61<span style="text-decoration: underline;">836</span>119 C     T     C1                         29         119</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr18 50<span style="text-decoration: underline;">465</span>649 50<span style="text-decoration: underline;">465</span>650 G     T     C1                         31         118</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr13  6<span style="text-decoration: underline;">223</span>462  6<span style="text-decoration: underline;">223</span>463 G     T     C1                         33         122</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr20 61<span style="text-decoration: underline;">620</span>642 61<span style="text-decoration: underline;">620</span>643 T     A     C1                         27         114</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr4  18<span style="text-decoration: underline;">181</span>772 18<span style="text-decoration: underline;">181</span>773 C     T     C1                         40         116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr2  86<span style="text-decoration: underline;">023</span>423 86<span style="text-decoration: underline;">023</span>424 G     T     C1                         28         125</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr20 40<span style="text-decoration: underline;">247</span>900 40<span style="text-decoration: underline;">247</span>901 G     G     C1                         34         115</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 985 more rows, and 6 more variables: n_alt_count &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   t_alt_count &lt;dbl&gt;, n_ref_count &lt;dbl&gt;, t_ref_count &lt;dbl&gt;, sim_t_vaf &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   sim_n_vaf &lt;dbl&gt;</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $cna</span>
-<span class="co">#&gt; # A tibble: 984 × 6</span>
-<span class="co">#&gt;    chr        from        to ref   Major minor</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 chr8  118806214 118806217 A         1     1</span>
-<span class="co">#&gt;  2 chr15  38021291  38021294 T         1     1</span>
-<span class="co">#&gt;  3 chr13  85300296  85300299 C         1     1</span>
-<span class="co">#&gt;  4 chr8   86533120  86533123 A         1     1</span>
-<span class="co">#&gt;  5 chr1  195709331 195709334 T         1     1</span>
-<span class="co">#&gt;  6 chr12  41023860  41023863 T         1     1</span>
-<span class="co">#&gt;  7 chr4     411683    411686 G         1     1</span>
-<span class="co">#&gt;  8 chr6   61293753  61293756 C         1     1</span>
-<span class="co">#&gt;  9 chr16   2944663   2944666 C         1     1</span>
-<span class="co">#&gt; 10 chr20  14935462  14935465 A         1     1</span>
-<span class="co">#&gt; # … with 974 more rows</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 995 × 6</span></span>
+<span class="co">#&gt;    chr       from       to ref   Major minor</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr4  60<span style="text-decoration: underline;">545</span>091 60<span style="text-decoration: underline;">545</span>094 G         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr9  13<span style="text-decoration: underline;">672</span>957 13<span style="text-decoration: underline;">672</span>960 C         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr8  16<span style="text-decoration: underline;">600</span>824 16<span style="text-decoration: underline;">600</span>827 T         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr7  61<span style="text-decoration: underline;">836</span>117 61<span style="text-decoration: underline;">836</span>120 C         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr18 50<span style="text-decoration: underline;">465</span>648 50<span style="text-decoration: underline;">465</span>651 G         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr13  6<span style="text-decoration: underline;">223</span>461  6<span style="text-decoration: underline;">223</span>464 G         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr20 61<span style="text-decoration: underline;">620</span>641 61<span style="text-decoration: underline;">620</span>644 T         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr4  18<span style="text-decoration: underline;">181</span>771 18<span style="text-decoration: underline;">181</span>774 C         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr2  86<span style="text-decoration: underline;">023</span>422 86<span style="text-decoration: underline;">023</span>425 G         1     1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr20 40<span style="text-decoration: underline;">247</span>899 40<span style="text-decoration: underline;">247</span>902 G         1     1</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 985 more rows</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $plot</span></code></pre></div>
 <p><img src="Analysis_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
@@ -165,49 +161,50 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/load_TINC_input.html">load_TINC_input</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sampled_data</span><span class="op">$</span><span class="va">data</span>, cna <span class="op">=</span> <span class="va">sampled_data</span><span class="op">$</span><span class="va">cna</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Loading TINC input data ─────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ✔ Input data contains n = 984 mutations, selecting operation mode.</span>
-<span class="co">#&gt; ! Found CNA data, retaining only mutations that map to segments with predominant karyotype ...</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Loading TINC input data</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Input data contains n = 995 mutations, selecting operation mode.</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Found CNA data, retaining only mutations that map to segments with predominant karyotype ...</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [ CNAqc - CNA Quality Check ]</span>
-<span class="co">#&gt; ℹ Using reference genome coordinates for: GRCh38.</span>
-<span class="co">#&gt; ! Missing CCF column from CNA calls, adding CCF = 1 assuming clonal CNA calls.</span>
-<span class="co">#&gt; ! Missing segments length from CNA calls, adding it to CNA calls.</span>
-<span class="co">#&gt; ℹ Input n = 984 mutations for 984 CNA segments (984 clonal, 0 subclonal)</span>
+<span class="co">#&gt; <span style="color: #BBBBBB; background-color: #0000BB;"> [ CNAqc - CNA Quality Check ] </span></span>
+<span class="co"><span style="color: #BBBBBB; background-color: #0000BB;">#&gt; </span></span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Using reference genome coordinates for: <span style="color: #00BB00;">GRCh38</span>.</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Missing CCF column from CNA calls, adding CCF = 1 assuming clonal CNA calls.</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Missing segments length from CNA calls, adding it to CNA calls.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Input n = 995 mutations for 995 CNA segments (995 clonal, 0 subclonal)</span>
 <span class="co">#&gt; Warning in map_mutations_to_segments(snvs, cna %&gt;% filter(CCF == 1)): [CNAqc] a</span>
 <span class="co">#&gt; karyotype column is present in CNA calls, and will be overwritten</span>
-<span class="co">#&gt; ✔ Mapped n = 984 mutations to clonal segments (100% of input)</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Mapped n = 995 mutations to clonal segments (100% of input)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Genome coverage by karyotype, in basepairs. ──</span>
+<span class="co">#&gt; ── <span style="font-weight: bold;">Genome coverage by karyotype, in basepairs.</span> ──</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; # A tibble: 1 × 4</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span>
 <span class="co">#&gt;   minor Major     n karyotype</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
-<span class="co">#&gt; 1     1     1  2952 1:1</span>
-<span class="co">#&gt; ✔ n = 984 mutations mapped to CNA segments with karyotype 1:1 (largest available in basepairs).</span>
-<span class="co">#&gt; ✔ Mutation with VAF within 0 and 0.7 ~ n = 984.</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     1  <span style="text-decoration: underline;">2</span>985 1:1</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> n = 995 mutations mapped to CNA segments with karyotype <span style="color: #00BB00;">1:1</span> (largest available in basepairs).</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Mutation with VAF within 0 and 0.7 ~ n = 995.</span>
 <span class="co">#&gt; $mutations</span>
-<span class="co">#&gt; # A tibble: 984 × 12</span>
-<span class="co">#&gt;    chr        from        to ref   alt   n_ref_count n_alt_count t_ref_count</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 chr8  118806215 118806216 A     T              20           0          73</span>
-<span class="co">#&gt;  2 chr15  38021292  38021293 T     T              36           1          83</span>
-<span class="co">#&gt;  3 chr13  85300297  85300298 C     T              23           0          87</span>
-<span class="co">#&gt;  4 chr8   86533121  86533122 A     G              29           1          69</span>
-<span class="co">#&gt;  5 chr1  195709332 195709333 T     C              31           1          62</span>
-<span class="co">#&gt;  6 chr12  41023861  41023862 T     A              24           1          89</span>
-<span class="co">#&gt;  7 chr4     411684    411685 G     A              29           1          76</span>
-<span class="co">#&gt;  8 chr6   61293754  61293755 C     C              19           0          73</span>
-<span class="co">#&gt;  9 chr16   2944664   2944665 C     T              30           1          76</span>
-<span class="co">#&gt; 10 chr20  14935463  14935464 A     G              26           1          56</span>
-<span class="co">#&gt; # … with 974 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   karyotype &lt;chr&gt;, id &lt;chr&gt;, OK_tumour &lt;lgl&gt;</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 995 × 12</span></span>
+<span class="co">#&gt;    chr       from       to ref   alt   n_ref_count n_alt_count t_ref_count</span>
+<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr4  60<span style="text-decoration: underline;">545</span>092 60<span style="text-decoration: underline;">545</span>093 G     C              35           1          80</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr9  13<span style="text-decoration: underline;">672</span>958 13<span style="text-decoration: underline;">672</span>959 C     T              34           1          77</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr8  16<span style="text-decoration: underline;">600</span>825 16<span style="text-decoration: underline;">600</span>826 T     T              28           1          82</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr7  61<span style="text-decoration: underline;">836</span>118 61<span style="text-decoration: underline;">836</span>119 C     T              28           1          68</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr18 50<span style="text-decoration: underline;">465</span>649 50<span style="text-decoration: underline;">465</span>650 G     T              30           1          76</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr13  6<span style="text-decoration: underline;">223</span>462  6<span style="text-decoration: underline;">223</span>463 G     T              32           1          75</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr20 61<span style="text-decoration: underline;">620</span>642 61<span style="text-decoration: underline;">620</span>643 T     A              26           1          68</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr4  18<span style="text-decoration: underline;">181</span>772 18<span style="text-decoration: underline;">181</span>773 C     T              39           1          73</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr2  86<span style="text-decoration: underline;">023</span>423 86<span style="text-decoration: underline;">023</span>424 G     T              27           1          75</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr20 40<span style="text-decoration: underline;">247</span>900 40<span style="text-decoration: underline;">247</span>901 G     G              33           1          75</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 985 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   karyotype &lt;chr&gt;, id &lt;chr&gt;, OK_tumour &lt;lgl&gt;</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $cna_map</span>
-<span class="co">#&gt; ── [ CNAqc ]  n = 984 mutations in 984 segments (984 clonal + 0 subclonal). Geno</span>
+<span class="co">#&gt; ── <span style="color: #000000; background-color: #BBBB00;">[ CNAqc ] </span> n = 995 mutations in <span style="color: #00BB00;">995</span> segments (995 clonal + 0 subclonal). Geno</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  1:1  [n = 984, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
-<span class="co">#&gt; ℹ Sample Purity: 80% ~ Ploidy: 2.</span>
+<span class="co">#&gt;  1:1  [n = 995, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample Purity: 80% ~ Ploidy: 2.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $what_we_used</span>
 <span class="co">#&gt; [1] "1:1"</span></code></pre></div>
@@ -216,75 +213,78 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Autofit function</span>
 <span class="va">TINC_fit</span> <span class="op">=</span> <span class="fu"><a href="../reference/autofit.html">autofit</a></span><span class="op">(</span><span class="va">sampled_data</span><span class="op">$</span><span class="va">data</span>, cna <span class="op">=</span> <span class="cn">NULL</span>, FAST <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt;  [ TINC ]</span>
+<span class="co">#&gt; <span style="color: #BBBBBB; background-color: #0000BB;"> [ TINC ] </span></span>
+<span class="co"><span style="color: #BBBBBB; background-color: #0000BB;">#&gt; </span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Loading TINC input data ─────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ✔ Input data contains n = 984 mutations, selecting operation mode.</span>
-<span class="co">#&gt; ✔ Mutation with VAF within 0 and 0.7 ~ n = 984.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Loading TINC input data</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Input data contains n = 995 mutations, selecting operation mode.</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Mutation with VAF within 0 and 0.7 ~ n = 995.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Analysing tumour sample with MOBSTER ────────────────────────────────────────</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing tumour sample with MOBSTER</span> <span style="color: #00BBBB;">────────────────────────────────────────</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [ MOBSTER fit ]</span>
-<span class="co">#&gt; ✔ Loaded input data, n = 984.</span>
-<span class="co">#&gt; ❯ n = 984. Mixture with k = 1,2 Beta(s). Pareto tail: TRUE and FALSE. Output</span>
+<span class="co">#&gt; <span style="color: #BBBBBB; background-color: #0000BB;"> [ MOBSTER fit ] </span></span>
+<span class="co"><span style="color: #BBBBBB; background-color: #0000BB;">#&gt; </span></span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Loaded input data, n = 995.</span>
+<span class="co">#&gt; ❯ n = 995. Mixture with k = <span style="color: #00BB00;">1,2</span> Beta(s). Pareto tail: <span style="color: #00BB00;">TRUE</span> and <span style="color: #00BB00;">FALSE</span>. Output</span>
 <span class="co">#&gt; clusters with π &gt; 0.02 and n &gt; 10.</span>
-<span class="co">#&gt; ! mobster automatic setup FAST for the analysis.</span>
-<span class="co">#&gt; ❯ Scoring (without parallel) 2 x 2 x 2 = 8 models by reICL.</span>
-<span class="co">#&gt; ℹ MOBSTER fits completed in 17.4s.</span>
-<span class="co">#&gt; ── [ MOBSTER ] My MOBSTER model n = 984 with k = 1 Beta(s) and a tail ──────────</span>
-<span class="co">#&gt; ● Clusters: π = 72% [C1] and 28% [Tail], with π &gt; 0.</span>
-<span class="co">#&gt; ● Tail [n = 256, 28%] with alpha = 1.3.</span>
-<span class="co">#&gt; ● Beta C1 [n = 728, 72%] with mean = 0.39.</span>
-<span class="co">#&gt; ℹ Score(s): NLL = -910.4; ICL = -1689.13 (-1779.44), H = 90.31 (0). Fit</span>
-<span class="co">#&gt; converged by MM in 14 steps.</span>
-<span class="co">#&gt; ℹ Using the location likelihood heuristic to inspect mutations' distribution</span>
-<span class="co">#&gt; ✔ Cluster C1: 60% of counts in 12 chromosomes (spread over &gt;20% of used chromosomes: 4.4).</span>
-<span class="co">#&gt; ℹ Without CNA, TINC will estimate tumour purity as 2*x, with x the clonal peak.</span>
-<span class="co">#&gt; ✔ MOBSTER found n = 722 clonal mutations from cluster C1</span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> mobster automatic setup <span style="color: #00BB00;">FAST</span> for the analysis.</span>
+<span class="co">#&gt; ❯ Scoring (<span style="color: #BB0000;">without parallel</span>) 2 x 2 x 2 = <span style="color: #00BB00;">8</span> models by <span style="color: #00BB00;">reICL</span>.</span>
+<span class="co">#&gt; <span style="color: #BBBBBB;">ℹ</span> <span style="font-weight: bold;">MOBSTER fits</span> completed in 15.7s.</span>
+<span class="co">#&gt; ── <span style="color: #000000; background-color: #BBBB00;">[ MOBSTER ] My MOBSTER model</span> n = 995 with <span style="color: #00BB00;">k = 1</span> Beta(s) <span style="color: #00BB00;">and a tail</span> ──────────</span>
+<span class="co">#&gt; ● Clusters: π = 64% [<span style="color: #BBBB00;">C1</span>] and 36% [<span style="color: #BBBB00;">Tail</span>], with π &gt; 0.</span>
+<span class="co">#&gt; ● Tail [n = 343, 36%] with alpha = 1.3.</span>
+<span class="co">#&gt; ● Beta <span style="color: #00BB00;">C1</span> [n = 652, 64%] with mean = 0.39.</span>
+<span class="co">#&gt; <span style="color: #BBBBBB;">ℹ</span> Score(s): NLL = -1055.11; ICL = -1981.48 (-2068.81), H = 87.33 (0). Fit</span>
+<span class="co">#&gt; <span style="color: #00BB00;">converged</span> by <span style="color: #00BB00;">MM</span> in 16 steps.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Using the location likelihood heuristic to inspect mutations' distribution</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Cluster C1: 60% of counts in 12 chromosomes (spread over &gt;20% of used chromosomes: 4.4).</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Without CNA, TINC will estimate tumour purity as 2*x, with x the clonal peak.</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> MOBSTER found n = 646 clonal mutations from cluster C1</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Analysing normal sample with BMix ───────────────────────────────────────────</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing normal sample with BMix</span> <span style="color: #00BBBB;">───────────────────────────────────────────</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── BMix fit ────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ℹ Binomials k_B = 1 and 2, Beta-Binomials k_BB = 0; 4 fits to run.</span>
-<span class="co">#&gt; ℹ Bmix best fit completed in 0.01 mins</span>
-<span class="co">#&gt; ── [ BMix ] My BMix model n = 722 with k = 1 component(s) (1 + 0) ──────────────</span>
-<span class="co">#&gt; • Clusters: π = 100% [Bin 1], with π &gt; 0.</span>
-<span class="co">#&gt; • Binomial Bin 1 with mean = 0.0342039222976113.</span>
-<span class="co">#&gt; ℹ Score (model selection): ICL = 1664.63.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">BMix fit</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────────</span></span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Binomials k_B = <span style="color: #00BB00;">1</span> and <span style="color: #00BB00;">2</span>, Beta-Binomials k_BB = <span style="color: #00BB00;">0</span>; 4 fits to run.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Bmix best fit</span> completed in 0.01 mins</span>
+<span class="co">#&gt; ── <span style="color: #000000; background-color: #BBBB00;">[ BMix ] My BMix model</span> n = 646 with <span style="color: #00BB00;">k = 1</span> component(s) (<span style="color: #00BB00;">1</span> + <span style="color: #00BB00;">0</span>) ──────────────</span>
+<span class="co">#&gt; • Clusters: π = 100% [<span style="color: #BBBB00;">Bin 1</span>], with π &gt; 0.</span>
+<span class="co">#&gt; • Binomial <span style="color: #00BB00;">Bin 1</span> with mean = 0.0334487928449568.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Score (model selection): <span style="color: #00BB00;">ICL</span> = 1410.98.</span>
 <span class="co">#&gt; Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 <span class="co">#&gt; replace the existing scale.</span>
 <span class="co">#&gt; Scale for 'fill' is already present. Adding another scale for 'fill', which</span>
 <span class="co">#&gt; will replace the existing scale.</span>
-<span class="co">#&gt; ✔ Binomial peaks 0.0342039222976113 with proportions 1. Clonal score 0.0342039222976113 with TINN 0.0684078445952226</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Binomial peaks 0.0334487928449568 with proportions 1. Clonal score 0.0334487928449568 with TINN 0.0668975856899137</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── Analysing tumour and normal samples with VIBER ──────────────────────────────</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing tumour and normal samples with VIBER</span> <span style="color: #00BBBB;">──────────────────────────────</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  [ VIBER - variational fit ]</span>
-<span class="co">#&gt; ℹ Input n = 984, with k &lt; 5. Dirichlet concentration α = 1e-06.</span>
-<span class="co">#&gt; ℹ Beta (a_0, b_0) = (1, 1); q_i = prior. Optimise: ε = 1e-06 or 1000 steps, r = 3 starts.</span>
-<span class="co">#&gt; [easypar] 2021-11-22 15:29:48 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
-<span class="co">#&gt; ✔ VIBER fit completed in 0.03 mins (status: converged)</span>
-<span class="co">#&gt; ── [ VIBER ] My VIBER model n = 984 (w = 2 dimensions). Fit with k = 5 clusters.</span>
-<span class="co">#&gt; • Clusters: π = 74% [C4], 23% [C2], and 3% [C3], with π &gt; 0.</span>
-<span class="co">#&gt; • Binomials: θ = &lt;0.03, 0.39&gt; [C4], &lt;0, 0.08&gt; [C2], and &lt;0, 0.2&gt; [C3].</span>
-<span class="co">#&gt; ℹ Score(s): ELBO = -139650.382. Fit converged in 42 steps, ε = 1e-06.</span>
-<span class="co">#&gt; ✔ Reduced to k = 3 (from 5) selecting VIBER cluster(s) with π &gt; 0.02, and Binomial p &gt; 0 in w &gt; 0 dimension(s).</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BBBBBB; background-color: #0000BB;"> [ VIBER - variational fit ] </span></span>
+<span class="co"><span style="color: #BBBBBB; background-color: #0000BB;">#&gt; </span></span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Input n = 995, with k &lt; 5. Dirichlet concentration <span style="color: #00BB00;">α = 1e-06</span>.</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Beta (a_0, b_0) = (1, 1); q_i = prior. Optimise: ε = 1e-06 or 1000 steps, r = 3 starts.</span>
+<span class="co">#&gt; [easypar] 2021-12-21 17:50:13 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="font-weight: bold;">VIBER fit</span> completed in 0.03 mins (status: <span style="color: #00BB00;">converged</span>)</span>
+<span class="co">#&gt; ── <span style="color: #000000; background-color: #BBBB00;">[ VIBER ] My VIBER model</span> n = 995 (w = 2 dimensions). Fit with <span style="color: #00BB00;">k = 5</span> clusters.</span>
+<span class="co">#&gt; • Clusters: π = 69% [<span style="color: #BBBB00;">C2</span>] and 31% [<span style="color: #BBBB00;">C1</span>], with π &gt; 0.</span>
+<span class="co">#&gt; • Binomials: θ = &lt;0.03, 0.39&gt; [<span style="color: #BBBB00;">C2</span>] and &lt;0, 0.09&gt; [<span style="color: #BBBB00;">C1</span>].</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Score(s): ELBO = -135016.096. Fit <span style="color: #00BB00;">converged</span> in 20 steps, ε = 1e-06.</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> Reduced to k = 2 (from 5) selecting VIBER cluster(s) with π &gt; 0.02, and Binomial p &gt; 0 in w &gt; 0 dimension(s).</span></code></pre></div>
 <p>Summary of the results (with an S3 object)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">TINC_fit</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">TINC_fit</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; ── TINC profiler for bulk WGS ──────────────────────────────────────────────────</span>
-<span class="co">#&gt; ! Copy Number data has not been used for this analysis.</span>
-<span class="co">#&gt; → Mutations data: n = 984 out of 984 within range (100%).</span>
+<span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">TINC profiler for bulk WGS</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span>
+<span class="co">#&gt; <span style="color: #BBBB00;">!</span> Copy Number data has not been used for this analysis.</span>
+<span class="co">#&gt; → Mutations data: n = <span style="color: #00BB00;">995</span> out of 995 within range (<span style="color: #00BB00;">100%</span>).</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;         TIT :  79% (RF 79)  ~ n = 722 clonal mutations, cluster C1 </span>
-<span class="co">#&gt;         TIN :  7% (RF 7)  ~ n = 671 with VAF &gt; 0 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    QC Tumour   Good purity (65-85%)</span>
-<span class="co">#&gt;    QC Normal   Some contamination (3-7%)</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #000000; background-color: #BBBB00;">        TIT : </span> 78% (RF 78)  ~ n = 646 clonal mutations, cluster C1 </span>
+<span class="co"><span style="color: #000000; background-color: #BBBB00;">#&gt;         TIN : </span> 7% (RF 7)  ~ n = 612 with VAF &gt; 0 </span>
+<span class="co"><span style="color: #000000; background-color: #BBBB00;">#&gt; </span></span>
+<span class="co">#&gt; <span style="color: #000000; background-color: #0000BB; font-weight: bold;">   QC Tumour  </span> <span style="color: #0000BB;">Good purity (65-85%)</span></span>
+<span class="co">#&gt; <span style="color: #000000; background-color: #BBBB00; font-weight: bold;">   QC Normal  </span> <span style="color: #BBBB00;">Some contamination (3-7%)</span></span></code></pre></div>
 <p>Plot the results (with an S3 object).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">TINC_fit</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">TINC_fit</span><span class="op">)</span></code></pre></div>
 <p><img src="Analysis_files/figure-html/unnamed-chunk-6-1.png" width="960"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -309,11 +309,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.caravagnalab.org">Giulio Caravagna</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://www.caravagnalab.org" class="external-link">Giulio Caravagna</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -321,6 +323,8 @@
 
   
 
+
+  
 
   </body>
 </html>

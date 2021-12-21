@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>caravagnalab.github.io/TINC/404.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/articles/Analysis.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/articles/TINC.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/authors.html</loc>
+  </url>
+  <url>
     <loc>caravagnalab.github.io/TINC/index.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/news/index.html</loc>
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/autofit.html</loc>
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/fit_example.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/reference/index.html</loc>
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/load_TINC_input.html</loc>
@@ -38,11 +59,5 @@
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/to_string.html</loc>
-  </url>
-  <url>
-    <loc>caravagnalab.github.io/TINC/articles/Analysis.html</loc>
-  </url>
-  <url>
-    <loc>caravagnalab.github.io/TINC/articles/TINC.html</loc>
   </url>
 </urlset>
