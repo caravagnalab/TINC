@@ -263,3 +263,52 @@ load_VCF_Strelka = function(file) {
 
   return(SNVnADtAD)
 }
+
+
+
+#' DRAGEN VCF parsing function
+#'
+#' @description Parse a VCF file from DRAGEN
+#'
+#' @param file is DRAGEN vcf file path
+#'
+#' @return Allele depths for normal and tumour
+#' for all PASS autosome SNVs
+#'
+#' @export
+#'
+#' @importFrom  purrr  pmap_dfr
+#'
+#' @examples
+#' # not run
+#' \dontrun{
+#'  load_VCF_DRAGEN("Myfile.vcf")
+#' }
+load_VCF_DRAGEN = function(file) {
+  
+  #  file = "/home/jmitchell1/TIN/berthaRscript/input/LP3000417-DNA_F02_LP3000396-DNA_F02_12.vcf.gz"
+  
+  if (!file.exists(file))
+    stop("Input file", file, "not found!")
+  
+  cli::cli_h2("VCF DRAEGN parser for TINC")
+  
+  # Load vcf and filter to leave PASS SNVs in autosome
+  vcfSmallVar = read.table(file, colClasses = "character")
+  autosome = sprintf("chr%s",seq(1:22))
+  vcfSmallVarFilt = vcfSmallVar %>%
+    dplyr::filter(V1 %in% autosome, nchar(V4) == 1, nchar(V5) == 1, V7 == "PASS")
+  
+  # Pull allele depths from normal and tumour
+  SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
+    dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
+    purrr::pmap_dfr(., pullAD) %>%
+    separate(id, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
+    mutate(from = as.numeric(from), to = as.numeric(to),
+           n_ref_count = as.numeric(n_ref_count), n_alt_count = as.numeric(n_alt_count),
+           t_ref_count = as.numeric(t_ref_count), t_alt_count = as.numeric(t_alt_count)) %>%
+    select(-FILTERS)
+  
+  return(SNVnADtAD)
+}
+
