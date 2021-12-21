@@ -185,13 +185,13 @@ mutations from the tumour sample.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='co'># Generating a random TIN input</span></span>
 <span class='r-in'><span class='va'>rt</span> <span class='op'>=</span> <span class='fu'><a href='random_TIN.html'>random_TIN</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Generated TINC dataset (n = 998 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Generated TINC dataset (n = 997 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
 <span class='r-in'><span class='fu'>load_TINC_input</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>rt</span><span class='op'>$</span><span class='va'>data</span>, cna <span class='op'>=</span> <span class='va'>rt</span><span class='op'>$</span><span class='va'>cna</span><span class='op'>)</span></span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>──</span> <span style='font-weight: bold;'>Loading TINC input data</span> <span style='color: #00BBBB;'>─────────────────────────────────────────────────────</span></span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Input data contains n = 998 mutations, selecting operation mode.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Input data contains n = 997 mutations, selecting operation mode.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> Found CNA data, retaining only mutations that map to segments with predominant karyotype ...</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBBBB; background-color: #0000BB;'> [ CNAqc - CNA Quality Check ] </span></span>
@@ -199,10 +199,10 @@ mutations from the tumour sample.</p></td>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Using reference genome coordinates for: <span style='color: #00BB00;'>GRCh38</span>.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> Missing CCF column from CNA calls, adding CCF = 1 assuming clonal CNA calls.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #BBBB00;'>!</span> Missing segments length from CNA calls, adding it to CNA calls.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Input n = 998 mutations for 998 CNA segments (998 clonal, 0 subclonal)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Input n = 997 mutations for 997 CNA segments (997 clonal, 0 subclonal)</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>[CNAqc] a karyotype column is present in CNA calls, and will be overwritten</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Mapped n = 998 mutations to clonal segments (100% of input)</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Mapped n = 997 mutations to clonal segments (100% of input)</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> ── <span style='font-weight: bold;'>Genome coverage by karyotype, in basepairs.</span> ──</span>
@@ -210,30 +210,30 @@ mutations from the tumour sample.</p></td>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 1 × 4</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   minor Major     n karyotype</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     1     1  <span style='text-decoration: underline;'>2</span>994 1:1      </span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> n = 998 mutations mapped to CNA segments with karyotype <span style='color: #00BB00;'>1:1</span> (largest available in basepairs).</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Mutation with VAF within 0 and 0.7 ~ n = 998.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span>     1     1  <span style='text-decoration: underline;'>2</span>991 1:1      </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> n = 997 mutations mapped to CNA segments with karyotype <span style='color: #00BB00;'>1:1</span> (largest available in basepairs).</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✓</span> Mutation with VAF within 0 and 0.7 ~ n = 995.</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $mutations</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 998 × 12</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 997 × 12</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>    chr        from        to ref   alt   n_ref_count n_alt_count t_ref_count</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> chr1  198<span style='text-decoration: underline;'>103</span>407 198<span style='text-decoration: underline;'>103</span>408 A     C              36           0          69</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> chr19  24<span style='text-decoration: underline;'>923</span>192  24<span style='text-decoration: underline;'>923</span>193 G     C              22           0          58</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> chr7  151<span style='text-decoration: underline;'>911</span>514 151<span style='text-decoration: underline;'>911</span>515 A     A              29           0          73</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> chr20  28<span style='text-decoration: underline;'>806</span>723  28<span style='text-decoration: underline;'>806</span>724 A     T              25           0          77</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> chr6   56<span style='text-decoration: underline;'>127</span>680  56<span style='text-decoration: underline;'>127</span>681 G     T              23           0          62</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> chr1   79<span style='text-decoration: underline;'>930</span>231  79<span style='text-decoration: underline;'>930</span>232 C     T              30           0          62</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> chr19   2<span style='text-decoration: underline;'>983</span>397   2<span style='text-decoration: underline;'>983</span>398 C     A              30           0          59</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> chr3  124<span style='text-decoration: underline;'>463</span>511 124<span style='text-decoration: underline;'>463</span>512 T     C              19           0          61</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> chr7  115<span style='text-decoration: underline;'>644</span>216 115<span style='text-decoration: underline;'>644</span>217 A     G              32           0          61</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> chr17  16<span style='text-decoration: underline;'>837</span>363  16<span style='text-decoration: underline;'>837</span>364 G     A              29           0          58</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 988 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> chr11  97<span style='text-decoration: underline;'>187</span>616  97<span style='text-decoration: underline;'>187</span>617 T     T              37           0          69</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> chr16  32<span style='text-decoration: underline;'>205</span>125  32<span style='text-decoration: underline;'>205</span>126 A     A              37           0          66</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> chr21  33<span style='text-decoration: underline;'>109</span>500  33<span style='text-decoration: underline;'>109</span>501 G     A              31           0          63</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> chr8  120<span style='text-decoration: underline;'>671</span>207 120<span style='text-decoration: underline;'>671</span>208 T     G              30           0          63</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> chr18   1<span style='text-decoration: underline;'>722</span>792   1<span style='text-decoration: underline;'>722</span>793 G     T              39           0          67</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> chr12   4<span style='text-decoration: underline;'>794</span>769   4<span style='text-decoration: underline;'>794</span>770 C     C              33           0          60</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> chr16  79<span style='text-decoration: underline;'>355</span>225  79<span style='text-decoration: underline;'>355</span>226 C     C              27           0          53</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> chr10  21<span style='text-decoration: underline;'>443</span>867  21<span style='text-decoration: underline;'>443</span>868 A     A              25           0          52</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> chr22  46<span style='text-decoration: underline;'>795</span>052  46<span style='text-decoration: underline;'>795</span>053 G     C              21           0          68</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> chr3   56<span style='text-decoration: underline;'>158</span>002  56<span style='text-decoration: underline;'>158</span>003 G     G              34           0          67</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 987 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   karyotype &lt;chr&gt;, id &lt;chr&gt;, OK_tumour &lt;lgl&gt;</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> $cna_map</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── <span style='color: #000000; background-color: #BBBB00;'>[ CNAqc ] </span> n = 998 mutations in <span style='color: #00BB00;'>998</span> segments (998 clonal + 0 subclonal). Geno</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> ── <span style='color: #000000; background-color: #BBBB00;'>[ CNAqc ] </span> n = 997 mutations in <span style='color: #00BB00;'>997</span> segments (997 clonal + 0 subclonal). Geno</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  1:1  [n = 998, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1:1  [n = 997, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BBBB;'>ℹ</span> Sample Purity: 80% ~ Ploidy: 2.</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
