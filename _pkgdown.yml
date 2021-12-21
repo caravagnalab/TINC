@@ -42,5 +42,12 @@ reference:
   - to_string
   - plot_simple_report
   - plot_full_page_report
+  
+- title: S3 functions
+  desc:  Functions to print and plot a `tinc_obj`
+  contents:
+  - plot.tin_obj
+  - print.tin_obj
+
 
 
