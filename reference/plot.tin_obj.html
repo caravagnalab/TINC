@@ -89,7 +89,7 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">rt</span> <span class="op">=</span> <span class="fu"><a href="random_TIN.html">random_TIN</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Generated TINC dataset (n = 992 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Generated TINC dataset (n = 996 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="autofit.html">autofit</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">rt</span><span class="op">$</span><span class="va">data</span>, cna <span class="op">=</span> <span class="va">rt</span><span class="op">$</span><span class="va">cna</span>, FAST <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -97,7 +97,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Loading TINC input data</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Input data contains n = 992 mutations, selecting operation mode.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Input data contains n = 996 mutations, selecting operation mode.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Found CNA data, retaining only mutations that map to segments with predominant karyotype ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; background-color: #0000BB;"> [ CNAqc - CNA Quality Check ] </span></span>
@@ -105,10 +105,10 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Using reference genome coordinates for: <span style="color: #00BB00;">GRCh38</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Missing CCF column from CNA calls, adding CCF = 1 assuming clonal CNA calls.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Missing segments length from CNA calls, adding it to CNA calls.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Input n = 992 mutations for 992 CNA segments (992 clonal, 0 subclonal)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Input n = 996 mutations for 996 CNA segments (996 clonal, 0 subclonal)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>[CNAqc] a karyotype column is present in CNA calls, and will be overwritten</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Mapped n = 992 mutations to clonal segments (100% of input)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Mapped n = 996 mutations to clonal segments (100% of input)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Genome coverage by karyotype, in basepairs.</span> ──</span>
@@ -116,29 +116,29 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   minor Major     n karyotype</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1  <span style="text-decoration: underline;">2</span>976 1:1      </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> n = 992 mutations mapped to CNA segments with karyotype <span style="color: #00BB00;">1:1</span> (largest available in basepairs).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Mutation with VAF within 0 and 0.7 ~ n = 990.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1  <span style="text-decoration: underline;">2</span>988 1:1      </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> n = 996 mutations mapped to CNA segments with karyotype <span style="color: #00BB00;">1:1</span> (largest available in basepairs).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Mutation with VAF within 0 and 0.7 ~ n = 994.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing tumour sample with MOBSTER</span> <span style="color: #00BBBB;">────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; background-color: #0000BB;"> [ MOBSTER fit ] </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded input data, n = 990.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ❯ n = 990. Mixture with k = <span style="color: #00BB00;">1,2</span> Beta(s). Pareto tail: <span style="color: #00BB00;">TRUE</span> and <span style="color: #00BB00;">FALSE</span>. Output</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loaded input data, n = 994.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ❯ n = 994. Mixture with k = <span style="color: #00BB00;">1,2</span> Beta(s). Pareto tail: <span style="color: #00BB00;">TRUE</span> and <span style="color: #00BB00;">FALSE</span>. Output</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> clusters with π &gt; 0.02 and n &gt; 10.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> mobster automatic setup <span style="color: #00BB00;">FAST</span> for the analysis.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ❯ Scoring (<span style="color: #BB0000;">without parallel</span>) 2 x 2 x 2 = <span style="color: #00BB00;">8</span> models by <span style="color: #00BB00;">reICL</span>.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB;">ℹ</span> <span style="font-weight: bold;">MOBSTER fits</span> completed in 12.8s.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB;">ℹ</span> <span style="font-weight: bold;">MOBSTER fits</span> completed in 14.3s.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ MOBSTER ] My MOBSTER model</span> n = 990 with <span style="color: #00BB00;">k = 1</span> Beta(s) <span style="color: #00BB00;">and a tail</span> ──────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Clusters: π = 71% [<span style="color: #BBBB00;">C1</span>] and 29% [<span style="color: #BBBB00;">Tail</span>], with π &gt; 0.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Tail [n = 277, 29%] with alpha = 1.1.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Beta <span style="color: #00BB00;">C1</span> [n = 713, 71%] with mean = 0.49.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB;">ℹ</span> Score(s): NLL = -1401.82; ICL = -2723.96 (-2762.26), H = 38.29 (0). Fit</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ MOBSTER ] My MOBSTER model</span> n = 994 with <span style="color: #00BB00;">k = 1</span> Beta(s) <span style="color: #00BB00;">and a tail</span> ──────────</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Clusters: π = 64% [<span style="color: #BBBB00;">C1</span>] and 36% [<span style="color: #BBBB00;">Tail</span>], with π &gt; 0.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Tail [n = 345, 36%] with alpha = 1.2.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ● Beta <span style="color: #00BB00;">C1</span> [n = 649, 64%] with mean = 0.49.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB;">ℹ</span> Score(s): NLL = -1252.03; ICL = -2418.12 (-2462.65), H = 44.53 (0). Fit</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">converged</span> by <span style="color: #00BB00;">MM</span> in 11 steps.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> With CNA, TINC will estimating tumour purity adjusting by copy number and mutation multiplicity.</span>
@@ -148,7 +148,7 @@
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> Missing: NA</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> MOBSTER found n = 707 clonal mutations from cluster C1</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> MOBSTER found n = 643 clonal mutations from cluster C1</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing normal sample with BMix</span> <span style="color: #00BBBB;">───────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -159,33 +159,32 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> <span style="font-weight: bold;">Bmix best fit</span> completed in 0.01 mins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ BMix ] My BMix model</span> n = 707 with <span style="color: #00BB00;">k = 2</span> component(s) (<span style="color: #00BB00;">2</span> + <span style="color: #00BB00;">0</span>) ──────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Clusters: π = 98% [<span style="color: #BBBB00;">Bin 2</span>] and 2% [<span style="color: #BBBB00;">Bin 1</span>], with π &gt; 0.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Binomial <span style="color: #00BB00;">Bin 1</span> with mean = 0.00893920586050062.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Binomial <span style="color: #00BB00;">Bin 2</span> with mean = 0.00133729327717123.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Score (model selection): <span style="color: #00BB00;">ICL</span> = 379.96.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ BMix ] My BMix model</span> n = 643 with <span style="color: #00BB00;">k = 1</span> component(s) (<span style="color: #00BB00;">1</span> + <span style="color: #00BB00;">0</span>) ──────────────</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Clusters: π = 100% [<span style="color: #BBBB00;">Bin 1</span>], with π &gt; 0.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Binomial <span style="color: #00BB00;">Bin 1</span> with mean = 0.0010478885046631.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Score (model selection): <span style="color: #00BB00;">ICL</span> = 226.32.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> replace the existing scale.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for 'fill' is already present. Adding another scale for 'fill', which</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> will replace the existing scale.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 551 rows containing missing values (geom_raster).</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Binomial peaks 0.00893920586050062 and 0.00133729327717123 with proportions 0.0195424660053895 and 0.980457533994611. Clonal score 0.00148585339540689 with TINN 0.00297170679081378</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 505 rows containing missing values (geom_raster).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Binomial peaks 0.0010478885046631 with proportions 1. Clonal score 0.0010478885046631 with TINN 0.00209577700932621</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Analysing tumour and normal samples with VIBER</span> <span style="color: #00BBBB;">──────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BBBBBB; background-color: #0000BB;"> [ VIBER - variational fit ] </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Input n = 990, with k &lt; 5. Dirichlet concentration <span style="color: #00BB00;">α = 1e-06</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Input n = 994, with k &lt; 5. Dirichlet concentration <span style="color: #00BB00;">α = 1e-06</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Beta (a_0, b_0) = (1, 1); q_i = prior. Optimise: ε = 1e-06 or 1000 steps, r = 3 starts.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [easypar] 2021-12-21 17:49:20 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> [easypar] 2021-12-21 18:33:12 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="font-weight: bold;">VIBER fit</span> completed in 0.03 mins (status: <span style="color: #00BB00;">converged</span>)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ VIBER ] My VIBER model</span> n = 990 (w = 2 dimensions). Fit with <span style="color: #00BB00;">k = 5</span> clusters.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Clusters: π = 74% [<span style="color: #BBBB00;">C5</span>], 21% [<span style="color: #BBBB00;">C1</span>], and 5% [<span style="color: #BBBB00;">C4</span>], with π &gt; 0.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> • Binomials: θ = &lt;0, 0.49&gt; [<span style="color: #BBBB00;">C5</span>], &lt;0, 0.08&gt; [<span style="color: #BBBB00;">C1</span>], and &lt;0, 0.23&gt; [<span style="color: #BBBB00;">C4</span>].</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Score(s): ELBO = -141706.811. Fit <span style="color: #00BB00;">converged</span> in 28 steps, ε = 1e-06.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="color: #000000; background-color: #BBBB00;">[ VIBER ] My VIBER model</span> n = 994 (w = 2 dimensions). Fit with <span style="color: #00BB00;">k = 5</span> clusters.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Clusters: π = 67% [<span style="color: #BBBB00;">C3</span>], 28% [<span style="color: #BBBB00;">C5</span>], and 5% [<span style="color: #BBBB00;">C2</span>], with π &gt; 0.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Binomials: θ = &lt;0, 0.49&gt; [<span style="color: #BBBB00;">C3</span>], &lt;0, 0.08&gt; [<span style="color: #BBBB00;">C5</span>], and &lt;0, 0.23&gt; [<span style="color: #BBBB00;">C2</span>].</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Score(s): ELBO = -135625.507. Fit <span style="color: #00BB00;">converged</span> in 30 steps, ε = 1e-06.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Reduced to k = 3 (from 5) selecting VIBER cluster(s) with π &gt; 0.02, and Binomial p &gt; 0 in w &gt; 0 dimension(s).</span>
 <span class="r-plt img"><img src="plot.tin_obj-1.png" alt="" width="700" height="433"></span>
