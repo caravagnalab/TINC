@@ -125,38 +125,38 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">sampled_data</span><span class="op">)</span>
 <span class="co">#&gt; $data</span>
-<span class="co">#&gt; # A tibble: 988 × 14</span>
-<span class="co">#&gt;    chr        from       to ref   alt   simulated_clust… n_tot_count t_tot_count</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                  &lt;int&gt;       &lt;int&gt;</span>
-<span class="co">#&gt;  1 chr3  116886204   1.17e8 T     A     C1                        39         143</span>
-<span class="co">#&gt;  2 chr5  159603734   1.60e8 A     G     C1                        25         124</span>
-<span class="co">#&gt;  3 chr5  134188825   1.34e8 C     C     C1                        35         125</span>
-<span class="co">#&gt;  4 chr9   57770063   5.78e7 C     A     C1                        31         122</span>
-<span class="co">#&gt;  5 chr10  19082272   1.91e7 T     C     C1                        26         105</span>
-<span class="co">#&gt;  6 chr22  15782272   1.58e7 T     G     C1                        17         124</span>
-<span class="co">#&gt;  7 chr5   30981948   3.10e7 C     A     C1                        36         118</span>
-<span class="co">#&gt;  8 chr9    7695187   7.70e6 T     T     C1                        36         117</span>
-<span class="co">#&gt;  9 chr20  18813482   1.88e7 G     C     C1                        27         146</span>
-<span class="co">#&gt; 10 chr17   6675904   6.68e6 A     G     C1                        36         115</span>
-<span class="co">#&gt; # … with 978 more rows, and 6 more variables: n_alt_count &lt;dbl&gt;,</span>
+<span class="co">#&gt; # A tibble: 991 × 14</span>
+<span class="co">#&gt;    chr       from       to ref   alt   simulated_cluster n_tot_count t_tot_count</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;                   &lt;int&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;  1 chr19 23650413 23650414 T     A     C1                         26         132</span>
+<span class="co">#&gt;  2 chr4  45596249 45596250 G     G     C1                         27         119</span>
+<span class="co">#&gt;  3 chr20 48510889 48510890 T     A     C1                         40         115</span>
+<span class="co">#&gt;  4 chr10 97667919 97667920 A     T     C1                         31         125</span>
+<span class="co">#&gt;  5 chr21 11774255 11774256 G     A     C1                         32         117</span>
+<span class="co">#&gt;  6 chr11 68524600 68524601 C     A     C1                         27         125</span>
+<span class="co">#&gt;  7 chr10 37729716 37729717 T     T     C1                         29         114</span>
+<span class="co">#&gt;  8 chr1  99410609 99410610 A     T     C1                         30         139</span>
+<span class="co">#&gt;  9 chr8  88266787 88266788 C     C     C1                         27         132</span>
+<span class="co">#&gt; 10 chr14 39218864 39218865 G     T     C1                         32         116</span>
+<span class="co">#&gt; # … with 981 more rows, and 6 more variables: n_alt_count &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   t_alt_count &lt;dbl&gt;, n_ref_count &lt;dbl&gt;, t_ref_count &lt;dbl&gt;, sim_t_vaf &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   sim_n_vaf &lt;dbl&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $cna</span>
-<span class="co">#&gt; # A tibble: 988 × 6</span>
-<span class="co">#&gt;    chr        from        to ref   Major minor</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 chr3  116886203 116886206 T         1     1</span>
-<span class="co">#&gt;  2 chr5  159603733 159603736 A         1     1</span>
-<span class="co">#&gt;  3 chr5  134188824 134188827 C         1     1</span>
-<span class="co">#&gt;  4 chr9   57770062  57770065 C         1     1</span>
-<span class="co">#&gt;  5 chr10  19082271  19082274 T         1     1</span>
-<span class="co">#&gt;  6 chr22  15782271  15782274 T         1     1</span>
-<span class="co">#&gt;  7 chr5   30981947  30981950 C         1     1</span>
-<span class="co">#&gt;  8 chr9    7695186   7695189 T         1     1</span>
-<span class="co">#&gt;  9 chr20  18813481  18813484 G         1     1</span>
-<span class="co">#&gt; 10 chr17   6675903   6675906 A         1     1</span>
-<span class="co">#&gt; # … with 978 more rows</span>
+<span class="co">#&gt; # A tibble: 991 × 6</span>
+<span class="co">#&gt;    chr       from       to ref   Major minor</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 chr19 23650412 23650415 T         1     1</span>
+<span class="co">#&gt;  2 chr4  45596248 45596251 G         1     1</span>
+<span class="co">#&gt;  3 chr20 48510888 48510891 T         1     1</span>
+<span class="co">#&gt;  4 chr10 97667918 97667921 A         1     1</span>
+<span class="co">#&gt;  5 chr21 11774254 11774257 G         1     1</span>
+<span class="co">#&gt;  6 chr11 68524599 68524602 C         1     1</span>
+<span class="co">#&gt;  7 chr10 37729715 37729718 T         1     1</span>
+<span class="co">#&gt;  8 chr1  99410608 99410611 A         1     1</span>
+<span class="co">#&gt;  9 chr8  88266786 88266789 C         1     1</span>
+<span class="co">#&gt; 10 chr14 39218863 39218866 G         1     1</span>
+<span class="co">#&gt; # … with 981 more rows</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $plot</span></code></pre></div>
 <p><img src="Analysis_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
@@ -166,47 +166,47 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/load_TINC_input.html">load_TINC_input</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">sampled_data</span><span class="op">$</span><span class="va">data</span>, cna <span class="op">=</span> <span class="va">sampled_data</span><span class="op">$</span><span class="va">cna</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Loading TINC input data ─────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ✓ Input data contains n = 988 mutations, selecting operation mode.</span>
+<span class="co">#&gt; ✓ Input data contains n = 991 mutations, selecting operation mode.</span>
 <span class="co">#&gt; ! Found CNA data, retaining only mutations that map to segments with predominant karyotype ...</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [ CNAqc - CNA Quality Check ]</span>
 <span class="co">#&gt; ℹ Using reference genome coordinates for: GRCh38.</span>
 <span class="co">#&gt; ! Missing CCF column from CNA calls, adding CCF = 1 assuming clonal CNA calls.</span>
 <span class="co">#&gt; ! Missing segments length from CNA calls, adding it to CNA calls.</span>
-<span class="co">#&gt; ℹ Input n = 988 mutations for 988 CNA segments (988 clonal, 0 subclonal)</span>
+<span class="co">#&gt; ℹ Input n = 991 mutations for 991 CNA segments (991 clonal, 0 subclonal)</span>
 <span class="co">#&gt; Warning in map_mutations_to_segments(snvs, cna %&gt;% filter(CCF == 1)): [CNAqc] a</span>
 <span class="co">#&gt; karyotype column is present in CNA calls, and will be overwritten</span>
-<span class="co">#&gt; ✓ Mapped n = 988 mutations to clonal segments (100% of input)</span>
+<span class="co">#&gt; ✓ Mapped n = 991 mutations to clonal segments (100% of input)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Genome coverage by karyotype, in basepairs. ──</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; # A tibble: 1 × 4</span>
 <span class="co">#&gt;   minor Major     n karyotype</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    </span>
-<span class="co">#&gt; 1     1     1  2964 1:1</span>
-<span class="co">#&gt; ✓ n = 988 mutations mapped to CNA segments with karyotype 1:1 (largest available in basepairs).</span>
-<span class="co">#&gt; ✓ Mutation with VAF within 0 and 0.7 ~ n = 988.</span>
+<span class="co">#&gt; 1     1     1  2973 1:1</span>
+<span class="co">#&gt; ✓ n = 991 mutations mapped to CNA segments with karyotype 1:1 (largest available in basepairs).</span>
+<span class="co">#&gt; ✓ Mutation with VAF within 0 and 0.7 ~ n = 991.</span>
 <span class="co">#&gt; $mutations</span>
-<span class="co">#&gt; # A tibble: 988 × 12</span>
-<span class="co">#&gt;    chr        from        to ref   alt   n_ref_count n_alt_count t_ref_count</span>
-<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 chr3  116886204 116886205 T     A              38           1          91</span>
-<span class="co">#&gt;  2 chr5  159603734 159603735 A     G              24           1          80</span>
-<span class="co">#&gt;  3 chr5  134188825 134188826 C     C              34           1          71</span>
-<span class="co">#&gt;  4 chr9   57770063  57770064 C     A              30           1          71</span>
-<span class="co">#&gt;  5 chr10  19082272  19082273 T     C              25           1          61</span>
-<span class="co">#&gt;  6 chr22  15782272  15782273 T     G              17           0          77</span>
-<span class="co">#&gt;  7 chr5   30981948  30981949 C     A              35           1          68</span>
-<span class="co">#&gt;  8 chr9    7695187   7695188 T     T              35           1          69</span>
-<span class="co">#&gt;  9 chr20  18813482  18813483 G     C              26           1          92</span>
-<span class="co">#&gt; 10 chr17   6675904   6675905 A     G              35           1          78</span>
-<span class="co">#&gt; # … with 978 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span>
+<span class="co">#&gt; # A tibble: 991 × 12</span>
+<span class="co">#&gt;    chr       from       to ref   alt   n_ref_count n_alt_count t_ref_count</span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 chr19 23650413 23650414 T     A              25           1          82</span>
+<span class="co">#&gt;  2 chr4  45596249 45596250 G     G              26           1          75</span>
+<span class="co">#&gt;  3 chr20 48510889 48510890 T     A              39           1          73</span>
+<span class="co">#&gt;  4 chr10 97667919 97667920 A     T              30           1          74</span>
+<span class="co">#&gt;  5 chr21 11774255 11774256 G     A              31           1          70</span>
+<span class="co">#&gt;  6 chr11 68524600 68524601 C     A              26           1          76</span>
+<span class="co">#&gt;  7 chr10 37729716 37729717 T     T              28           1          66</span>
+<span class="co">#&gt;  8 chr1  99410609 99410610 A     T              29           1          84</span>
+<span class="co">#&gt;  9 chr8  88266787 88266788 C     C              26           1          79</span>
+<span class="co">#&gt; 10 chr14 39218864 39218865 G     T              31           1          67</span>
+<span class="co">#&gt; # … with 981 more rows, and 4 more variables: t_alt_count &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   karyotype &lt;chr&gt;, id &lt;chr&gt;, OK_tumour &lt;lgl&gt;</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $cna_map</span>
-<span class="co">#&gt; ── [ CNAqc ]  n = 988 mutations in 988 segments (988 clonal + 0 subclonal). Geno</span>
+<span class="co">#&gt; ── [ CNAqc ]  n = 991 mutations in 991 segments (991 clonal + 0 subclonal). Geno</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;  1:1  [n = 988, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
+<span class="co">#&gt;  1:1  [n = 991, L =   0 Mb] ■■■■■■■■■■■■■■■■■■■■■■■■■■■</span>
 <span class="co">#&gt; ℹ Sample Purity: 80% ~ Ploidy: 2.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $what_we_used</span>
@@ -219,55 +219,55 @@
 <span class="co">#&gt;  [ TINC ]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Loading TINC input data ─────────────────────────────────────────────────────</span>
-<span class="co">#&gt; ✓ Input data contains n = 988 mutations, selecting operation mode.</span>
-<span class="co">#&gt; ✓ Mutation with VAF within 0 and 0.7 ~ n = 988.</span>
+<span class="co">#&gt; ✓ Input data contains n = 991 mutations, selecting operation mode.</span>
+<span class="co">#&gt; ✓ Mutation with VAF within 0 and 0.7 ~ n = 991.</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Analysing tumour sample with MOBSTER ────────────────────────────────────────</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [ MOBSTER fit ]</span>
-<span class="co">#&gt; ✔ Loaded input data, n = 988.</span>
-<span class="co">#&gt; ❯ n = 988. Mixture with k = 1,2 Beta(s). Pareto tail: TRUE and FALSE. Output</span>
+<span class="co">#&gt; ✔ Loaded input data, n = 991.</span>
+<span class="co">#&gt; ❯ n = 991. Mixture with k = 1,2 Beta(s). Pareto tail: TRUE and FALSE. Output</span>
 <span class="co">#&gt; clusters with π &gt; 0.02 and n &gt; 10.</span>
 <span class="co">#&gt; ! mobster automatic setup FAST for the analysis.</span>
 <span class="co">#&gt; ❯ Scoring (without parallel) 2 x 2 x 2 = 8 models by reICL.</span>
-<span class="co">#&gt; ℹ MOBSTER fits completed in 3.8s.</span>
-<span class="co">#&gt; ── [ MOBSTER ] My MOBSTER model n = 988 with k = 1 Beta(s) and a tail ──────────</span>
-<span class="co">#&gt; ● Clusters: π = 63% [C1] and 37% [Tail], with π &gt; 0.</span>
-<span class="co">#&gt; ● Tail [n = 347, 37%] with alpha = 1.3.</span>
-<span class="co">#&gt; ● Beta C1 [n = 641, 63%] with mean = 0.4.</span>
-<span class="co">#&gt; ℹ Score(s): NLL = -1167.46; ICL = -2224.04 (-2293.54), H = 69.5 (0). Fit</span>
-<span class="co">#&gt; converged by MM in 12 steps.</span>
+<span class="co">#&gt; ℹ MOBSTER fits completed in 3s.</span>
+<span class="co">#&gt; ── [ MOBSTER ] My MOBSTER model n = 991 with k = 1 Beta(s) and a tail ──────────</span>
+<span class="co">#&gt; ● Clusters: π = 83% [C1] and 17% [Tail], with π &gt; 0.</span>
+<span class="co">#&gt; ● Tail [n = 162, 17%] with alpha = 1.1.</span>
+<span class="co">#&gt; ● Beta C1 [n = 829, 83%] with mean = 0.4.</span>
+<span class="co">#&gt; ℹ Score(s): NLL = -1546.49; ICL = -3012.75 (-3051.58), H = 38.83 (0). Fit</span>
+<span class="co">#&gt; converged by MM in 10 steps.</span>
 <span class="co">#&gt; ℹ Using the location likelihood heuristic to inspect mutations' distribution</span>
 <span class="co">#&gt; ✓ Cluster C1: 60% of counts in 12 chromosomes (spread over &gt;20% of used chromosomes: 4.4).</span>
 <span class="co">#&gt; ℹ Without CNA, TINC will estimate tumour purity as 2*x, with x the clonal peak.</span>
-<span class="co">#&gt; ✓ MOBSTER found n = 633 clonal mutations from cluster C1</span>
+<span class="co">#&gt; ✓ MOBSTER found n = 827 clonal mutations from cluster C1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Analysing normal sample with BMix ───────────────────────────────────────────</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── BMix fit ────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; ℹ Binomials k_B = 1 and 2, Beta-Binomials k_BB = 0; 4 fits to run.</span>
 <span class="co">#&gt; ℹ Bmix best fit completed in 0 mins</span>
-<span class="co">#&gt; ── [ BMix ] My BMix model n = 633 with k = 1 component(s) (1 + 0) ──────────────</span>
+<span class="co">#&gt; ── [ BMix ] My BMix model n = 827 with k = 1 component(s) (1 + 0) ──────────────</span>
 <span class="co">#&gt; • Clusters: π = 100% [Bin 1], with π &gt; 0.</span>
-<span class="co">#&gt; • Binomial Bin 1 with mean = 0.033732777279206.</span>
-<span class="co">#&gt; ℹ Score (model selection): ICL = 1382.95.</span>
+<span class="co">#&gt; • Binomial Bin 1 with mean = 0.033894905736061.</span>
+<span class="co">#&gt; ℹ Score (model selection): ICL = 1680.4.</span>
 <span class="co">#&gt; Scale for 'x' is already present. Adding another scale for 'x', which will</span>
 <span class="co">#&gt; replace the existing scale.</span>
 <span class="co">#&gt; Scale for 'fill' is already present. Adding another scale for 'fill', which</span>
 <span class="co">#&gt; will replace the existing scale.</span>
-<span class="co">#&gt; ✓ Binomial peaks 0.033732777279206 with proportions 1. Clonal score 0.033732777279206 with TINN 0.0674655545584121</span>
+<span class="co">#&gt; ✓ Binomial peaks 0.033894905736061 with proportions 1. Clonal score 0.033894905736061 with TINN 0.067789811472122</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Analysing tumour and normal samples with VIBER ──────────────────────────────</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  [ VIBER - variational fit ]</span>
-<span class="co">#&gt; ℹ Input n = 988, with k &lt; 5. Dirichlet concentration α = 1e-06.</span>
+<span class="co">#&gt; ℹ Input n = 991, with k &lt; 5. Dirichlet concentration α = 1e-06.</span>
 <span class="co">#&gt; ℹ Beta (a_0, b_0) = (1, 1); q_i = prior. Optimise: ε = 1e-06 or 1000 steps, r = 3 starts.</span>
-<span class="co">#&gt; [easypar] 2021-12-21 18:12:12 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
+<span class="co">#&gt; [easypar] 2021-12-21 18:16:30 - Overriding parallel execution setup [TRUE] with global option : FALSE</span>
 <span class="co">#&gt; ✓ VIBER fit completed in 0.01 mins (status: converged)</span>
-<span class="co">#&gt; ── [ VIBER ] My VIBER model n = 988 (w = 2 dimensions). Fit with k = 5 clusters.</span>
-<span class="co">#&gt; • Clusters: π = 68% [C3] and 32% [C5], with π &gt; 0.</span>
-<span class="co">#&gt; • Binomials: θ = &lt;0.03, 0.39&gt; [C3] and &lt;0, 0.09&gt; [C5].</span>
-<span class="co">#&gt; ℹ Score(s): ELBO = -134287.177. Fit converged in 40 steps, ε = 1e-06.</span>
+<span class="co">#&gt; ── [ VIBER ] My VIBER model n = 991 (w = 2 dimensions). Fit with k = 5 clusters.</span>
+<span class="co">#&gt; • Clusters: π = 87% [C5] and 13% [C1], with π &gt; 0.</span>
+<span class="co">#&gt; • Binomials: θ = &lt;0.03, 0.4&gt; [C5] and &lt;0, 0.08&gt; [C1].</span>
+<span class="co">#&gt; ℹ Score(s): ELBO = -151694.521. Fit converged in 15 steps, ε = 1e-06.</span>
 <span class="co">#&gt; ✓ Reduced to k = 2 (from 5) selecting VIBER cluster(s) with π &gt; 0.02, and Binomial p &gt; 0 in w &gt; 0 dimension(s).</span></code></pre></div>
 <p>Summary of the results (with an S3 object)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -275,10 +275,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── TINC profiler for bulk WGS ──────────────────────────────────────────────────</span>
 <span class="co">#&gt; ! Copy Number data has not been used for this analysis.</span>
-<span class="co">#&gt; → Mutations data: n = 988 out of 988 within range (100%).</span>
+<span class="co">#&gt; → Mutations data: n = 991 out of 991 within range (100%).</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;         TIT :  79% (RF 79)  ~ n = 633 clonal mutations, cluster C1 </span>
-<span class="co">#&gt;         TIN :  7% (RF 7)  ~ n = 603 with VAF &gt; 0 </span>
+<span class="co">#&gt;         TIT :  80% (RF 80)  ~ n = 827 clonal mutations, cluster C1 </span>
+<span class="co">#&gt;         TIN :  7% (RF 7)  ~ n = 796 with VAF &gt; 0 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;    QC Tumour   Good purity (65-85%)</span>
 <span class="co">#&gt;    QC Normal   Some contamination (3-7%)</span></code></pre></div>
