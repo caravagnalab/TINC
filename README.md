@@ -1,12 +1,10 @@
 
-# TINC <img src='man/figures/logo.png' align="right" height="139" />
+# TINC <a href="caravagnalab.github.io/TINC"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
 
-[![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R-CMD-check](https://github.com/caravagnalab/TINC/workflows/R-CMD-check/badge.svg)](https://github.com/caravagnalab/TINC/actions)
 [![pkgdown](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml)
-[![check-master](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml)
 <!-- badges: end -->
 
 `TINC` is a package to determine the contamination of tumour DNA in a
@@ -31,8 +29,7 @@ tumour-only somatic calling pipeline.
 
 ### Installation
 
-You can install the released version of `TINC` from
-[GitHub](https://github.com/) with:
+You can install the released version of `TINC` with:
 
 ``` r
 # install.packages("devtools")
@@ -45,6 +42,5 @@ devtools::install_github("caravagnalab/TINC")
 
 Giulio Caravagna. Cancer Data Science (CDS) Laboratory.
 
-[![](https://img.shields.io/badge/Email-gcaravagn@gmail.com-steelblue.svg)](mailto:gcaravagn@gmail.com)
 [![](https://img.shields.io/badge/CDS%20Lab%20Github-caravagnalab-seagreen.svg)](https://github.com/caravagnalab)
 [![](https://img.shields.io/badge/CDS%20Lab%20webpage-https://www.caravagnalab.org/-red.svg)](https://www.caravagnalab.org/)

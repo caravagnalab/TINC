@@ -11,15 +11,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# TINC <img src='man/figures/logo.png' align="right" height="139" />
+# TINC <a href="caravagnalab.github.io/TINC"><img src="man/figures/logo.png" align="right" height="139" /></a>
 
 <!-- badges: start -->
-
-[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![pkgdown](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml)
-[![check-master](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/check-master.yml)
-[![Codecov test coverage](https://codecov.io/gh/caravagnalab/TINC/branch/master/graph/badge.svg)](https://app.codecov.io/gh/caravagnalab/TINC?branch=master)
 [![R-CMD-check](https://github.com/caravagnalab/TINC/workflows/R-CMD-check/badge.svg)](https://github.com/caravagnalab/TINC/actions)
+[![pkgdown](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/caravagnalab/TINC/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
 `TINC` is a package to determine the contamination of tumour DNA in a matched normal sample. The approach uses evolutionary theory applied to read counts data from whole-genome sequencing assays. 
