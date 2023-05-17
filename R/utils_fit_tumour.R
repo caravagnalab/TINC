@@ -60,7 +60,7 @@ guess_mobster_clonal_cluster = function(mobster_fit_tumour,
       dplyr::filter(OK_8020) %>%
       dplyr::pull(cluster)
 
-    if(rank != "C1")
+    if(rank[1] != "C1")
       cli::cli_alert_danger("Location Likelihood: changed C1 to cluster {.value {rank[1]}}")
 
     return(rank[1])
