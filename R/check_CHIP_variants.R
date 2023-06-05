@@ -1,16 +1,17 @@
 #' Check for CHIP variants in normal and tumour at high VAF
 #'
-#' @param normal_bam 
-#' @param tumour_bam 
-#' @param normal_vcf 
-#' @param tumour_vcf 
-#' @param reference 
-#' @param plot 
+#' @param normal_bam path of bam file for healthy sample
+#' @param tumour_bam path of bam file for tumour sample
+#' @param reference reference genome, one of hg38 or hg19
+#' @param min_vaf minimum required VAF to flag the mutation
+#' @param only_snvs use only SVNs and filter indels 
+#' @param add_chr if chromosomes on BAM files have chr set it to TRUE
 #'
-#' @return
+#' The function takes a tumour and a normal bam files and scans for known CHIP mutations listed in \href{https://www.nature.com/articles/s41586-020-2819-2}{Bick et al.}. The function gives back a data frame with mutation having VAF higher than \code{min_vaf}.
+#' A bit of caution has to be taken when interpreting indels results, as from the pileup we cannot assign a lenght to the indel and the frameshit nature of the alteration. We suggest doing a proper small variant calling to confirm the results. 
+#' @return Two dataframes for each of tumour and nomal with coloumns: chr, pos, alt, ref, VAF, DP and NV (chromosome, position, alternative allele, reference allele, variant allelic frequency, depth , number of variant reads)
 #' @export
 #'
-#' @examples
 check_CHIP_variants <- function(normal_bam = NULL, 
                                 tumour_bam = NULL,
                                 reference = "hg38", 
