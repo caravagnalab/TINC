@@ -7,8 +7,11 @@
 #'
 #' @return A multi-panel \code{ggplot} figure.
 #' @export
-#'
-#' @examples
+#' @importFrom ggplot2 geom_point guides scale_fill_manual coord_cartesian scale_fill_brewer 
+#' geom_raster geom_abline geom_label coord_polar facet_wrap geom_bar coord_flip
+#' scale_x_continuous scale_fill_viridis_c guide_colorbar element_blank guide_legend
+#' element_rect alpha scale_color_manual
+#' @examples 
 #' data(fit_example, package = 'TINC')
 #' plot_simple_report(fit_example)
 plot_simple_report = function(x)

@@ -14,6 +14,8 @@
 #' @param normal_coverage Normal coverage (mean). 
 #' @param tumour_coverage Tumour coverage (mean).
 #'
+#'
+#' @importFrom ggplot2 ggplot aes geom_histogram geom_hline geom_vline labs xlim ylim theme_light theme geom_point
 #' @return Tibbles with the data, and a plot.
 #' @export
 #' @md

@@ -75,7 +75,7 @@ load_TINC_input = function(x,
 
     # Map CNA data, and retain only mappable mutations that belong to the largest karyotype
     cat("\n")
-    cn_obj = CNAqc::init(snvs = as_tumour(x), cna = cna, .8)
+    cn_obj = CNAqc::init(mutations = as_tumour(x), cna = cna, purity = .8)
     cat("\n")
 
     # CNAqc computes the most prevalent karyotype with the largest prevalence (in basepairs).
@@ -103,7 +103,7 @@ load_TINC_input = function(x,
     }
 
     # Extract those mutations
-    mappable = cn_obj$snvs %>% dplyr::filter(karyotype == most_prevalent_karyotype) %>% pull(id)
+    mappable = cn_obj$mutations %>% dplyr::filter(karyotype == most_prevalent_karyotype) %>% pull(id)
 
     x = x %>%
       dplyr::filter(id %in% mappable) %>%

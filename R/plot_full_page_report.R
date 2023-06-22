@@ -72,7 +72,7 @@ plot_full_page_report = function(x)
   if(!(all(is.null(x$fit$CNA))))
     cna_panel = CNAqc::plot_segments(x$fit$CNA)
 
-  cna_panel = ggarrange(cna_panel, nrow = 1, ncol = 1, labels = 'G')
+  cna_panel = ggpubr::ggarrange(cna_panel, nrow = 1, ncol = 1, labels = 'G')
 
   cowplot::plot_grid(
     data_fit_panel,
