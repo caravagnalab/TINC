@@ -34,7 +34,7 @@ lower than the required input."><meta property="og:image" content="caravagnalab.
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -76,76 +76,87 @@ lower than the required input.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">random_TIN</span><span class="op">(</span>
-  N <span class="op">=</span> <span class="fl">1000</span>,
-  TIN <span class="op">=</span> <span class="fl">0.05</span>,
-  TIT <span class="op">=</span> <span class="fl">1</span>,
-  normal_coverage <span class="op">=</span> <span class="fl">30</span>,
-  tumour_coverage <span class="op">=</span> <span class="fl">120</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">random_TIN</span><span class="op">(</span></span>
+<span>  N <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  TIN <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  TIT <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  normal_coverage <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  tumour_coverage <span class="op">=</span> <span class="fl">120</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>N</dt>
 <dd><p>Number of input simulations</p></dd>
+
+
 <dt>TIN</dt>
 <dd><p>TIN - Tumour in normal contamination level.</p></dd>
+
+
 <dt>TIT</dt>
 <dd><p>TIT - Tumour in tumour contamination level (aka tumour purity).</p></dd>
+
+
 <dt>normal_coverage</dt>
 <dd><p>Normal coverage (mean).</p></dd>
+
+
 <dt>tumour_coverage</dt>
 <dd><p>Tumour coverage (mean).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Tibbles with the data, and a plot.</p>
+    
+
+<p>Tibbles with the data, and a plot.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Default dataset</span></span>
-<span class="r-in"><span class="fu">random_TIN</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Generated TINC dataset (n = 994 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (geom_bar).</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Default dataset</span></span></span>
+<span class="r-in"><span><span class="fu">random_TIN</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Generated TINC dataset (n = 998 mutations), TIN (0.05) and TIT (1), normal and tumour coverage 30x and 120x.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (`geom_bar()`).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 2 rows containing missing values (`geom_bar()`).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 994 × 14</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    chr       from       to ref   alt   simulated_cluster n_tot_count t_tot_count</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> chr21 47<span style="text-decoration: underline;">617</span>202 47<span style="text-decoration: underline;">617</span>203 G     T     C1                         31         136</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> chr21  9<span style="text-decoration: underline;">751</span>661  9<span style="text-decoration: underline;">751</span>662 G     C     C1                         33         107</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> chr11  5<span style="text-decoration: underline;">803</span>042  5<span style="text-decoration: underline;">803</span>043 T     A     C1                         35         109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> chr4  84<span style="text-decoration: underline;">575</span>033 84<span style="text-decoration: underline;">575</span>034 A     G     C1                         41         103</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> chr11 67<span style="text-decoration: underline;">484</span>230 67<span style="text-decoration: underline;">484</span>231 A     A     C1                         27         112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> chr16 89<span style="text-decoration: underline;">117</span>758 89<span style="text-decoration: underline;">117</span>759 C     T     C1                         21         134</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> chr20 59<span style="text-decoration: underline;">566</span>737 59<span style="text-decoration: underline;">566</span>738 C     C     C1                         29         125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> chr20 44<span style="text-decoration: underline;">431</span>984 44<span style="text-decoration: underline;">431</span>985 G     T     C1                         39         123</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> chr20  9<span style="text-decoration: underline;">394</span>218  9<span style="text-decoration: underline;">394</span>219 C     G     C1                         28         113</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> chr15 74<span style="text-decoration: underline;">023</span>894 74<span style="text-decoration: underline;">023</span>895 G     A     C1                         27         111</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 984 more rows, and 6 more variables: n_alt_count &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_alt_count &lt;dbl&gt;, n_ref_count &lt;dbl&gt;, t_ref_count &lt;dbl&gt;, sim_t_vaf &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   sim_n_vaf &lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 998 × 14</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    chr        from      to ref   alt   simulated_cluster n_tot_count t_tot_count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> chr1  113<span style="text-decoration: underline;">343</span>028  1.13<span style="color: #949494;">e</span>8 T     G     C1                         31         112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> chr16  59<span style="text-decoration: underline;">329</span>064  5.93<span style="color: #949494;">e</span>7 T     A     C1                         31         122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> chr5  105<span style="text-decoration: underline;">526</span>173  1.06<span style="color: #949494;">e</span>8 A     T     C1                         25         114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> chr10  74<span style="text-decoration: underline;">598</span>357  7.46<span style="color: #949494;">e</span>7 G     A     C1                         31         116</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> chr5    6<span style="text-decoration: underline;">576</span>324  6.58<span style="color: #949494;">e</span>6 A     C     C1                         31         119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> chr20  16<span style="text-decoration: underline;">494</span>596  1.65<span style="color: #949494;">e</span>7 G     C     C1                         24         119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> chr16  35<span style="text-decoration: underline;">775</span>461  3.58<span style="color: #949494;">e</span>7 G     T     C1                         37         140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> chr21  15<span style="text-decoration: underline;">292</span>946  1.53<span style="color: #949494;">e</span>7 A     T     C1                         31          95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> chr11  90<span style="text-decoration: underline;">487</span>911  9.05<span style="color: #949494;">e</span>7 T     A     C1                         28         113</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> chr9  106<span style="text-decoration: underline;">757</span>539  1.07<span style="color: #949494;">e</span>8 A     A     C1                         25          97</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 988 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: n_alt_count &lt;dbl&gt;, t_alt_count &lt;dbl&gt;, n_ref_count &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   t_ref_count &lt;dbl&gt;, sim_t_vaf &lt;dbl&gt;, sim_n_vaf &lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cna</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 994 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    chr       from       to ref   Major minor</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> chr21 47<span style="text-decoration: underline;">617</span>201 47<span style="text-decoration: underline;">617</span>204 G         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> chr21  9<span style="text-decoration: underline;">751</span>660  9<span style="text-decoration: underline;">751</span>663 G         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> chr11  5<span style="text-decoration: underline;">803</span>041  5<span style="text-decoration: underline;">803</span>044 T         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> chr4  84<span style="text-decoration: underline;">575</span>032 84<span style="text-decoration: underline;">575</span>035 A         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> chr11 67<span style="text-decoration: underline;">484</span>229 67<span style="text-decoration: underline;">484</span>232 A         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> chr16 89<span style="text-decoration: underline;">117</span>757 89<span style="text-decoration: underline;">117</span>760 C         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> chr20 59<span style="text-decoration: underline;">566</span>736 59<span style="text-decoration: underline;">566</span>739 C         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> chr20 44<span style="text-decoration: underline;">431</span>983 44<span style="text-decoration: underline;">431</span>986 G         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> chr20  9<span style="text-decoration: underline;">394</span>217  9<span style="text-decoration: underline;">394</span>220 C         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> chr15 74<span style="text-decoration: underline;">023</span>893 74<span style="text-decoration: underline;">023</span>896 G         1     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 984 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 998 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    chr        from        to ref   Major minor</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> chr1  113<span style="text-decoration: underline;">343</span>027 113<span style="text-decoration: underline;">343</span>030 T         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> chr16  59<span style="text-decoration: underline;">329</span>063  59<span style="text-decoration: underline;">329</span>066 T         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> chr5  105<span style="text-decoration: underline;">526</span>172 105<span style="text-decoration: underline;">526</span>175 A         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> chr10  74<span style="text-decoration: underline;">598</span>356  74<span style="text-decoration: underline;">598</span>359 G         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> chr5    6<span style="text-decoration: underline;">576</span>323   6<span style="text-decoration: underline;">576</span>326 A         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> chr20  16<span style="text-decoration: underline;">494</span>595  16<span style="text-decoration: underline;">494</span>598 G         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> chr16  35<span style="text-decoration: underline;">775</span>460  35<span style="text-decoration: underline;">775</span>463 G         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> chr21  15<span style="text-decoration: underline;">292</span>945  15<span style="text-decoration: underline;">292</span>948 A         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> chr11  90<span style="text-decoration: underline;">487</span>910  90<span style="text-decoration: underline;">487</span>913 T         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> chr9  106<span style="text-decoration: underline;">757</span>538 106<span style="text-decoration: underline;">757</span>541 A         1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 988 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $plot</span>
 <span class="r-plt img"><img src="random_TIN-1.png" alt="" width="700" height="433"></span>
@@ -164,7 +175,7 @@ lower than the required input.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

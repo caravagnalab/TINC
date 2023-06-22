@@ -25,6 +25,9 @@
     <loc>caravagnalab.github.io/TINC/reference/autofit.html</loc>
   </url>
   <url>
+    <loc>caravagnalab.github.io/TINC/reference/check_CHIP_variants.html</loc>
+  </url>
+  <url>
     <loc>caravagnalab.github.io/TINC/reference/fit_example.html</loc>
   </url>
   <url>
@@ -34,6 +37,9 @@
     <loc>caravagnalab.github.io/TINC/reference/load_TINC_input.html</loc>
   </url>
   <url>
+    <loc>caravagnalab.github.io/TINC/reference/load_VCF_CNA_DRAGEN.html</loc>
+  </url>
+  <url>
     <loc>caravagnalab.github.io/TINC/reference/load_VCF_Canvas.html</loc>
   </url>
   <url>
@@ -41,6 +47,9 @@
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/load_VCF_Strelka.html</loc>
+  </url>
+  <url>
+    <loc>caravagnalab.github.io/TINC/reference/load_VCF_smallVar_DRAGEN.html</loc>
   </url>
   <url>
     <loc>caravagnalab.github.io/TINC/reference/plot.tin_obj.html</loc>
