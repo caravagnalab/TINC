@@ -33,6 +33,8 @@ reference:
   - load_VCF_Canvas
   - load_VCF_Canvas_Manta
   - load_VCF_Strelka
+  - load_VCF_CNA_DRAGEN
+  - load_VCF_smallVar_DRAGEN
 
 
 - title: Data analysis
@@ -49,5 +51,9 @@ reference:
   - plot.tin_obj
   - print.tin_obj
 
+- title: CHIP analysis
+  desc:  Functions to check for the presence of clonal hematopoiesis in normal/tumour bams
+  contents:
+  - check_CHIP_variants
 
 

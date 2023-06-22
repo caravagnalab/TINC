@@ -36,7 +36,8 @@ Imports:
     tidyr,
     tibble,
     cli,
-    stringr
+    stringr,
+    ggplot2
 Remotes: 
   caravagn/pio,
   caravagn/BMix,
