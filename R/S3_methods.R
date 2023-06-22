@@ -6,7 +6,7 @@
 #' @return Nothing.
 #' @export
 #'
-#' @importFrom crayon black blue yellow
+#' @importFrom crayon black blue yellow green red 
 #' @examples
 #' # Automatic call
 #' rt = random_TIN()
