@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   Analysis: Analysis.html
   TINC: TINC.html
-last_built: 2023-06-27T16:22Z
+last_built: 2023-06-27T16:39Z
 urls:
   reference: caravagnalab.github.io/TINC/reference
   article: caravagnalab.github.io/TINC/articles
