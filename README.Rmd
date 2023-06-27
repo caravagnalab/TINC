@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# TINC <a href="caravagnalab.github.io/TINC"><img src="man/figures/logo.png" align="right" height="139" /></a>
+# TINC <a href="caravagnalab.github.io/TINC"><img src="man/figures/logo.png"  style="float:right; height:200px;" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/caravagnalab/TINC/workflows/R-CMD-check/badge.svg)](https://github.com/caravagnalab/TINC/actions)
