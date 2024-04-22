@@ -209,7 +209,7 @@ pullAD = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
                    strsplit(tumour[altIndex], ",")[[1]][1],
                    FILTER
                    ) %>%
-  purrr::set_names(c("id", "n_ref_count", "n_alt_count", "t_ref_count", "t_alt_count", "FILTERS")) %>%
+  purrr::set_names(c("ID", "n_ref_count", "n_alt_count", "t_ref_count", "t_alt_count", "FILTERS")) %>%
   filter((as.numeric(t_alt_count) / (as.numeric(t_ref_count) + as.numeric(t_alt_count))) > 0,
          (as.numeric(t_alt_count) / (as.numeric(t_ref_count) + as.numeric(t_alt_count))) < 1)
  
@@ -255,7 +255,7 @@ load_VCF_Strelka = function(file) {
   SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
     dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
     purrr::pmap_dfr(., pullAD) %>%
-    separate(id, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
+    separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
     mutate(from = as.numeric(from), to = as.numeric(to),
          n_ref_count = as.numeric(n_ref_count), n_alt_count = as.numeric(n_alt_count),
          t_ref_count = as.numeric(t_ref_count), t_alt_count = as.numeric(t_alt_count)) %>%
@@ -308,7 +308,7 @@ pullAD_DRAGEN = function(CHROM, POS, REF, ALT, FILTER, FORMAT, normal, tumour){
                          strsplit(tumour[ADIndex], ",")[[1]][2],
                          FILTER
   ) %>%
-    purrr::set_names(c("id", "n_ref_count", "n_alt_count", "t_ref_count", "t_alt_count", "FILTERS")) %>%
+    purrr::set_names(c("ID", "n_ref_count", "n_alt_count", "t_ref_count", "t_alt_count", "FILTERS")) %>%
     filter((as.numeric(t_alt_count) / (as.numeric(t_ref_count) + as.numeric(t_alt_count))) > 0,
            (as.numeric(t_alt_count) / (as.numeric(t_ref_count) + as.numeric(t_alt_count))) < 1)
   
@@ -396,7 +396,7 @@ load_VCF_smallVar_DRAGEN = function(file) {
   SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
     dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
     purrr::pmap_dfr(., pullAD_DRAGEN) %>%
-    separate(id, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
+    separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
     mutate(from = as.numeric(from), to = as.numeric(to),
            n_ref_count = as.numeric(n_ref_count), n_alt_count = as.numeric(n_alt_count),
            t_ref_count = as.numeric(t_ref_count), t_alt_count = as.numeric(t_alt_count)) %>%
