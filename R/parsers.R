@@ -255,7 +255,7 @@ load_VCF_Strelka = function(file) {
   SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
     dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
     purrr::pmap_dfr(., pullAD) %>%
-    separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
+    tidyr::separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
     mutate(from = as.numeric(from), to = as.numeric(to),
          n_ref_count = as.numeric(n_ref_count), n_alt_count = as.numeric(n_alt_count),
          t_ref_count = as.numeric(t_ref_count), t_alt_count = as.numeric(t_alt_count)) %>%
@@ -396,7 +396,7 @@ load_VCF_smallVar_DRAGEN = function(file) {
   SNVnADtAD <- vcfSmallVarFilt[, c(1, 2, 4, 5, 7, 9, 10, 11)] %>%
     dplyr::rename_all(~ c("CHROM", "POS", "REF", "ALT", "FILTER", "FORMAT", "normal", "tumour")) %>%
     purrr::pmap_dfr(., pullAD_DRAGEN) %>%
-    separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
+    tidyr::separate(ID, into = c('chr', 'from', 'to', 'ref', 'alt'), sep = ':') %>%
     mutate(from = as.numeric(from), to = as.numeric(to),
            n_ref_count = as.numeric(n_ref_count), n_alt_count = as.numeric(n_alt_count),
            t_ref_count = as.numeric(t_ref_count), t_alt_count = as.numeric(t_alt_count)) %>%
@@ -447,7 +447,7 @@ load_VCF_CNA_DRAGEN = function(file) {
   vcfSmallVar = read.table(file, colClasses = "character")
   vcfSmallVarFilt = vcfSmallVar %>%
     dplyr::filter(V7 == "PASS")  %>% 
-    separate(V3, into = c("dragen", "type", "chr", "from_to"), sep = ":") %>% separate(from_to, into = c("from", "to"), sep = "-")
+    tidyr::separate(V3, into = c("dragen", "type", "chr", "from_to"), sep = ":") %>% separate(from_to, into = c("from", "to"), sep = "-")
   
   # Pull allele depths from normal and tumour
   SNVnADtAD <- vcfSmallVarFilt %>% select(chr,from,to,V9,V10) %>%
